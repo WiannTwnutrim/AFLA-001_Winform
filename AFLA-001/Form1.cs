@@ -4,16 +4,17 @@ namespace AFLA_001
     {
         private HomePage homePage;//直接宣告變數避免在建構子內宣告為區域變數
         private RecipePage recipePage;
+        private Manualpage manualPage;
         public Form1()
         {
             InitializeComponent();
             homePage = new HomePage();
             recipePage = new RecipePage();
+            manualPage = new Manualpage();
             SwitchPage(10);
 
-
         }
-        
+
         private void Homebtn_Click(object sender, EventArgs e)
         {
             SwitchPage(10);
@@ -24,6 +25,10 @@ namespace AFLA_001
             SwitchPage(11);
         }
 
+        private void Manualbtn_Click(object sender, EventArgs e)
+        {
+            SwitchPage(12);
+        }
         //多頁面切換
         private void SwitchPage(int page)
         {
@@ -36,7 +41,7 @@ namespace AFLA_001
                     ShowPage(recipePage);
                     break;
                 case 12:
-                    ShowPage(homePage);
+                    ShowPage(manualPage);
                     break;
                 case 13:
                     ShowPage(homePage);
@@ -63,5 +68,7 @@ namespace AFLA_001
             page.Dock = DockStyle.Fill;// 新頁面填滿 Panel
             MainPage.Controls.Add(page);// 加入並顯示新頁面
         }
+
+       
     }
 }

@@ -167,6 +167,7 @@
             Manualbtn.TabIndex = 2;
             Manualbtn.Text = "MANUAL";
             Manualbtn.UseVisualStyleBackColor = false;
+            Manualbtn.Click += Manualbtn_Click;
             // 
             // Recipebtn
             // 
