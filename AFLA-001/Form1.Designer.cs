@@ -31,16 +31,16 @@
             MainPage = new Panel();
             panel2 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
+            Historybtn = new Button();
             Languagebtn = new Button();
+            Manualbtn = new Button();
+            Recipebtn = new Button();
+            Homebtn = new Button();
             Iobtn = new Button();
             Userbtn = new Button();
             Logbtn = new Button();
             Eventbtn = new Button();
             Alarmbtn = new Button();
-            Manualbtn = new Button();
-            Recipebtn = new Button();
-            Homebtn = new Button();
-            Historybtn = new Button();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -91,6 +91,17 @@
             tableLayoutPanel1.Size = new Size(1262, 100);
             tableLayoutPanel1.TabIndex = 0;
             // 
+            // Historybtn
+            // 
+            Historybtn.BackColor = SystemColors.ActiveCaption;
+            Historybtn.Dock = DockStyle.Fill;
+            Historybtn.Location = new Point(507, 3);
+            Historybtn.Name = "Historybtn";
+            Historybtn.Size = new Size(120, 94);
+            Historybtn.TabIndex = 9;
+            Historybtn.Text = "HISTORY";
+            Historybtn.UseVisualStyleBackColor = false;
+            // 
             // Languagebtn
             // 
             Languagebtn.BackColor = SystemColors.ActiveCaption;
@@ -101,6 +112,42 @@
             Languagebtn.TabIndex = 8;
             Languagebtn.Text = "Language";
             Languagebtn.UseVisualStyleBackColor = false;
+            // 
+            // Manualbtn
+            // 
+            Manualbtn.BackColor = SystemColors.ActiveCaption;
+            Manualbtn.Dock = DockStyle.Fill;
+            Manualbtn.Location = new Point(255, 3);
+            Manualbtn.Name = "Manualbtn";
+            Manualbtn.Size = new Size(120, 94);
+            Manualbtn.TabIndex = 2;
+            Manualbtn.Text = "MANUAL";
+            Manualbtn.UseVisualStyleBackColor = false;
+            Manualbtn.Click += Manualbtn_Click;
+            // 
+            // Recipebtn
+            // 
+            Recipebtn.BackColor = SystemColors.ActiveCaption;
+            Recipebtn.Dock = DockStyle.Fill;
+            Recipebtn.Location = new Point(129, 3);
+            Recipebtn.Name = "Recipebtn";
+            Recipebtn.Size = new Size(120, 94);
+            Recipebtn.TabIndex = 1;
+            Recipebtn.Text = "RECIPE";
+            Recipebtn.UseVisualStyleBackColor = false;
+            Recipebtn.Click += Recipebtn_Click;
+            // 
+            // Homebtn
+            // 
+            Homebtn.BackColor = SystemColors.ActiveCaption;
+            Homebtn.Dock = DockStyle.Fill;
+            Homebtn.Location = new Point(3, 3);
+            Homebtn.Name = "Homebtn";
+            Homebtn.Size = new Size(120, 94);
+            Homebtn.TabIndex = 0;
+            Homebtn.Text = "HOME";
+            Homebtn.UseVisualStyleBackColor = false;
+            Homebtn.Click += Homebtn_Click;
             // 
             // Iobtn
             // 
@@ -156,53 +203,7 @@
             Alarmbtn.TabIndex = 3;
             Alarmbtn.Text = "ALARM";
             Alarmbtn.UseVisualStyleBackColor = false;
-            // 
-            // Manualbtn
-            // 
-            Manualbtn.BackColor = SystemColors.ActiveCaption;
-            Manualbtn.Dock = DockStyle.Fill;
-            Manualbtn.Location = new Point(255, 3);
-            Manualbtn.Name = "Manualbtn";
-            Manualbtn.Size = new Size(120, 94);
-            Manualbtn.TabIndex = 2;
-            Manualbtn.Text = "MANUAL";
-            Manualbtn.UseVisualStyleBackColor = false;
-            Manualbtn.Click += Manualbtn_Click;
-            // 
-            // Recipebtn
-            // 
-            Recipebtn.BackColor = SystemColors.ActiveCaption;
-            Recipebtn.Dock = DockStyle.Fill;
-            Recipebtn.Location = new Point(129, 3);
-            Recipebtn.Name = "Recipebtn";
-            Recipebtn.Size = new Size(120, 94);
-            Recipebtn.TabIndex = 1;
-            Recipebtn.Text = "RECIPE";
-            Recipebtn.UseVisualStyleBackColor = false;
-            Recipebtn.Click += Recipebtn_Click;
-            // 
-            // Homebtn
-            // 
-            Homebtn.BackColor = SystemColors.ActiveCaption;
-            Homebtn.Dock = DockStyle.Fill;
-            Homebtn.Location = new Point(3, 3);
-            Homebtn.Name = "Homebtn";
-            Homebtn.Size = new Size(120, 94);
-            Homebtn.TabIndex = 0;
-            Homebtn.Text = "HOME";
-            Homebtn.UseVisualStyleBackColor = false;
-            Homebtn.Click += Homebtn_Click;
-            // 
-            // Historybtn
-            // 
-            Historybtn.BackColor = SystemColors.ActiveCaption;
-            Historybtn.Dock = DockStyle.Fill;
-            Historybtn.Location = new Point(507, 3);
-            Historybtn.Name = "Historybtn";
-            Historybtn.Size = new Size(120, 94);
-            Historybtn.TabIndex = 9;
-            Historybtn.Text = "HISTORY";
-            Historybtn.UseVisualStyleBackColor = false;
+            Alarmbtn.Click += Alarmbtn_Click;
             // 
             // Form1
             // 

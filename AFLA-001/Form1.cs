@@ -5,12 +5,14 @@ namespace AFLA_001
         private HomePage homePage;//直接宣告變數避免在建構子內宣告為區域變數
         private RecipePage recipePage;
         private Manualpage manualPage;
+        private AlarmPage alarmPage;
         public Form1()
         {
             InitializeComponent();
             homePage = new HomePage();
             recipePage = new RecipePage();
             manualPage = new Manualpage();
+            alarmPage = new AlarmPage();
             SwitchPage(10);
 
         }
@@ -19,15 +21,17 @@ namespace AFLA_001
         {
             SwitchPage(10);
         }
-
         private void Recipebtn_Click(object sender, EventArgs e)
         {
             SwitchPage(11);
         }
-
         private void Manualbtn_Click(object sender, EventArgs e)
         {
             SwitchPage(12);
+        }
+        private void Alarmbtn_Click(object sender, EventArgs e)
+        {
+            SwitchPage(13);
         }
         //多頁面切換
         private void SwitchPage(int page)
@@ -44,7 +48,7 @@ namespace AFLA_001
                     ShowPage(manualPage);
                     break;
                 case 13:
-                    ShowPage(homePage);
+                    ShowPage(alarmPage);
                     break;
                 case 14:
                     ShowPage(homePage);
