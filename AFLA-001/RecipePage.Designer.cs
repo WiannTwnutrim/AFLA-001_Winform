@@ -33,7 +33,7 @@
             // 
             // Recipebtn
             // 
-            Recipebtn.Location = new Point(478, 278);
+            Recipebtn.Location = new Point(397, 93);
             Recipebtn.Name = "Recipebtn";
             Recipebtn.Size = new Size(175, 192);
             Recipebtn.TabIndex = 0;
@@ -46,7 +46,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(Recipebtn);
             Name = "RecipePage";
-            Size = new Size(1240, 895);
+            Size = new Size(1267, 452);
             ResumeLayout(false);
         }
 

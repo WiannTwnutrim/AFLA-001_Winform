@@ -28,17 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
+            button1 = new Button();
             SuspendLayout();
+            // 
+            // button1
+            // 
+            button1.Location = new Point(331, 105);
+            button1.Name = "button1";
+            button1.Size = new Size(243, 157);
+            button1.TabIndex = 0;
+            button1.Text = "Alarm";
+            button1.UseVisualStyleBackColor = true;
             // 
             // AlarmPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button1);
             Name = "AlarmPage";
-            Size = new Size(972, 734);
+            Size = new Size(1267, 452);
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Button button1;
     }
 }
