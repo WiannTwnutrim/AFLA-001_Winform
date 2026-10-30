@@ -101,6 +101,7 @@
             Historybtn.TabIndex = 9;
             Historybtn.Text = "HISTORY";
             Historybtn.UseVisualStyleBackColor = false;
+            Historybtn.Click += Historybtn_Click;
             // 
             // Languagebtn
             // 
@@ -159,6 +160,7 @@
             Iobtn.TabIndex = 7;
             Iobtn.Text = "IO";
             Iobtn.UseVisualStyleBackColor = false;
+            Iobtn.Click += Iobtn_Click;
             // 
             // Userbtn
             // 
@@ -170,6 +172,7 @@
             Userbtn.TabIndex = 6;
             Userbtn.Text = "USER";
             Userbtn.UseVisualStyleBackColor = false;
+            Userbtn.Click += Userbtn_Click;
             // 
             // Logbtn
             // 
@@ -181,6 +184,7 @@
             Logbtn.TabIndex = 5;
             Logbtn.Text = "LOG";
             Logbtn.UseVisualStyleBackColor = false;
+            Logbtn.Click += Logbtn_Click;
             // 
             // Eventbtn
             // 
@@ -192,6 +196,7 @@
             Eventbtn.TabIndex = 4;
             Eventbtn.Text = "EVENT";
             Eventbtn.UseVisualStyleBackColor = false;
+            Eventbtn.Click += Eventbtn_Click;
             // 
             // Alarmbtn
             // 
@@ -209,7 +214,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1264, 681);
+            ClientSize = new Size(1272, 691);
             Controls.Add(panel2);
             Controls.Add(MainPage);
             Name = "Form1";

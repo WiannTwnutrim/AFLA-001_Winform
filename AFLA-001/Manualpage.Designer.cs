@@ -33,9 +33,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(180, 124);
+            button1.Location = new Point(365, 155);
             button1.Name = "button1";
-            button1.Size = new Size(186, 108);
+            button1.Size = new Size(244, 197);
             button1.TabIndex = 0;
             button1.Text = "MANUAL";
             button1.UseVisualStyleBackColor = true;
@@ -46,7 +46,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(button1);
             Name = "Manualpage";
-            Size = new Size(570, 450);
+            Size = new Size(1267, 452);
             ResumeLayout(false);
         }
 
