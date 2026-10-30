@@ -24,8 +24,7 @@ namespace AFLA_001
             logPage = new LogPage();
             userPage = new UserPage();
             ioPage = new IoPage();
-            PageSwitchManger.ShowPage(MainPage, userPage);
-            //Userbtn_Click(Userbtn, EventArgs.Empty);
+            Userbtn_Click(Userbtn, EventArgs.Empty);
 
         }
 
