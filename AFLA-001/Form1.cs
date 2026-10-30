@@ -24,87 +24,58 @@ namespace AFLA_001
             logPage = new LogPage();
             userPage = new UserPage();
             ioPage = new IoPage();
-            SwitchPage(17);
+            PageSwitchManger.ShowPage(MainPage, userPage);
+            //Userbtn_Click(Userbtn, EventArgs.Empty);
 
         }
 
-        //頁面切換
-        private void ShowPage(UserControl page)
-        {
-            MainPage.Controls.Clear();// 清除原本顯示的頁面
-            page.Dock = DockStyle.Fill;// 新頁面填滿 Panel
-            MainPage.Controls.Add(page);// 加入並顯示新頁面
-        }
-        //多頁面切換
-        private void SwitchPage(int page)
-        {
-            switch (page)
-            {
-                case 10:
-                    ShowPage(homePage);
-                    break;
-                case 11:
-                    ShowPage(recipePage);
-                    break;
-                case 12:
-                    ShowPage(manualPage);
-                    break;
-                case 13:
-                    ShowPage(alarmPage);
-                    break;
-                case 14:
-                    ShowPage(historyPage);
-                    break;
-                case 15:
-                    ShowPage(eventPage);
-                    break;
-                case 16:
-                    ShowPage(logPage);
-                    break;
-                case 17:
-                    ShowPage(userPage);
-                    break;
-                case 18:
-                    ShowPage(ioPage);
-                    break;
-            }
-        }
+        
+      
 
         private void Homebtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(10);
+            PageSwitchManger.ShowPage(MainPage, homePage);
+            PageSwitchManger.ActiveButton(Homebtn);
         }
         private void Recipebtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(11);
+            PageSwitchManger.ShowPage(MainPage, recipePage);
+            PageSwitchManger.ActiveButton(Recipebtn);
         }
         private void Manualbtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(12);
+            PageSwitchManger.ShowPage(MainPage, manualPage);
+            PageSwitchManger.ActiveButton(Manualbtn);
         }
         private void Alarmbtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(13);
+            PageSwitchManger.ShowPage(MainPage, alarmPage);
+            PageSwitchManger.ActiveButton(Alarmbtn);
         }               
         private void Historybtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(14);
+            PageSwitchManger.ShowPage(MainPage, historyPage);
+            PageSwitchManger.ActiveButton(Historybtn);
         }
         private void Eventbtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(15);
+            PageSwitchManger.ShowPage(MainPage, eventPage);
+            PageSwitchManger.ActiveButton(Eventbtn);
         }
         private void Logbtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(16);
+            PageSwitchManger.ShowPage(MainPage, logPage);
+            PageSwitchManger.ActiveButton(Logbtn);
         }
         private void Userbtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(17);
+            PageSwitchManger.ShowPage(MainPage, userPage);
+            PageSwitchManger.ActiveButton(Userbtn);
         }
         private void Iobtn_Click(object sender, EventArgs e)
         {
-            SwitchPage(18);
+            PageSwitchManger.ShowPage(MainPage, ioPage);
+            PageSwitchManger.ActiveButton(Iobtn);
         }
 
 
