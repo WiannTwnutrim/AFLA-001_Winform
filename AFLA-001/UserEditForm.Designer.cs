@@ -97,6 +97,7 @@
             userdelbtn.TabIndex = 20;
             userdelbtn.Text = "DeleteUser";
             userdelbtn.UseVisualStyleBackColor = true;
+            userdelbtn.Click += userdelbtn_Click;
             // 
             // alteracbtn
             // 

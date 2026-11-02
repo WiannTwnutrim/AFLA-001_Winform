@@ -42,21 +42,23 @@
             // 
             // inEditUserbtn
             // 
-            inEditUserbtn.Location = new Point(515, -1);
+            inEditUserbtn.Location = new Point(132, -1);
             inEditUserbtn.Name = "inEditUserbtn";
             inEditUserbtn.Size = new Size(154, 68);
             inEditUserbtn.TabIndex = 1;
             inEditUserbtn.Text = "EditUser";
             inEditUserbtn.UseVisualStyleBackColor = true;
+            inEditUserbtn.Click += inEditUserbtn_Click;
             // 
             // AddUserbtn
             // 
-            AddUserbtn.Location = new Point(158, -1);
+            AddUserbtn.Location = new Point(501, -1);
             AddUserbtn.Name = "AddUserbtn";
             AddUserbtn.Size = new Size(154, 68);
             AddUserbtn.TabIndex = 2;
             AddUserbtn.Text = "AddUser";
             AddUserbtn.UseVisualStyleBackColor = true;
+            AddUserbtn.Click += AddUserbtn_Click;
             // 
             // EditUserForm
             // 

@@ -55,7 +55,7 @@ namespace AFLA_001
         {
             if (accountcombo.Text == "admin")
             {
-                Loghelper.Error("修改密碼失敗：禁止修改 admin 帳號");
+                Loghelper.Error("修改密碼失敗：禁止修改 admin 密碼");
                 editresult.Text = "禁止修改 admin 的密碼";
                 return;
             }
@@ -67,6 +67,31 @@ namespace AFLA_001
             }
 
             _db.AlterPassword(accountcombo.Text, passwordtxt.Text);
+        }
+
+        private void userdelbtn_Click(object sender, EventArgs e)
+        {
+            if (accountcombo.Text == "admin")
+            {
+                Loghelper.Error("刪除失敗：禁止刪除 admin 的帳號");
+                editresult.Text = "禁止刪除 admin 的帳號";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(accountcombo.Text))
+            {
+                editresult.Text = "請選擇要刪除的帳號";
+                return;
+            }
+
+            if (_db.DeleteAccount(accountcombo.Text))
+            {
+                LoadAccount();
+                editresult.Text = "帳號刪除成功";
+            }
+            else
+            {
+                editresult.Text = "刪除失敗：帳號不存在或資料庫操作失敗，請查看log";
+            }
         }
     }
 }

@@ -51,8 +51,16 @@ namespace AFLA_001
             return accounts;
         }
 
+        /// <summary>
+        /// 登入檢查
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool LoginCheck(string account,string password)
         {
+            try
+            {
             using SqliteConnection connection =
                new SqliteConnection(connectionString);
 
@@ -68,13 +76,11 @@ namespace AFLA_001
 			command.Parameters.AddWithValue("@password", password);
 
 			long count = (long)command.ExecuteScalar();
-
-            if (count > 0)
-            {
-                return true;
+                return count > 0;
             }
-            else
+            catch (Exception ex)
             {
+                Loghelper.Error($"登入失敗：{ex.Message}");
                 return false;
             }
         }
@@ -121,15 +127,61 @@ namespace AFLA_001
                 using SqliteCommand command = new SqliteCommand(sql, conn);
                 command.Parameters.AddWithValue("@account", account);
                 command.Parameters.AddWithValue("@password",password);
-                int count =command.ExecuteNonQuery();
-                
-
+                int count =command.ExecuteNonQuery();                
             }
             catch (Exception ex)
             {
                 Loghelper.Error($"修改失敗：{ex.Message}");
             }
+        }
 
+        public bool DeleteAccount(string account)
+        {
+            try
+            {
+            using SqliteConnection conn = new SqliteConnection(connectionString);
+            conn.Open();
+
+            string sql = "DELETE FROM Users WHERE Account=@account";
+
+            using SqliteCommand command = new SqliteCommand(sql, conn);
+
+            command.Parameters.AddWithValue("@account", account);
+            return command.ExecuteNonQuery() > 0;
+            }
+            catch(Exception ex)
+            {
+                Loghelper.Error($"刪除失敗：{ex.Message}");
+                return false;
+            }
+            
+        }
+
+
+        public void AddUser(string account,string password,int access)
+        {
+            try
+            {
+                SqliteConnection conn = new SqliteConnection(connectionString);
+                conn.Open();
+                string sql = "Insert Into Users(account,password,rolelevel) Values(@account,@password,@access)";
+                SqliteCommand command = new SqliteCommand(sql, conn);
+                command.Parameters.AddWithValue("@account", account);
+                command.Parameters.AddWithValue("@password", password);
+                command.Parameters.AddWithValue("@access", access);
+                int count= command.ExecuteNonQuery();
+                if (count < 1)
+                {
+                    throw new ArgumentException("新增失敗");
+                }
+            }
+            catch(Exception ex)
+            {
+                Loghelper.Error($"錯誤：{ex.Message}");
+            }
+            
+
+            
         }
     }
 }
