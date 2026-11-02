@@ -18,19 +18,19 @@ namespace AFLA_001
         //EventHandler是規定接收的方法格式
         //格式:void 方法名稱(object? sender, EventArgs e)
         //sender:誰發事件,e事件附帶的資料
-        private Sqllite _db = new Sqllite();
+        public Sqllite _db = new Sqllite();
         public UserForm()
         {
             InitializeComponent();
             LoadAccount();
         }
 
-        private void LoadAccount()
+        public void LoadAccount()
         {
             List<string> accounts = _db.GetAccount();
             accountcombo.DataSource = accounts;
         }
-         
+
 
         private void loginbtn_Click(object sender, EventArgs e)
         {
@@ -39,6 +39,9 @@ namespace AFLA_001
             {
                 loginresult.Text = "登入成功";
                 passwordtxt.Text = "";
+                outeditbtn.Visible = true;//暫時設定登入成功就可編輯
+                loginbtn.Visible = false;
+                logoutbtn.Visible = true;
                 //LoginSucceeded:要觸發的事件,?有人訂閱才執行，沒人訂閱就跳過
                 //Invoke:呼叫所有已訂閱的方法
                 //將目前的 UserForm 當成 sender 傳出去
@@ -51,9 +54,24 @@ namespace AFLA_001
             }
         }
 
+        //清除登入顯示文字
         public void ClearloginResult()
         {
             loginresult.Text = "";
+        }
+
+        private void outeditbtn_Click(object sender, EventArgs e)
+        {
+            EditUserForm editUserForm = new EditUserForm();
+            editUserForm.Show();
+        }
+
+        private void logoutbtn_Click(object sender, EventArgs e)
+        {
+            ClearloginResult();
+            loginbtn.Visible = true;
+            loginresult.Text = "登出成功";
+            logoutbtn.Visible = false;
         }
     }
 }

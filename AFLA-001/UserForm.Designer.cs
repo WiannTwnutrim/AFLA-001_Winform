@@ -58,6 +58,7 @@
             outeditbtn.Text = "EditUser";
             outeditbtn.UseVisualStyleBackColor = true;
             outeditbtn.Visible = false;
+            outeditbtn.Click += outeditbtn_Click;
             // 
             // logoutbtn
             // 
@@ -68,6 +69,8 @@
             logoutbtn.TabIndex = 15;
             logoutbtn.Text = "Logout";
             logoutbtn.UseVisualStyleBackColor = true;
+            logoutbtn.Visible = false;
+            logoutbtn.Click += logoutbtn_Click;
             // 
             // loginbtn
             // 

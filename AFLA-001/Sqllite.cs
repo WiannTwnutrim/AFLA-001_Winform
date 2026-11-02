@@ -78,5 +78,35 @@ namespace AFLA_001
                 return false;
             }
         }
+
+        /// <summary>
+        /// 修改權限
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="access"></param>
+        /// <returns></returns>
+        public void AlterAccess(string account,int access)
+        {
+            using SqliteConnection connection = new SqliteConnection(connectionString);
+            connection.Open();
+            string sql = 
+                "UPDATE Users SET RoleLevel=@access WHERE Account=@account";
+            using SqliteCommand command = new SqliteCommand(sql, connection);
+
+            command.Parameters.AddWithValue("@access", access);
+            command.Parameters.AddWithValue("@account", account);
+
+            int count = command.ExecuteNonQuery();
+
+            if (count > 0)
+            {
+                MessageBox.Show("更改成功");
+            }
+            else
+            {
+                MessageBox.Show("更改失敗");
+            }
+
+        }
     }
 }
