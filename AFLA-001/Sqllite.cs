@@ -59,16 +59,13 @@ namespace AFLA_001
             connection.Open();
 
             string sql = $"SELECT COUNT(*) FROM Users WHERE Account = @account " +
-                $"AND Password = @password";//111
-
-
-
+                $"AND Password = @password";
 
 			using SqliteCommand command = new SqliteCommand(sql, connection);
 
 			//@是作為標示命名參數用,將 C# 變數的值綁定到 SQL 指定參數，進行參數化查詢
-			command.Parameters.AddWithValue("@account", account);//111
-			command.Parameters.AddWithValue("@password", password);//111
+			command.Parameters.AddWithValue("@account", account);
+			command.Parameters.AddWithValue("@password", password);
 
 			long count = (long)command.ExecuteScalar();
 
