@@ -14,6 +14,10 @@ namespace AFLA_001
     {
         //建立sqllite類別
         private Sqllite db = new Sqllite();
+        
+
+
+
         public UserPage()
         {
             InitializeComponent();
@@ -32,11 +36,19 @@ namespace AFLA_001
             if (!result)
             {
                 loginresult.Text = "密碼錯誤";
+                passwordtxt.Text = "";//111
             }
             else
             {
                 loginresult.Text = "成功登入";
-            }
+				passwordtxt.Text = "";//111
+                //如果這個控制項視窗是form1,那就用mainform當作他的變數
+				if (this.FindForm() is Form1 mainForm)//111
+				{
+					PageSwitchManger.Gohome(mainForm.MainPanel);
+				}
+
+			}
         }
     }
 }

@@ -12,6 +12,13 @@ namespace AFLA_001
         private LogPage logPage;
         private UserPage userPage;
         private IoPage ioPage;
+
+        //建立公開屬性好讓其他頁面可以傳送mainpage   111
+        public Panel MainPanel
+		{
+            get { return  MainPage  ; }
+        }
+
         public Form1()
         {
             InitializeComponent();

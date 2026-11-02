@@ -9,21 +9,31 @@ namespace AFLA_001
 {
     public static class PageSwitchManger
     {
-      
+		private static HomePage homePage = new HomePage();//111
 
-        /// <summary>
-        /// 切換指定 Panel 中顯示的 UserControl 頁面
-        /// </summary>
-        /// <param name="panel">要顯示頁面的目標 Panel 控制項</param>
-        /// <param name="page">要切換並顯示的 UserControl 頁面</param>
-        public static void ShowPage(Panel panel, UserControl page)
+		/// <summary>
+		/// 切換指定 Panel 中顯示的 UserControl 頁面
+		/// </summary>
+		/// <param name="panel">要顯示頁面的目標 Panel 控制項</param>
+		/// <param name="page">要切換並顯示的 UserControl 頁面</param>
+		public static void ShowPage(Panel panel, UserControl page)
         {
             panel.Controls.Clear();// 清除原本顯示的頁面
             page.Dock = DockStyle.Fill;// 新頁面填滿 Panel
             panel.Controls.Add(page);// 加入並顯示新頁面
         }
 
-        private static Button lastbutton;
+        /// <summary>
+        /// 登入成功跳首頁  
+        /// </summary>
+        /// <param name="panel"></param>
+        /// 111
+        public static void Gohome(Panel panel)
+        {
+            ShowPage(panel, homePage);
+        }
+
+		private static Button lastbutton;
         /// <summary>
         /// 點擊button變色,沒點到回到原色
         /// </summary>
