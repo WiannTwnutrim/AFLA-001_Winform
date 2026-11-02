@@ -1,16 +1,16 @@
 ﻿namespace AFLA_001
 {
-    partial class HomePage
+    partial class HomeForm
     {
-        /// <summary> 
-        /// 設計工具所需的變數。
+        /// <summary>
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// 清除任何使用中的資源。
+        /// <summary>
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">如果應該處置受控資源則為 true，否則為 false。</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,15 +20,15 @@
             base.Dispose(disposing);
         }
 
-        #region 元件設計工具產生的程式碼
+        #region Windows Form Designer generated code
 
-        /// <summary> 
-        /// 此為設計工具支援所需的方法 - 請勿使用程式碼編輯器修改
-        /// 這個方法的內容。
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomePage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomeForm));
             pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -36,20 +36,23 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(159, 0);
+            pictureBox1.Location = new Point(228, 0);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(811, 452);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 1;
+            pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
             // 
-            // HomePage
+            // HomeForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1267, 452);
+            ControlBox = false;
             Controls.Add(pictureBox1);
-            Name = "HomePage";
-            Size = new Size(1267, 452);
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "HomeForm";
+            Text = "HomeForm";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }

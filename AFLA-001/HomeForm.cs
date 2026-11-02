@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace AFLA_001
 {
-    public partial class EventPage : UserControl
+    public partial class HomeForm : Form
     {
-        public EventPage()
+        public HomeForm()
         {
             InitializeComponent();
         }

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace AFLA_001
 {
-    public partial class LogPage : UserControl
+    public partial class UserForm : Form
     {
-        public LogPage()
+        public UserForm()
         {
             InitializeComponent();
         }
