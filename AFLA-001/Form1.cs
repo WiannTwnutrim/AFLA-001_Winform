@@ -13,16 +13,14 @@ namespace AFLA_001
         private UserForm userform = new UserForm();
         //private IoPage ioPage;
 
-        //建立公開屬性好讓其他頁面可以傳送mainpage
-        public Panel MainPanel
-		{
-            get { return  MainPage  ; }
-        }
+        
 
         public Form1()
         {
             InitializeComponent();
-
+            //+= 表示「訂閱事件」,當 userform 發出 LoginSucceeded 通知時，請執行右邊的方法
+            userform.LoginSucceeded += (sender, e) => Homebtn_Click(Homebtn, e);
+            
             Userbtn_Click(Userbtn, EventArgs.Empty);
 
         }
@@ -69,6 +67,7 @@ namespace AFLA_001
         {
             PageSwitchManger.ShowPage(MainPage, userform);
             PageSwitchManger.ActiveButton(Userbtn);
+            userform.ClearloginResult();
         }
         private void Iobtn_Click(object sender, EventArgs e)
         {
