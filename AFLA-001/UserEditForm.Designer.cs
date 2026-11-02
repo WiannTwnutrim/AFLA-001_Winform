@@ -32,7 +32,7 @@
             passwordtxt = new TextBox();
             label2 = new Label();
             label1 = new Label();
-            loginresult = new TextBox();
+            editresult = new TextBox();
             userdelbtn = new Button();
             alteracbtn = new Button();
             alterpwbtn = new Button();
@@ -80,14 +80,14 @@
             label1.TabIndex = 14;
             label1.Text = "Account";
             // 
-            // loginresult
+            // editresult
             // 
-            loginresult.Font = new Font("Microsoft JhengHei UI", 20F);
-            loginresult.Location = new Point(237, 179);
-            loginresult.Name = "loginresult";
-            loginresult.ReadOnly = true;
-            loginresult.Size = new Size(250, 41);
-            loginresult.TabIndex = 19;
+            editresult.Font = new Font("Microsoft JhengHei UI", 20F);
+            editresult.Location = new Point(237, 179);
+            editresult.Name = "editresult";
+            editresult.ReadOnly = true;
+            editresult.Size = new Size(250, 41);
+            editresult.TabIndex = 19;
             // 
             // userdelbtn
             // 
@@ -171,7 +171,7 @@
             Controls.Add(alterpwbtn);
             Controls.Add(alteracbtn);
             Controls.Add(userdelbtn);
-            Controls.Add(loginresult);
+            Controls.Add(editresult);
             Controls.Add(accountcombo);
             Controls.Add(passwordtxt);
             Controls.Add(label2);
@@ -191,7 +191,7 @@
         private TextBox passwordtxt;
         private Label label2;
         private Label label1;
-        private TextBox loginresult;
+        private TextBox editresult;
         private Button userdelbtn;
         private Button alteracbtn;
         private Button alterpwbtn;

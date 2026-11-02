@@ -87,6 +87,9 @@ namespace AFLA_001
         /// <returns></returns>
         public void AlterAccess(string account,int access)
         {
+            
+            try
+            {
             using SqliteConnection connection = new SqliteConnection(connectionString);
             connection.Open();
             string sql = 
@@ -97,15 +100,15 @@ namespace AFLA_001
             command.Parameters.AddWithValue("@account", account);
 
             int count = command.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                Loghelper.Error(
+            $"修改權限失敗：帳號 [{account}]\r\n{ex}");
+            }
+           
 
-            if (count > 0)
-            {
-                MessageBox.Show("更改成功");
-            }
-            else
-            {
-                MessageBox.Show("更改失敗");
-            }
+            
 
         }
     }
