@@ -36,15 +36,6 @@ namespace AFLA_001
             form.BringToFront();
         }
 
-        /// <summary>
-        /// 登入成功跳首頁  
-        /// </summary>
-        /// <param name="panel"></param>
-        /// 111
-        //public static void Gohome(Panel panel)
-        //{
-        //    ShowPage(panel, homeForm);
-        //}
 
 		private static Button lastbutton;
         /// <summary>
