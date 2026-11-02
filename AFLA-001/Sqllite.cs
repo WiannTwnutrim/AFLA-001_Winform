@@ -86,15 +86,14 @@ namespace AFLA_001
         /// <param name="access"></param>
         /// <returns></returns>
         public void AlterAccess(string account,int access)
-        {
-            
+        {            
             try
             {
-            using SqliteConnection connection = new SqliteConnection(connectionString);
-            connection.Open();
+            using SqliteConnection conn = new SqliteConnection(connectionString);
+            conn.Open();
             string sql = 
                 "UPDATE Users SET RoleLevel=@access WHERE Account=@account";
-            using SqliteCommand command = new SqliteCommand(sql, connection);
+            using SqliteCommand command = new SqliteCommand(sql, conn);
 
             command.Parameters.AddWithValue("@access", access);
             command.Parameters.AddWithValue("@account", account);
@@ -105,10 +104,31 @@ namespace AFLA_001
             {
                 Loghelper.Error(
             $"修改權限失敗：帳號 [{account}]\r\n{ex}");
-            }
-           
+            }                       
+        }
 
-            
+        public void AlterPassword(string account,string password)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    throw new ArgumentException("請輸入密碼");
+                }
+                using SqliteConnection conn = new SqliteConnection(connectionString);
+                conn.Open();
+                string sql = "Update Users Set password=@password WHERE Account=@account ";
+                using SqliteCommand command = new SqliteCommand(sql, conn);
+                command.Parameters.AddWithValue("@account", account);
+                command.Parameters.AddWithValue("@password",password);
+                int count =command.ExecuteNonQuery();
+                
+
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"修改失敗：{ex.Message}");
+            }
 
         }
     }

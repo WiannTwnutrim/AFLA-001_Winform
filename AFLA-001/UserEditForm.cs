@@ -45,10 +45,28 @@ namespace AFLA_001
             if (accountcombo.Text == "admin")
             {
                 Loghelper.Error("修改權限失敗：禁止修改 admin 帳號");
-                editresult.Text = "禁止修改 admin 帳號";
+                editresult.Text = "禁止修改 admin 的權限";
                 return;
             }
             _db.AlterAccess(accountcombo.Text, access);
+        }
+
+        private void alterpwbtn_Click(object sender, EventArgs e)
+        {
+            if (accountcombo.Text == "admin")
+            {
+                Loghelper.Error("修改密碼失敗：禁止修改 admin 帳號");
+                editresult.Text = "禁止修改 admin 的密碼";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(passwordtxt.Text))
+            {
+                Loghelper.Error("修改密碼失敗：要輸入密碼");
+                editresult.Text = "沒有輸入密碼";
+                return;
+            }
+
+            _db.AlterPassword(accountcombo.Text, passwordtxt.Text);
         }
     }
 }

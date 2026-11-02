@@ -83,10 +83,10 @@
             // editresult
             // 
             editresult.Font = new Font("Microsoft JhengHei UI", 20F);
-            editresult.Location = new Point(237, 179);
+            editresult.Location = new Point(12, 179);
             editresult.Name = "editresult";
             editresult.ReadOnly = true;
-            editresult.Size = new Size(250, 41);
+            editresult.Size = new Size(475, 41);
             editresult.TabIndex = 19;
             // 
             // userdelbtn
@@ -116,6 +116,7 @@
             alterpwbtn.TabIndex = 22;
             alterpwbtn.Text = "AlterPassword";
             alterpwbtn.UseVisualStyleBackColor = true;
+            alterpwbtn.Click += alterpwbtn_Click;
             // 
             // groupBox1
             // 
