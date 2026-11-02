@@ -78,6 +78,7 @@
             loginbtn.TabIndex = 14;
             loginbtn.Text = "Login";
             loginbtn.UseVisualStyleBackColor = true;
+            loginbtn.Click += loginbtn_Click;
             // 
             // accountcombo
             // 
