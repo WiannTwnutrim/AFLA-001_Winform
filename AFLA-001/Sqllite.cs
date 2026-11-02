@@ -29,7 +29,7 @@ namespace AFLA_001
         {
             //建空list
             List<string> accounts = new List<string>();
-            //建立連線物件,using 代表使用完後會自動釋放連線物件的資源
+            //建立資料庫連線物件,using 代表使用完後會自動釋放連線物件的資源
             using SqliteConnection connection =
                 new SqliteConnection(connectionString);
             //連線開啟
@@ -40,11 +40,12 @@ namespace AFLA_001
             using SqliteCommand command = new SqliteCommand(sql, connection);
             //ExecuteReader() 會執行 SQL，並回傳 SqliteDataReader
             using SqliteDataReader reader = command.ExecuteReader();
-
-            //Read:將讀取位置移動到下一筆資料,回傳 bool，表示是否成功讀取下一筆資料
+            
+            //reader是用來讀取sql查詢結果的物件
+            //Read:將讀取位置移動到下一筆資料,回傳 bool，表示是否成功讀取下一筆資料(要呼叫才會讀取一次)
             while (reader.Read())
             {   //取得account欄位並轉成字串加入list尾端
-                accounts.Add(reader["Account"].ToString()!);
+                accounts.Add(reader["Account"].ToString());
             }
 
             return accounts;
@@ -57,15 +58,19 @@ namespace AFLA_001
 
             connection.Open();
 
-            string sql = $"SELECT COUNT(*) FROM Users WHERE Account = '{account}' " +
-                $"AND Password = '{password}'";
-                
-          
-          
-            
-            using SqliteCommand command = new SqliteCommand(sql, connection);
+            string sql = $"SELECT COUNT(*) FROM Users WHERE Account = @account " +
+                $"AND Password = @password";//111
 
-            long count = (long)command.ExecuteScalar();
+
+
+
+			using SqliteCommand command = new SqliteCommand(sql, connection);
+
+			//@是作為標示命名參數用,將 C# 變數的值綁定到 SQL 指定參數，進行參數化查詢
+			command.Parameters.AddWithValue("@account", account);//111
+			command.Parameters.AddWithValue("@password", password);//111
+
+			long count = (long)command.ExecuteScalar();
 
             if (count > 0)
             {
