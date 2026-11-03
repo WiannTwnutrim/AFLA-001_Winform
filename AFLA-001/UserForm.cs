@@ -70,12 +70,22 @@ namespace AFLA_001
 
         private void outeditbtn_Click(object sender, EventArgs e)
         {
-            EditUserForm editUserForm = new EditUserForm();
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能使用edit user button");
+                return;
+            }
+            else
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "外部編輯使用者按鈕被按下");
+                EditUserForm editUserForm = new EditUserForm();
 
-			// 顯示視窗前，先訂閱帳號變更事件
-			editUserForm.ChangeUser += OnUserChanged;
+                // 顯示視窗前，先訂閱帳號變更事件
+                editUserForm.ChangeUser += OnUserChanged;
 
-			editUserForm.Show();
+                editUserForm.Show();
+            }
+                
             
         }
 

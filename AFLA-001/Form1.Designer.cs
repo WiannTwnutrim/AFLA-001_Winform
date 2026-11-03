@@ -220,7 +220,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 385F));
-            tableLayoutPanel2.Controls.Add(logintxt, 2, 1);
+            tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
             tableLayoutPanel2.Location = new Point(61, -1);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 2;
@@ -233,7 +233,7 @@
             // 
             logintxt.Dock = DockStyle.Fill;
             logintxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            logintxt.Location = new Point(817, 66);
+            logintxt.Location = new Point(817, 3);
             logintxt.Name = "logintxt";
             logintxt.ReadOnly = true;
             logintxt.Size = new Size(379, 41);

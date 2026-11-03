@@ -113,7 +113,12 @@ namespace AFLA_001
 				return false;
 			}                       
         }
-
+        /// <summary>
+        /// 修改密碼
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool AlterPassword(string account,string password)
         {
             try
@@ -136,7 +141,11 @@ namespace AFLA_001
                 return false;
             }
         }
-
+        /// <summary>
+        /// 刪除帳號
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         public bool DeleteAccount(string account)
         {
             try
@@ -159,7 +168,13 @@ namespace AFLA_001
             
         }
 
-
+        /// <summary>
+        /// 新增帳號
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <param name="access"></param>
+        /// <returns></returns>
         public bool AddUser(string account,string password,int access)
         {
             try
@@ -182,6 +197,53 @@ namespace AFLA_001
             
 
             
+        }
+
+        /// <summary>
+        /// 檢查權限
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public int? CheckRole(string account)
+        {
+            try
+            {
+            using SqliteConnection conn = new SqliteConnection(connectionString);
+            conn.Open();
+            string sql = "Select RoleLevel From Users Where Account=@account";
+            using SqliteCommand command = new SqliteCommand(sql, conn);
+            command.Parameters.AddWithValue("@account", account);
+            var count =command.ExecuteScalar();
+            int result = Convert.ToInt32(count);
+                if (result < 0)
+                {
+                    Loghelper.Error("查詢權限失敗");
+                    return null;
+                }
+                else
+                {
+                    return result;
+                }
+
+            }
+            
+            catch(Exception ex)
+            {
+                Loghelper.Error(ex.Message);
+                throw;
+            }
+        }
+        public bool CheckLevel(int? num)
+        {
+            if (num<2||num ==null)
+            {
+                MessageBox.Show("權限等級不夠");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
