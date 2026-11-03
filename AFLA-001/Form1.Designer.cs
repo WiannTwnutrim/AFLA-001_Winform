@@ -41,8 +41,11 @@
             Logbtn = new Button();
             Eventbtn = new Button();
             Alarmbtn = new Button();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            logintxt = new TextBox();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // MainPage
@@ -210,11 +213,38 @@
             Alarmbtn.UseVisualStyleBackColor = false;
             Alarmbtn.Click += Alarmbtn_Click;
             // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.Anchor = AnchorStyles.None;
+            tableLayoutPanel2.ColumnCount = 3;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 385F));
+            tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
+            tableLayoutPanel2.Location = new Point(61, -1);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 2;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 53F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 47F));
+            tableLayoutPanel2.Size = new Size(1199, 120);
+            tableLayoutPanel2.TabIndex = 3;
+            // 
+            // logintxt
+            // 
+            logintxt.Dock = DockStyle.Fill;
+            logintxt.Font = new Font("Microsoft JhengHei UI", 20F);
+            logintxt.Location = new Point(817, 3);
+            logintxt.Name = "logintxt";
+            logintxt.ReadOnly = true;
+            logintxt.Size = new Size(379, 41);
+            logintxt.TabIndex = 0;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1272, 691);
+            Controls.Add(tableLayoutPanel2);
             Controls.Add(panel2);
             Controls.Add(MainPage);
             Name = "Form1";
@@ -222,6 +252,8 @@
             Text = "Form1";
             panel2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -239,5 +271,7 @@
         private Button Recipebtn;
         private Button Homebtn;
         private Button Historybtn;
+        private TableLayoutPanel tableLayoutPanel2;
+        private TextBox logintxt;
     }
 }

@@ -4,7 +4,7 @@ namespace AFLA_001
     {
         //直接宣告變數避免在建構子內宣告為區域變數
         private HomeForm homeform = new HomeForm();
-        //private RecipePage recipePage;
+        private RecipeForm recipeForm = new RecipeForm();
         //private Manualpage manualPage;
         //private AlarmPage alarmPage;
         //private HistoryPage historyPage;
@@ -12,7 +12,7 @@ namespace AFLA_001
         //private LogPage logPage;
         private UserForm userform = new UserForm();
         //private IoPage ioPage;
-
+        private Sqllite _db = new Sqllite();
         
 
         public Form1()
@@ -21,17 +21,22 @@ namespace AFLA_001
             //+= 表示「訂閱事件」,當 userform 發出 LoginSucceeded 通知時，請執行右邊的方法
             //userform.LoginSucceeded += (sender, e) => Homebtn_Click(Homebtn, e);
             userform.LoginSucceeded += LoginSucceeded;
-            
+            userform.LogoutSucceeded += LogoutSucceeded;
             Userbtn_Click(Userbtn, EventArgs.Empty);
+            logintxt.Text = UserSession.LoginUser;
 
         }
 
         private void LoginSucceeded(object sender, EventArgs e)
         {
+            logintxt.Text = UserSession.LoginUser;
             Homebtn_Click(Homebtn,e);
         }
       
-
+        private void LogoutSucceeded(object sender,EventArgs e)
+        {
+            logintxt.Text = UserSession.LoginUser;
+        }
         private void Homebtn_Click(object sender, EventArgs e)
         {
             PageSwitchManger.ShowPage(MainPage, homeform);
@@ -39,8 +44,17 @@ namespace AFLA_001
         }
         private void Recipebtn_Click(object sender, EventArgs e)
         {
-            //PageSwitchManger.ShowPage(MainPage, recipePage);
-            //PageSwitchManger.ActiveButton(Recipebtn);
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+             Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Recipe頁面");
+            }
+            else
+            {
+            PageSwitchManger.ShowPage(MainPage, recipeForm);
+            PageSwitchManger.ActiveButton(Recipebtn);
+            Loghelper.Userlog(UserSession.LoginUser, "切換成Recipe頁面");
+            }
+            
         }
         private void Manualbtn_Click(object sender, EventArgs e)
         {
