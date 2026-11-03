@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -244,6 +245,67 @@ namespace AFLA_001
             {
                 return true;
             }
+        }
+
+        /// <summary>
+        /// 取得配方名稱
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetRecipe()
+        {
+            try
+            {
+            List<string> recipeName = new List<string>();
+            using SqliteConnection conn = new SqliteConnection(connectionString);
+            conn.Open();
+            string sql = "Select RecipeName From Recipe";
+            using SqliteCommand command = new SqliteCommand(sql, conn);
+
+            using SqliteDataReader reader = command.ExecuteReader();
+
+            //reader是用來讀取sql查詢結果的物件
+            //Read:將讀取位置移動到下一筆資料,回傳 bool，表示是否成功讀取下一筆資料(要呼叫才會讀取一次)
+            while (reader.Read())
+            {   //取得account欄位並轉成字串加入list尾端
+                recipeName.Add(reader["RecipeName"].ToString());
+            }
+
+            return recipeName;
+            }
+            catch(Exception ex)
+            {
+                Loghelper.Error(ex.Message);
+                throw;
+            }
+            
+        }
+
+        /// <summary>
+        /// 先找到配方再找出他所有步驟
+        /// </summary>
+        /// <param name="recipeName"></param>
+        public DataTable LoadRecipeData(string recipeName)
+        {
+            using SqliteConnection conn = new SqliteConnection(connectionString);
+            conn.Open();
+            string sql = "SELECT s.* FROM RecipeStep AS s " +
+                "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " +
+                "WHERE r.RecipeName = @recipeName Order By s.StepID"  ;
+                
+               
+            using SqliteCommand command = new SqliteCommand(sql, conn);
+            command.Parameters.AddWithValue("@recipeName", recipeName);
+            //取得多筆資料
+            using SqliteDataReader reader = command.ExecuteReader();
+            DataTable dataTable = new DataTable();
+            dataTable.Load(reader);
+            dataTable.Columns.Add("IPA", typeof(bool), "MaterialType = 1");
+            dataTable.Columns.Add("OIL", typeof(bool), "MaterialType = 2");
+            dataTable.Columns.Add("GLUE", typeof(bool), "MaterialType = 3");
+
+            return dataTable;
+            
+
         }
     }
 }
