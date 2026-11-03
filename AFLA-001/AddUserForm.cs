@@ -13,7 +13,10 @@ namespace AFLA_001
     public partial class AddUserForm : Form
     {
         private Sqllite _db = new Sqllite();
-        public AddUserForm()
+        //建立user改變事件
+        public event EventHandler? ChangeUser;
+
+		public AddUserForm()
         {
             InitializeComponent();
         }
@@ -39,8 +42,26 @@ namespace AFLA_001
             {
                 access = 3;
             }
+            if (_db.AddUser(accounttxt.Text, passwordtxt.Text, access))
+            {
+                addresult.Text = "新增帳號成功";
+                Clear();
+				//觸發,EditUserForm.OnUserChanged 現在才會被執行
+				ChangeUser?.Invoke(this, EventArgs.Empty);
 
-            _db.AddUser(accounttxt.Text, passwordtxt.Text, access);
+			}
+			else
+			{
+                addresult.Text = "新增失敗,請查看log";
+                Clear();
+			}
+			
+            
+        }
+        private void Clear()
+        {
+            accounttxt.Text = "";
+            passwordtxt.Text = "";
         }
     }
 }

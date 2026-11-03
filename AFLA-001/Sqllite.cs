@@ -91,7 +91,7 @@ namespace AFLA_001
         /// <param name="account"></param>
         /// <param name="access"></param>
         /// <returns></returns>
-        public void AlterAccess(string account,int access)
+        public bool AlterAccess(string account,int access)
         {            
             try
             {
@@ -104,16 +104,17 @@ namespace AFLA_001
             command.Parameters.AddWithValue("@access", access);
             command.Parameters.AddWithValue("@account", account);
 
-            int count = command.ExecuteNonQuery();
+            return command.ExecuteNonQuery() > 0;
             }
             catch(Exception ex)
-            {
+            {                
                 Loghelper.Error(
             $"修改權限失敗：帳號 [{account}]\r\n{ex}");
-            }                       
+				return false;
+			}                       
         }
 
-        public void AlterPassword(string account,string password)
+        public bool AlterPassword(string account,string password)
         {
             try
             {
@@ -127,11 +128,12 @@ namespace AFLA_001
                 using SqliteCommand command = new SqliteCommand(sql, conn);
                 command.Parameters.AddWithValue("@account", account);
                 command.Parameters.AddWithValue("@password",password);
-                int count =command.ExecuteNonQuery();                
+                return command.ExecuteNonQuery() > 0;
             }
             catch (Exception ex)
             {
                 Loghelper.Error($"修改失敗：{ex.Message}");
+                return false;
             }
         }
 
@@ -158,7 +160,7 @@ namespace AFLA_001
         }
 
 
-        public void AddUser(string account,string password,int access)
+        public bool AddUser(string account,string password,int access)
         {
             try
             {
@@ -169,15 +171,13 @@ namespace AFLA_001
                 command.Parameters.AddWithValue("@account", account);
                 command.Parameters.AddWithValue("@password", password);
                 command.Parameters.AddWithValue("@access", access);
-                int count= command.ExecuteNonQuery();
-                if (count < 1)
-                {
-                    throw new ArgumentException("新增失敗");
-                }
+                return command.ExecuteNonQuery()>0;
+                
             }
             catch(Exception ex)
             {
                 Loghelper.Error($"錯誤：{ex.Message}");
+                return false;
             }
             
 

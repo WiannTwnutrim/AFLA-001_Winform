@@ -19,13 +19,17 @@ namespace AFLA_001
         {
             InitializeComponent();
             //+= 表示「訂閱事件」,當 userform 發出 LoginSucceeded 通知時，請執行右邊的方法
-            userform.LoginSucceeded += (sender, e) => Homebtn_Click(Homebtn, e);
+            //userform.LoginSucceeded += (sender, e) => Homebtn_Click(Homebtn, e);
+            userform.LoginSucceeded += LoginSucceeded;
             
             Userbtn_Click(Userbtn, EventArgs.Empty);
 
         }
 
-        
+        private void LoginSucceeded(object sender, EventArgs e)
+        {
+            Homebtn_Click(Homebtn,e);
+        }
       
 
         private void Homebtn_Click(object sender, EventArgs e)

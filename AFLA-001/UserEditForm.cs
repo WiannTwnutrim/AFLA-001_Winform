@@ -48,7 +48,17 @@ namespace AFLA_001
                 editresult.Text = "禁止修改 admin 的權限";
                 return;
             }
-            _db.AlterAccess(accountcombo.Text, access);
+            if (_db.AlterAccess(accountcombo.Text, access))
+            {
+                editresult.Text = "成功修改權限";
+
+			}
+            else
+            {
+                editresult.Text = "修改失敗：帳號不存在或資料庫操作失敗，請查看log";
+
+			}
+            
         }
 
         private void alterpwbtn_Click(object sender, EventArgs e)
@@ -65,8 +75,15 @@ namespace AFLA_001
                 editresult.Text = "沒有輸入密碼";
                 return;
             }
-
-            _db.AlterPassword(accountcombo.Text, passwordtxt.Text);
+            if ( _db.AlterPassword(accountcombo.Text, passwordtxt.Text))
+            {
+				editresult.Text = "成功修改密碼";
+			}
+            else
+            {
+				editresult.Text = "修改失敗：帳號不存在或資料庫操作失敗，請查看log";
+			}
+           
         }
 
         private void userdelbtn_Click(object sender, EventArgs e)
@@ -80,14 +97,15 @@ namespace AFLA_001
             if (string.IsNullOrWhiteSpace(accountcombo.Text))
             {
                 editresult.Text = "請選擇要刪除的帳號";
+                Loghelper.Error("沒有選擇要做刪除的帳號");
                 return;
             }
 
             if (_db.DeleteAccount(accountcombo.Text))
-            {
-                LoadAccount();
+            {                
                 editresult.Text = "帳號刪除成功";
-            }
+				LoadAccount();
+			}
             else
             {
                 editresult.Text = "刪除失敗：帳號不存在或資料庫操作失敗，請查看log";

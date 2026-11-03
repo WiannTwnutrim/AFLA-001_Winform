@@ -49,7 +49,7 @@ namespace AFLA_001
             }
             else
             {
-                loginresult.Text = "登入失敗";
+                loginresult.Text = "登入失敗,密碼錯誤";
                 passwordtxt.Text = "";
             }
         }
@@ -63,7 +63,11 @@ namespace AFLA_001
         private void outeditbtn_Click(object sender, EventArgs e)
         {
             EditUserForm editUserForm = new EditUserForm();
-            editUserForm.Show();
+
+			// 顯示視窗前，先訂閱帳號變更事件
+			editUserForm.ChangeUser += OnUserChanged;
+
+			editUserForm.Show();
         }
 
         private void logoutbtn_Click(object sender, EventArgs e)
@@ -73,5 +77,10 @@ namespace AFLA_001
             loginresult.Text = "登出成功";
             logoutbtn.Visible = false;
         }
-    }
+		private void OnUserChanged(object? sender, EventArgs e)
+		{
+			// 更新目前登入表單的帳號清單
+			LoadAccount();
+		}
+	}
 }
