@@ -21,7 +21,8 @@ namespace AFLA_001
                 column.DataPropertyName = column.Name == "ID" ? "StepID" : column.Name; // ID 對應 StepID，其餘欄位依相同名稱綁定。
                 // 只有以 SQLite 整數儲存的 Step、BSOIL、BSAIR 勾選欄位需要設定 1 與 0；其他欄位略過。
                 if (column is DataGridViewCheckBoxColumn checkBox &&
-                    (column.Name == "Step" || column.Name == "BSOIL" || column.Name == "BSAIR"))
+                    (column.Name == "Step" || column.Name == "BSOIL" || column.Name == "BSAIR"
+                    || column.Name == "IPA" || column.Name == "OIL" || column.Name == "GLUE"))
                 {
                     checkBox.TrueValue = 1L; // 資料為長整數 1 時顯示勾選，L 表示 long 型別。
                     checkBox.FalseValue = 0L; // 資料為長整數 0 時顯示未勾選。

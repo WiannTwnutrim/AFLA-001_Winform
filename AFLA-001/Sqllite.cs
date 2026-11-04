@@ -318,9 +318,9 @@ namespace AFLA_001
             using SqliteDataReader reader = command.ExecuteReader();
             DataTable dataTable = new DataTable();
             dataTable.Load(reader);
-            dataTable.Columns.Add("IPA", typeof(bool), "MaterialType = 1");
-            dataTable.Columns.Add("OIL", typeof(bool), "MaterialType = 2");
-            dataTable.Columns.Add("GLUE", typeof(bool), "MaterialType = 3");
+            //dataTable.Columns.Add("IPA", typeof(bool), "MaterialType = 1");
+            //dataTable.Columns.Add("OIL", typeof(bool), "MaterialType = 2");
+            //dataTable.Columns.Add("GLUE", typeof(bool), "MaterialType = 3");
 
             return dataTable;
             
