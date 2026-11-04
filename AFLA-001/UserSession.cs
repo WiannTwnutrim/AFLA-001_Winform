@@ -11,7 +11,7 @@ namespace AFLA_001
     /// </summary>
     public static class UserSession
     {
-        public static string LoginUser { get;private set; } = "nologin";
+        public static string LoginUser { get;private set; } = "";
 
         public static void Login(string loginuser)
         {
@@ -21,7 +21,7 @@ namespace AFLA_001
 
         public static void Logout()
         {
-            LoginUser = "nologin";
+            LoginUser = "";
         }
     }
 }

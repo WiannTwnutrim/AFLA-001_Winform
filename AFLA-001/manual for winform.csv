@@ -1,0 +1,29 @@
+﻿ID,Module,Difinition,UNIT,Min,Max,Value
+1,TOOL,Setting :Hepa Life Time,Hour,10,0,0
+2,TOOL,Alarm : Initial Time-out,Sec,0,0,0
+3,TOOL,Alarm : Vacuum On/Off Time-out,Sec,0,0,0
+4,TOOL,Alarm : Process Time-out,Sec,0,0,0
+5,TOOL,Setting : Glue Purge Interval Time,Min,0,0,0
+6,TOOL,Setting : Glue Purge Total Time,Sec,0,0,0
+7,TOOL,Setting : Arm2 test time,Sec,0,0,0
+8,TOOL,Setting : Arm1 test time,Sec,0,0,0
+9,TOOL,Setting :Arm1 IPA SuckBack Time,Sec,0,0,0
+10,TOOL,Setting :Arm1 OIL SuckBack Time,Sec,0,0,0
+11,CUP Lift,Alarm : Motion Time-out,Sec,0,0,0
+12,CUP Lift,Setting : Standby Position,mm,0,0,0
+13,CUP Lift,Setting : Process Position,mm,0,0,0
+14,CUP Lift,Setting : Jog speed,mm/sec,0,0,0
+15,CUP Lift,Setting : Normal speed,mm/sec,0,0,0
+16,Chuck Rotate,Alarm : Motion Time-out,Sec,0,0,0
+17,Chuck Rotate,Setting : Jog speed,RPM,0,0,0
+18,Chuck Rotate,Setting : Normal speed,RPM,0,0,0
+19,Arm1 Lift,Alarm : Motion Time-out,Sec,0,0,0
+20,Arm1 Lift,Setting : Standby Position,mm,0,0,0
+21,Arm1 Lift,Setting : Process Position,mm,0,0,0
+22,Arm1 Lift,Setting : Jog speed,mm/sec,0,0,0
+23,Arm1 Lift,Setting : Normal speed,mm/sec,0,0,0
+24,Arm1 Rotate,Alarm : Motion Time-out,Sec,0,0,0
+25,Arm1 Rotate,Setting : Inside Max Position,degree,0,0,0
+26,Arm1 Rotate,Setting : Inside Min Position,degree,0,0,0
+27,Arm1 Rotate,Setting : Standby Position,degree,0,0,0
+28,Arm1 Rotate,Setting : IPA Center Position,degree,0,0,0

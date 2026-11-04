@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,12 +14,31 @@ namespace AFLA_001
 
         public Sqllite()
         {
-            //AppContext.BaseDirectory：程式執行檔所在的目錄
-            //Combine:將路徑與檔案名稱組合
-            string dbPath = Path.Combine(AppContext.BaseDirectory,
-                "ALFA001.db");
-            //告訴 SQLite 要連接哪個資料庫檔案。
-            connectionString = $"Data Source={dbPath}";
+            string dbPath = GetDatabasePath();
+            connectionString = new SqliteConnectionStringBuilder
+            {
+                DataSource = dbPath,
+                // A missing seed database should fail instead of creating an empty DB.
+                Mode = SqliteOpenMode.ReadWrite
+            }.ToString();
+        }
+
+        private static string GetDatabasePath()
+        {
+#if DEBUG
+            // Local builds share the tracked DB, so edits appear in Git changes.
+            for (DirectoryInfo? directory = new DirectoryInfo(AppContext.BaseDirectory);
+                 directory != null;
+                 directory = directory.Parent)
+            {
+                if (File.Exists(Path.Combine(directory.FullName, "AFLA-001.csproj")))
+                {
+                    return Path.Combine(directory.FullName, "ALFA001.db");
+                }
+            }
+#endif
+            // Published/standalone builds use the DB beside the executable.
+            return Path.Combine(AppContext.BaseDirectory, "ALFA001.db");
         }
 
         /// <summary>
@@ -284,28 +303,102 @@ namespace AFLA_001
         /// 先找到配方再找出他所有步驟
         /// </summary>
         /// <param name="recipeName"></param>
-        public DataTable LoadRecipeData(string recipeName)
+        public DataTable? LoadRecipeData(string recipeName)
         {
-            using SqliteConnection conn = new SqliteConnection(connectionString);
-            conn.Open();
-            string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " +
-                "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " +
-                "WHERE r.RecipeName = @recipeName Order By s.StepID"  ;
+            try
+            {
+                using SqliteConnection conn = new SqliteConnection(connectionString);
+                conn.Open();
+                string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " +
+                    "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " +
+                    "WHERE r.RecipeName = @recipeName Order By s.StepID"  ;
                 
                
-            using SqliteCommand command = new SqliteCommand(sql, conn);
-            command.Parameters.AddWithValue("@recipeName", recipeName);
-            //取得多筆資料
-            using SqliteDataReader reader = command.ExecuteReader();
-            DataTable dataTable = new DataTable();
-            dataTable.Load(reader);
-            dataTable.Columns.Add("IPA", typeof(bool), "MaterialType = 1");
-            dataTable.Columns.Add("OIL", typeof(bool), "MaterialType = 2");
-            dataTable.Columns.Add("GLUE", typeof(bool), "MaterialType = 3");
-
-            return dataTable;
+                using SqliteCommand command = new SqliteCommand(sql, conn);
+                command.Parameters.AddWithValue("@recipeName", recipeName);
+                //取得多筆資料
+                using SqliteDataReader reader = command.ExecuteReader();
+                DataTable dataTable = new DataTable();
+                dataTable.Load(reader);
+    
+                return dataTable;
+            }
+            catch
+            {
+                return null;
+            }
+           
             
 
+        }
+
+
+        public void SaveRecipe(DataTable dt,string size,int recipeId,string recipeName)
+        {
+            if (string.IsNullOrEmpty(recipeName))
+            {
+            Loghelper.Error("沒輸入配方名稱存檔");
+            MessageBox.Show("沒輸入配方名稱存檔");
+            return;
+
+            }               
+            try
+            {
+              
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqliteTransaction transaction = conn.BeginTransaction())
+                    {
+                        using SqliteCommand command = conn.CreateCommand();
+                        command.Transaction = transaction;
+                        // 先建立命令，再指定 SQL
+                        command.CommandText = "Update Recipe Set Size=@size,RecipeName=@recipeName Where RecipeId =@recipeID";
+                        command.Parameters.AddWithValue("@recipeID", recipeId);
+                        command.Parameters.AddWithValue("@size", size);
+                        command.Parameters.AddWithValue("@recipeName", recipeName);
+
+                        command.ExecuteNonQuery();
+
+                        foreach(DataRow row in dt.Rows)
+                        {
+                            int step = Convert.ToBoolean(row["Step"]) ? 1 : 0;
+                            int bsoil = Convert.ToBoolean(row["BSOIL"]) ? 1 : 0;
+                            int bsair = Convert.ToBoolean(row["BSAIR"]) ? 1 : 0;
+                            int ipa = Convert.ToBoolean(row["IPA"]) ? 1 : 0;
+                            int oil = Convert.ToBoolean(row["OIL"]) ? 1 : 0;
+                            int glue = Convert.ToBoolean(row["GLUE"]) ? 1 : 0;
+                            decimal start = Convert.ToDecimal(row["START"]);
+                            using SqliteCommand stepcommand = conn.CreateCommand();
+                            stepcommand.Transaction = transaction;
+                            stepcommand.CommandText = "Update RecipeStep Set Step=@Step," +
+                                "BSOIL=@bsoil,BSAIR=@bsair,IPA=@ipa," +
+                                "OIL=@oil,GLUE=@glue,START=@start" +
+                                " WHERE RecipeID = @recipeId AND StepID = @stepId";
+                            stepcommand.Parameters.AddWithValue("@Step", step);
+                            stepcommand.Parameters.AddWithValue("@bsoil", bsoil);
+                            stepcommand.Parameters.AddWithValue("@bsair", bsair);
+                            stepcommand.Parameters.AddWithValue("@ipa", ipa);
+                            stepcommand.Parameters.AddWithValue("@oil", oil);
+                            stepcommand.Parameters.AddWithValue("@glue", glue);
+                            stepcommand.Parameters.AddWithValue("@start", start);
+                            stepcommand.Parameters.AddWithValue("@recipeId", recipeId);
+                            stepcommand.Parameters.AddWithValue("@stepId", row["StepID"]);
+
+                            stepcommand.ExecuteNonQuery();
+
+                            if (stepcommand.ExecuteNonQuery() != 1)
+                                MessageBox.Show($"無法更新步驟 {row["StepID"]}。");
+                            
+                        }
+                        transaction.Commit();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
