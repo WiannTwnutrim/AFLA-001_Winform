@@ -5,7 +5,7 @@ namespace AFLA_001
         //直接宣告變數避免在建構子內宣告為區域變數
         private HomeForm homeform = new HomeForm();
         private RecipeForm recipeForm = new RecipeForm();
-        //private Manualpage manualPage;
+        private ManualForm manualForm = new ManualForm();
         //private AlarmPage alarmPage;
         //private HistoryPage historyPage;
         //private EventPage eventPage;
@@ -58,8 +58,17 @@ namespace AFLA_001
         }
         private void Manualbtn_Click(object sender, EventArgs e)
         {
-            //PageSwitchManger.ShowPage(MainPage, manualPage);
-            //PageSwitchManger.ActiveButton(Manualbtn);
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Recipe頁面");
+            }
+            else
+            {
+            PageSwitchManger.ShowPage(MainPage, manualForm);
+            PageSwitchManger.ActiveButton(Manualbtn);
+            Loghelper.Userlog(UserSession.LoginUser, "切換成Manual頁面");
+            }
+            
         }
         private void Alarmbtn_Click(object sender, EventArgs e)
         {
