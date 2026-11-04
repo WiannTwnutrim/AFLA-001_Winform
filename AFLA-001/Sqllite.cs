@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,12 +14,31 @@ namespace AFLA_001
 
         public Sqllite()
         {
-            //AppContext.BaseDirectory：程式執行檔所在的目錄
-            //Combine:將路徑與檔案名稱組合
-            string dbPath = Path.Combine(AppContext.BaseDirectory,
-                "ALFA001.db");
-            //告訴 SQLite 要連接哪個資料庫檔案。
-            connectionString = $"Data Source={dbPath}";
+            string dbPath = GetDatabasePath();
+            connectionString = new SqliteConnectionStringBuilder
+            {
+                DataSource = dbPath,
+                // A missing seed database should fail instead of creating an empty DB.
+                Mode = SqliteOpenMode.ReadWrite
+            }.ToString();
+        }
+
+        private static string GetDatabasePath()
+        {
+#if DEBUG
+            // Local builds share the tracked DB, so edits appear in Git changes.
+            for (DirectoryInfo? directory = new DirectoryInfo(AppContext.BaseDirectory);
+                 directory != null;
+                 directory = directory.Parent)
+            {
+                if (File.Exists(Path.Combine(directory.FullName, "AFLA-001.csproj")))
+                {
+                    return Path.Combine(directory.FullName, "ALFA001.db");
+                }
+            }
+#endif
+            // Published/standalone builds use the DB beside the executable.
+            return Path.Combine(AppContext.BaseDirectory, "ALFA001.db");
         }
 
         /// <summary>
