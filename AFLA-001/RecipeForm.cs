@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -68,12 +68,31 @@ namespace AFLA_001
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(recipecombo.Text)) // 檢查配方名稱是否為空或只有空白。
+                {
+                    MessageBox.Show("請先選擇配方。"); // 提醒使用者先選擇要讀取的配方。
+                    Loghelper.Error("操作未選擇配方");
+                    Loghelper.Userlog(UserSession.LoginUser, "按下load recipe,載入配方但未選擇配方");
+                    return; // 結束此次按鈕事件，避免使用空白名稱查詢。
+                }
+                DataTable dt = _db.LoadRecipeData(recipecombo.Text); // 依所選配方名稱查詢 SQLite，取得步驟資料
+    //            if (dt.Rows.Count>1)//如果有資料
+    //            {
+    //                sizeCombo.Text =Convert.ToString (dt.Rows[0]["Size"]);//取得size欄位第一筆資料
 
+				//}
+                recipe1Form.LoadRecipeData(dt); // 將資料載入第一頁的步驟及參數表格。
+                recipe2Form.LoadRecipeData(dt); // 將同一份資料載入第二頁的比例表格。
+                Loghelper.Userlog(UserSession.LoginUser, "按下load recipe,載入配方成功");
+                
             }
-            catch
+            catch(Exception ex) 
             {
-
+                Loghelper.Error(ex.ToString());
+                MessageBox.Show("配方讀取失敗：" + ex.Message); // 顯示讀取失敗原因，讓使用者知道此次載入未完成。
             }
         }
     }
 }
+
+

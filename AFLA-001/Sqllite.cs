@@ -288,7 +288,7 @@ namespace AFLA_001
         {
             using SqliteConnection conn = new SqliteConnection(connectionString);
             conn.Open();
-            string sql = "SELECT s.* FROM RecipeStep AS s " +
+            string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " +
                 "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " +
                 "WHERE r.RecipeName = @recipeName Order By s.StepID"  ;
                 
