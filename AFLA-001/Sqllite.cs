@@ -331,5 +331,74 @@ namespace AFLA_001
             
 
         }
+
+
+        public void SaveRecipe(DataTable dt,string size,int recipeId,string recipeName)
+        {
+            if (string.IsNullOrEmpty(recipeName))
+            {
+            Loghelper.Error("沒輸入配方名稱存檔");
+            MessageBox.Show("沒輸入配方名稱存檔");
+            return;
+
+            }               
+            try
+            {
+              
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqliteTransaction transaction = conn.BeginTransaction())
+                    {
+                        using SqliteCommand command = conn.CreateCommand();
+                        command.Transaction = transaction;
+                        // 先建立命令，再指定 SQL
+                        command.CommandText = "Update Recipe Set Size=@size,RecipeName=@recipeName Where RecipeId =@recipeID";
+                        command.Parameters.AddWithValue("@recipeID", recipeId);
+                        command.Parameters.AddWithValue("@size", size);
+                        command.Parameters.AddWithValue("@recipeName", recipeName);
+
+                        command.ExecuteNonQuery();
+
+                        foreach(DataRow row in dt.Rows)
+                        {
+                            int step = Convert.ToBoolean(row["Step"]) ? 1 : 0;
+                            int bsoil = Convert.ToBoolean(row["BSOIL"]) ? 1 : 0;
+                            int bsair = Convert.ToBoolean(row["BSAIR"]) ? 1 : 0;
+                            int ipa = Convert.ToBoolean(row["IPA"]) ? 1 : 0;
+                            int oil = Convert.ToBoolean(row["OIL"]) ? 1 : 0;
+                            int glue = Convert.ToBoolean(row["GLUE"]) ? 1 : 0;
+                            decimal start = Convert.ToDecimal(row["START"]);
+                            using SqliteCommand stepcommand = conn.CreateCommand();
+                            stepcommand.Transaction = transaction;
+                            stepcommand.CommandText = "Update RecipeStep Set Step=@Step," +
+                                "BSOIL=@bsoil,BSAIR=@bsair,IPA=@ipa," +
+                                "OIL=@oil,GLUE=@glue,START=@start" +
+                                " WHERE RecipeID = @recipeId AND StepID = @stepId";
+                            stepcommand.Parameters.AddWithValue("@Step", step);
+                            stepcommand.Parameters.AddWithValue("@bsoil", bsoil);
+                            stepcommand.Parameters.AddWithValue("@bsair", bsair);
+                            stepcommand.Parameters.AddWithValue("@ipa", ipa);
+                            stepcommand.Parameters.AddWithValue("@oil", oil);
+                            stepcommand.Parameters.AddWithValue("@glue", glue);
+                            stepcommand.Parameters.AddWithValue("@start", start);
+                            stepcommand.Parameters.AddWithValue("@recipeId", recipeId);
+                            stepcommand.Parameters.AddWithValue("@stepId", row["StepID"]);
+
+                            stepcommand.ExecuteNonQuery();
+
+                            if (stepcommand.ExecuteNonQuery() != 1)
+                                MessageBox.Show($"無法更新步驟 {row["StepID"]}。");
+                            
+                        }
+                        transaction.Commit();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

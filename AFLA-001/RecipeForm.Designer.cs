@@ -123,6 +123,7 @@ namespace AFLA_001
             // 
             sizeCombo.Font = new Font("Microsoft JhengHei UI", 14F);
             sizeCombo.FormattingEnabled = true;
+            sizeCombo.Items.AddRange(new object[] { "8", "12" });
             sizeCombo.Location = new Point(848, 2);
             sizeCombo.Name = "sizeCombo";
             sizeCombo.Size = new Size(140, 32);
@@ -149,6 +150,8 @@ namespace AFLA_001
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(1251, 346);
             dataGridView1.TabIndex = 8;
+            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged_1;
             // 
             // ID
             // 

@@ -24,7 +24,7 @@ namespace AFLA_001
             List<string> recipe = _db.GetRecipe();
             recipecombo.DataSource = recipe;
         }
-       
+
 
         private void recipeLoabtn_Click(object sender, EventArgs e)
         {
@@ -40,10 +40,10 @@ namespace AFLA_001
                 DataTable dt = _db.LoadRecipeData(recipecombo.Text) ?? throw new InvalidOperationException("無法讀取配方資料。"); // 依所選配方名稱查詢 SQLite，取得步驟資料
                 if (dt.Rows.Count > 0)//如果有資料
                 {
-                    sizeCombo.Text = Convert.ToString(dt.Rows[0]["Size"]);//取得size欄位第一筆資料
+                    sizeCombo.Text = (dt.Rows[0]["Size"]).ToString();//取得size欄位第一筆資料
 
                 }
-                
+
                 LoadRecipeData(dt); // 將步驟與比例載入同一個表格。
                 Loghelper.Userlog(UserSession.LoginUser, "按下load recipe,載入配方成功");
                 recipeNametxt.Text = recipecombo.Text;
@@ -80,10 +80,21 @@ namespace AFLA_001
                 MessageBox.Show("配方名稱沒有輸入");
                 return;
             }
+            try
+            {
+                DataTable dt = dataGridView1.DataSource as DataTable;//設定dt來源是dataGridView1的source
+                int recipeId = Convert.ToInt32(dt.Rows[0]["RecipeId"]);
+                _db.SaveRecipe(dt, sizeCombo.Text, recipeId,recipeNametxt.Text);
+                LoadRecipe();
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+            }
         }
 
         //互鎖處理
-        private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void dataGridView1_CurrentCellDirtyStateChanged_1(object sender, EventArgs e)
         {
             //目前儲存格的值是否已修改但尚未提交(確認目前修改的是 Checkbox)
             if (dataGridView1.IsCurrentCellDirty
@@ -98,7 +109,7 @@ namespace AFLA_001
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             //避免處理非資料儲存格的位置
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
             //DataGridViewCellEventArgs：提供 DataGridView 儲存格事件資訊的類別,e是該類別的參數
             string columnName = dataGridView1.Columns[e.ColumnIndex].Name;
@@ -108,7 +119,7 @@ namespace AFLA_001
             //該列所有資料向項的集合Cells,取得該列指定欄位的儲存格的值
             //dataGridView1[e.ColumnIndex, e.RowIndex].Value先取欄再取列
             bool isChecked = Convert.ToBoolean(
-        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+            dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
 
             if (isChecked)//當有一個被選到
             {
