@@ -303,26 +303,31 @@ namespace AFLA_001
         /// 先找到配方再找出他所有步驟
         /// </summary>
         /// <param name="recipeName"></param>
-        public DataTable LoadRecipeData(string recipeName)
+        public DataTable? LoadRecipeData(string recipeName)
         {
-            using SqliteConnection conn = new SqliteConnection(connectionString);
-            conn.Open();
-            string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " +
-                "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " +
-                "WHERE r.RecipeName = @recipeName Order By s.StepID"  ;
+            try
+            {
+                using SqliteConnection conn = new SqliteConnection(connectionString);
+                conn.Open();
+                string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " +
+                    "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " +
+                    "WHERE r.RecipeName = @recipeName Order By s.StepID"  ;
                 
                
-            using SqliteCommand command = new SqliteCommand(sql, conn);
-            command.Parameters.AddWithValue("@recipeName", recipeName);
-            //取得多筆資料
-            using SqliteDataReader reader = command.ExecuteReader();
-            DataTable dataTable = new DataTable();
-            dataTable.Load(reader);
-            //dataTable.Columns.Add("IPA", typeof(bool), "MaterialType = 1");
-            //dataTable.Columns.Add("OIL", typeof(bool), "MaterialType = 2");
-            //dataTable.Columns.Add("GLUE", typeof(bool), "MaterialType = 3");
-
-            return dataTable;
+                using SqliteCommand command = new SqliteCommand(sql, conn);
+                command.Parameters.AddWithValue("@recipeName", recipeName);
+                //取得多筆資料
+                using SqliteDataReader reader = command.ExecuteReader();
+                DataTable dataTable = new DataTable();
+                dataTable.Load(reader);
+    
+                return dataTable;
+            }
+            catch
+            {
+                return null;
+            }
+           
             
 
         }

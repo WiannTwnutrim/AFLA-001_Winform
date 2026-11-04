@@ -56,6 +56,8 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(1244, 346);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
             // 
             // ID
             // 

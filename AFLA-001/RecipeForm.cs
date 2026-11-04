@@ -84,6 +84,7 @@ namespace AFLA_001
                 recipe1Form.LoadRecipeData(dt); // 將資料載入第一頁的步驟及參數表格。
                 recipe2Form.LoadRecipeData(dt); // 將同一份資料載入第二頁的比例表格。
                 Loghelper.Userlog(UserSession.LoginUser, "按下load recipe,載入配方成功");
+                recipeNametxt.Text = recipecombo.Text;
                 
             }
             catch(Exception ex) 

@@ -33,7 +33,7 @@
             recipePanel = new Panel();
             recipecombo = new ComboBox();
             sqlliteBindingSource = new BindingSource(components);
-            textBox1 = new TextBox();
+            recipeNametxt = new TextBox();
             recipeSavbtn = new Button();
             recipeLoabtn = new Button();
             recipeWribtn = new Button();
@@ -65,13 +65,13 @@
             // 
             sqlliteBindingSource.DataSource = typeof(Sqllite);
             // 
-            // textBox1
+            // recipeNametxt
             // 
-            textBox1.Font = new Font("Microsoft JhengHei UI", 12F);
-            textBox1.Location = new Point(3, 33);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(242, 28);
-            textBox1.TabIndex = 2;
+            recipeNametxt.Font = new Font("Microsoft JhengHei UI", 12F);
+            recipeNametxt.Location = new Point(3, 33);
+            recipeNametxt.Name = "recipeNametxt";
+            recipeNametxt.Size = new Size(242, 28);
+            recipeNametxt.TabIndex = 2;
             // 
             // recipeSavbtn
             // 
@@ -157,7 +157,7 @@
             Controls.Add(recipeWribtn);
             Controls.Add(recipeLoabtn);
             Controls.Add(recipeSavbtn);
-            Controls.Add(textBox1);
+            Controls.Add(recipeNametxt);
             Controls.Add(recipecombo);
             Controls.Add(recipePanel);
             FormBorderStyle = FormBorderStyle.None;
@@ -172,7 +172,7 @@
 
         private Panel recipePanel;
         private ComboBox recipecombo;
-        private TextBox textBox1;
+        private TextBox recipeNametxt;
         private Button recipeSavbtn;
         private Button recipeLoabtn;
         private Button recipeWribtn;
