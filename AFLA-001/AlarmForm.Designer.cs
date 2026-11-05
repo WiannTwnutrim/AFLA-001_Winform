@@ -1,0 +1,76 @@
+﻿namespace AFLA_001
+{
+    partial class AlarmForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            alarmData = new DataGridView();
+            alarmtestbtn = new Button();
+            ((System.ComponentModel.ISupportInitialize)alarmData).BeginInit();
+            SuspendLayout();
+            // 
+            // alarmData
+            // 
+            alarmData.AllowUserToAddRows = false;
+            alarmData.AllowUserToDeleteRows = false;
+            alarmData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            alarmData.Location = new Point(0, 53);
+            alarmData.Name = "alarmData";
+            alarmData.ReadOnly = true;
+            alarmData.Size = new Size(1251, 360);
+            alarmData.TabIndex = 0;
+            // 
+            // alarmtestbtn
+            // 
+            alarmtestbtn.Location = new Point(31, 12);
+            alarmtestbtn.Name = "alarmtestbtn";
+            alarmtestbtn.Size = new Size(90, 35);
+            alarmtestbtn.TabIndex = 1;
+            alarmtestbtn.Text = "觸發警告測試";
+            alarmtestbtn.UseVisualStyleBackColor = true;
+            alarmtestbtn.Click += alarmtestbtn_Click;
+            // 
+            // AlarmForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1251, 413);
+            Controls.Add(alarmtestbtn);
+            Controls.Add(alarmData);
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "AlarmForm";
+            Text = "AlarmForm";
+            ((System.ComponentModel.ISupportInitialize)alarmData).EndInit();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private DataGridView alarmData;
+        private Button alarmtestbtn;
+    }
+}

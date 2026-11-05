@@ -84,7 +84,7 @@ namespace AFLA_001
             {
                 DataTable dt = dataGridView1.DataSource as DataTable;//設定dt來源是dataGridView1的source
                 int recipeId = Convert.ToInt32(dt.Rows[0]["RecipeId"]);
-                _db.SaveRecipe(dt, sizeCombo.Text, recipeId,recipeNametxt.Text);
+                _db.SaveRecipe(dt, sizeCombo.Text, recipeId, recipeNametxt.Text);
                 LoadRecipe();
             }
             catch (Exception ex)
@@ -109,7 +109,7 @@ namespace AFLA_001
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             //避免處理非資料儲存格的位置
-                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
             //DataGridViewCellEventArgs：提供 DataGridView 儲存格事件資訊的類別,e是該類別的參數
             string columnName = dataGridView1.Columns[e.ColumnIndex].Name;
@@ -131,6 +131,61 @@ namespace AFLA_001
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 驗證儲存格
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            double max, min;
+            string columnName = dataGridView1.Columns[e.ColumnIndex].Name;
+            switch (columnName)
+            {
+                case "START":
+                    max = 100.0;
+                    min = 0.0;
+                    break;
+                case "END":
+                    max = 500.0;
+                    min = 100.0;
+                    break;
+                case "SPEED":
+                    max = 3000.0;
+                    min = 100.0;
+                    break;
+                case "RPM":
+                    max = 300.0;
+                    min = 100.0;
+                    break;
+                case "ACC":
+                    max = 1000.0;
+                    min = 100.0;
+                    break;
+                case "TIME":
+                    max = 1000.0;
+                    min = 0.0;
+                    break;
+                default:
+                    return;                    
+            }
+            //e.FormattedValue是使用者剛輸入、尚未提交的值
+            bool result = double.TryParse(Convert.ToString(e.FormattedValue), out double value);
+            if (!result)
+            {
+                e.Cancel =true;
+                MessageBox.Show("只能輸入數字");
+                return;
+            }
+            if(value>max || value < min)
+            {
+                e.Cancel = true;
+                MessageBox.Show("超出上下限");
+            }
+            
+
         }
     }
 }

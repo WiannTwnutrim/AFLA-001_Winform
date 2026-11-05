@@ -6,7 +6,7 @@ namespace AFLA_001
         private HomeForm homeform = new HomeForm();
         private RecipeForm recipeForm = new RecipeForm();
         private ManualForm manualForm = new ManualForm();
-        //private AlarmPage alarmPage;
+        private AlarmForm alarmForm = new AlarmForm();
         //private HistoryPage historyPage;
         //private EventPage eventPage;
         //private LogPage logPage;
@@ -72,8 +72,17 @@ namespace AFLA_001
         }
         private void Alarmbtn_Click(object sender, EventArgs e)
         {
-            //PageSwitchManger.ShowPage(MainPage, alarmPage);
-            //PageSwitchManger.ActiveButton(Alarmbtn);
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Alarm頁面");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, alarmForm);
+                PageSwitchManger.ActiveButton(Alarmbtn);
+                Loghelper.Userlog(UserSession.LoginUser, "切換成Alarm頁面");
+            }
+            
         }               
         private void Historybtn_Click(object sender, EventArgs e)
         {
