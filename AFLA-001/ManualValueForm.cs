@@ -13,6 +13,7 @@ namespace AFLA_001
     public partial class ManualValueForm : Form
     {
         private int upNum,downNum;//外部上下限取值傳入
+        public int _intput { get; private set; }
         public ManualValueForm(int uplimit,int downlimit)
         {
             InitializeComponent();
@@ -27,12 +28,16 @@ namespace AFLA_001
             if (inputnull||!numcheck)
             {
                 MessageBox.Show("請輸入數字");
+                return;
             }
 
             if (value >upNum || value < downNum)
             {
                 MessageBox.Show("輸入超過上下限");
+                return;
             }
+            _intput = value;
+            DialogResult = DialogResult.OK;
 
         }
     }

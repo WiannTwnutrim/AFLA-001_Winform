@@ -51,6 +51,10 @@
             jogbtn = new Button();
             spinbtn = new Button();
             CUPbtn = new Button();
+            label1 = new Label();
+            cuplifttxt = new TextBox();
+            Chuckrpmtxt = new TextBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)manualdata).BeginInit();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -300,11 +304,53 @@
             CUPbtn.Text = "CUP";
             CUPbtn.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft JhengHei UI", 15F);
+            label1.Location = new Point(716, 32);
+            label1.Name = "label1";
+            label1.Size = new Size(84, 25);
+            label1.TabIndex = 8;
+            label1.Text = "Cup Lift";
+            // 
+            // cuplifttxt
+            // 
+            cuplifttxt.Font = new Font("Microsoft JhengHei UI", 15F);
+            cuplifttxt.Location = new Point(819, 29);
+            cuplifttxt.Name = "cuplifttxt";
+            cuplifttxt.ReadOnly = true;
+            cuplifttxt.Size = new Size(100, 33);
+            cuplifttxt.TabIndex = 9;
+            // 
+            // Chuckrpmtxt
+            // 
+            Chuckrpmtxt.Font = new Font("Microsoft JhengHei UI", 15F);
+            Chuckrpmtxt.Location = new Point(505, 26);
+            Chuckrpmtxt.Name = "Chuckrpmtxt";
+            Chuckrpmtxt.ReadOnly = true;
+            Chuckrpmtxt.Size = new Size(100, 33);
+            Chuckrpmtxt.TabIndex = 11;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft JhengHei UI", 15F);
+            label2.Location = new Point(375, 29);
+            label2.Name = "label2";
+            label2.Size = new Size(124, 25);
+            label2.TabIndex = 10;
+            label2.Text = "Chuck RPM:";
+            // 
             // ManualForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1251, 413);
+            Controls.Add(Chuckrpmtxt);
+            Controls.Add(label2);
+            Controls.Add(cuplifttxt);
+            Controls.Add(label1);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(manualdata);
             FormBorderStyle = FormBorderStyle.None;
@@ -313,6 +359,7 @@
             ((System.ComponentModel.ISupportInitialize)manualdata).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -336,5 +383,9 @@
         private Button Stopbtn;
         private Button jogbtn;
         private Button spinbtn;
+        private Label label1;
+        private TextBox cuplifttxt;
+        private TextBox Chuckrpmtxt;
+        private Label label2;
     }
 }

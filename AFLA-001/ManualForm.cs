@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,32 +23,14 @@ namespace AFLA_001
             InitializeComponent();
             // 表單首次載入時讀取 CSV。
             Load += ManualForm_Load;
-
-            // 固定資料列數，讓操作員編輯現有資料並手動儲存。
+            
 
             // 隱藏新增列，讓操作員編輯現有資料。
             manualdata.AllowUserToAddRows = false;
-            // 建立儲存按鈕。
-            var saveButton = new Button
-            {
-                // 設定按鈕顯示文字。
-                Text = "儲存",
-                // 將按鈕放在表格左側上方 37 像素。
-                Location = new Point(manualdata.Left, manualdata.Top - 37),
-                // 設定按鈕寬 100、高 30 像素。
-                Size = new Size(100, 30),
-                // 載入完成前先停用儲存按鈕。
-                Enabled = false
-            };
-            // 點擊時呼叫存檔方法。
-            saveButton.Click += SaveManualData_Click;
-            // 把按鈕加入表單。
-            Controls.Add(saveButton);
-            // 讀檔完成後，有成功綁定 DataTable 才啟用儲存。
-            Load += (_, _) => saveButton.Enabled = manualdata.DataSource is DataTable;
-            // 接收工具畫面的返回事件。
+            
 
         }
+        
 
         private void ManualForm_Load(object? sender, EventArgs e)
         {
@@ -97,6 +79,16 @@ namespace AFLA_001
 
                 // 解析成功後綁定資料表，由表格自動產生欄位。
                 manualdata.DataSource = table;
+
+
+                loadUpData();
+
+                // 欄位建立後先全部設為唯讀，只允許 Value 欄進入編輯事件。
+                foreach (DataGridViewColumn column in manualdata.Columns)
+                {
+                    column.ReadOnly = true;
+                }
+                manualdata.Columns["Value"].ReadOnly = false;
             }
             // 依例外篩選條件處理預期的檔案或資料錯誤。
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException
@@ -109,14 +101,26 @@ namespace AFLA_001
             }
         }
 
+        /// <summary>
+        /// 載入上方資訊
+        /// </summary>
+        public void loadUpData()
+        {
+            string ChuckRpm = manualdata.Rows[17].Cells["Value"].Value.ToString();
+            Chuckrpmtxt.Text = ChuckRpm;
 
-        private void SaveManualData_Click(object? sender, EventArgs e)
+            string CupLift = manualdata.Rows[11].Cells["Value"].Value.ToString();
+            cuplifttxt.Text = CupLift;
+        }
+   
+        
+        private bool SaveManualData()
         {
             // 確認有資料表可存，並提交目前儲存格的編輯。
             //EndEdit:結束目前這一格的編輯，提交剛輸入的值(如果輸入到一半游標在格子內就儲存,則會回傳fasle)
             if (manualdata.DataSource is not DataTable table || !manualdata.EndEdit())
                 // 前一步條件不成立時結束存檔。
-                return;
+                return false;
 
             //BindingContext 是 WinForms 用來查找「資料繫結管理員」的地方。這個管理員會追蹤表格目前在哪一列，以及那一列正在進行的編輯
             // 提交目前那一列的編輯，讓最後修改的儲存格也能寫入(程式在找不到 BindingContext 或管理員時，跳過這個呼叫)
@@ -152,16 +156,14 @@ namespace AFLA_001
 
                 // 完整寫入並關閉暫存檔後，再取代原 CSV
                 File.Move(temporaryPath, manualDataPath, overwrite: true);
-                // 檔案取代成功後顯示儲存完成
-                MessageBox.Show(this, "手動資料已儲存。", "儲存完成",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                loadUpData();
+                return true;
             }
             // 依例外篩選條件處理預期的檔案或資料錯誤
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                // 顯示存檔失敗的路徑與原因
-                MessageBox.Show(this, $"無法儲存手動資料。\n{manualDataPath}\n{ex.Message}",
-                    "儲存失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Loghelper.Error($"無法儲存手動資料。\n{manualDataPath}\n{ex.Message}");
+                return false;
             }
             // 不論儲存成功或失敗，都嘗試清理暫存檔
             finally
@@ -215,24 +217,38 @@ namespace AFLA_001
 
         private void manualdata_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            int rowIndex = e.RowIndex;       // 列索引，從 0 開始
-            int columnIndex = e.ColumnIndex; // 欄索引，從 0 開始
+            // 取消儲存格直接編輯，統一由輸入視窗檢驗數值。
+            e.Cancel = true;
+            if (manualdata.Columns[e.ColumnIndex].Name != "Value")
+                return;
 
-            // 取得該儲存格
-            DataGridViewCell cell =
-                manualdata.Rows[rowIndex].Cells[columnIndex];
-            foreach (DataGridViewColumn column in manualdata.Columns)
-            {
-                column.ReadOnly = true;
-            }
-            manualdata.Columns["Value"].ReadOnly = false;
-            // 取得原本的值
-            int value =Convert.ToInt32(cell.Value);
+            int rowIndex = e.RowIndex;
+            // 取得畫面該列實際綁定的資料，排序後也能更新正確的資料列。
+            DataRowView rowView = (DataRowView)manualdata.Rows[rowIndex].DataBoundItem;
+            // 保留舊值，寫入 CSV 失敗時用來還原。
+            object oldValue = rowView["Value"];
+
             int max = Convert.ToInt32(manualdata.Rows[rowIndex].Cells["Max"].Value);
             int min = Convert.ToInt32(manualdata.Rows[rowIndex].Cells["Min"].Value);
-            e.Cancel = true;
-            ManualValueForm form = new ManualValueForm(max,min);
-            form.Show();
+            using ManualValueForm form = new ManualValueForm(max, min);
+            // 只有輸入通過驗證並確認，才更新資料來源；關閉視窗不修改資料。
+            if (form.ShowDialog(this) == DialogResult.OK)
+            {
+                // CSV 載入時使用字串欄位，將輸入結果轉成字串並提交該列編輯。
+                rowView["Value"] = form._intput.ToString();
+                rowView.EndEdit();
+
+                // 資料來源更新後才存檔；失敗則還原，避免畫面與 CSV 不一致。
+                if (!SaveManualData())
+                {
+                    rowView["Value"] = oldValue;
+                    rowView.EndEdit();
+                    MessageBox.Show(this, "儲存失敗，已恢復原值。", "儲存失敗",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
+
+       
     }
 }
