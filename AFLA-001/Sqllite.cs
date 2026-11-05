@@ -373,7 +373,8 @@ namespace AFLA_001
                             stepcommand.Transaction = transaction;
                             stepcommand.CommandText = "Update RecipeStep Set Step=@Step," +
                                 "BSOIL=@bsoil,BSAIR=@bsair,IPA=@ipa," +
-                                "OIL=@oil,GLUE=@glue,START=@start" +
+                                "OIL=@oil,GLUE=@glue,START=@start,END=@end,"  +
+                                "SPEED=@speed,RPM=@rpm,ACC=@acc,TIME=@time"+
                                 " WHERE RecipeID = @recipeId AND StepID = @stepId";
                             stepcommand.Parameters.AddWithValue("@Step", step);
                             stepcommand.Parameters.AddWithValue("@bsoil", bsoil);
@@ -384,8 +385,13 @@ namespace AFLA_001
                             stepcommand.Parameters.AddWithValue("@start", start);
                             stepcommand.Parameters.AddWithValue("@recipeId", recipeId);
                             stepcommand.Parameters.AddWithValue("@stepId", row["StepID"]);
+							stepcommand.Parameters.AddWithValue("@end", row["END"]);
+							stepcommand.Parameters.AddWithValue("@speed", row["SPEED"]);
+							stepcommand.Parameters.AddWithValue("@rpm", row["RPM"]);
+							stepcommand.Parameters.AddWithValue("@acc", row["ACC"]);
+							stepcommand.Parameters.AddWithValue("@time", row["TIME"]);
 
-                            stepcommand.ExecuteNonQuery();
+							stepcommand.ExecuteNonQuery();
 
                             if (stepcommand.ExecuteNonQuery() != 1)
                                 MessageBox.Show($"無法更新步驟 {row["StepID"]}。");

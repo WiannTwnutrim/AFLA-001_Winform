@@ -60,40 +60,40 @@ namespace AFLA_001
                 // 使用 CSV 剖析器處理引號與欄位內的逗號。
                 // 開啟 CSV，離開區塊時自動關閉檔案。
                 using var parser = new TextFieldParser(manualDataPath);
-                // 指定逗號為欄位分隔符號。
-                parser.SetDelimiters(",");//註解到這
+                // 依逗號拆分欄位(csv檔各欄位會以,區分)
+                parser.SetDelimiters(",");
                 // 允許欄位以雙引號包住逗號與換行。
                 parser.HasFieldsEnclosedInQuotes = true;
-                // 保留欄位前後的空白。
+                // 保留欄位前後的空白(不做清除)
                 parser.TrimWhiteSpace = false;
 
                 // 第一列是欄名，後續各列是資料。
-                // 建立表格要綁定的記憶體資料表。
                 var table = new DataTable();
-                // 讀取第一筆記錄作為欄名。
-                string[] headers = parser.ReadFields()
+				// 會讀取下一筆 CSV 資料，並把拆好的欄位回傳成字串陣列 string[]
+				//假設有a,b,c欄位,讀到c後就結束了(ReadFields(從目前的讀取位置讀一行,當沒有,這行就結束了))
+				string[] headers = parser.ReadFields()
                     // 空檔缺少欄名時停止載入。
                     ?? throw new InvalidDataException("CSV 缺少欄名。");
 
-                // 依照原本順序處理欄名。
+                
                 foreach (string header in headers)
                     // 建立一個字串欄位。
                     table.Columns.Add(header);
 
-                // 逐筆讀到 CSV 結尾。
+                // 逐筆讀到 CSV 結尾
                 while (!parser.EndOfData)
                 {
                     // 記錄行號，供格式錯誤時顯示。
                     long lineNumber = parser.LineNumber;
-                    // 將當前記錄拆成欄位陣列。
+                    // 再讀整行
                     string[] fields = parser.ReadFields()!;
                     // 確認資料欄位數與欄名數相同。
                     if (fields.Length != table.Columns.Count)
                         // 欄位數錯誤時停止載入，並指出行號。
                         throw new InvalidDataException($"CSV 第 {lineNumber} 行的欄位數不符。");
 
-                    // 將這筆資料加入資料表。
-                    table.Rows.Add(fields);
+					// 將這筆資料加入資料表(把整筆資料加在表格下方)
+					table.Rows.Add(fields);
                 }
 
                 // 解析成功後綁定資料表，由表格自動產生欄位。
