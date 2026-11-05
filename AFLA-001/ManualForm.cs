@@ -17,16 +17,15 @@ namespace AFLA_001
         private readonly string manualDataPath = Path.GetFullPath(
             // 以執行檔目錄為起點，往上三層再接上 CSV 檔名。
             Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "manual for winform.csv"));
-        private ToolForm toolForm = new ToolForm();
         public ManualForm()
         {
-            
+
             InitializeComponent();
             // 表單首次載入時讀取 CSV。
             Load += ManualForm_Load;
 
             // 固定資料列數，讓操作員編輯現有資料並手動儲存。
-            
+
             // 隱藏新增列，讓操作員編輯現有資料。
             manualdata.AllowUserToAddRows = false;
             // 建立儲存按鈕。
@@ -48,7 +47,7 @@ namespace AFLA_001
             // 讀檔完成後，有成功綁定 DataTable 才啟用儲存。
             Load += (_, _) => saveButton.Enabled = manualdata.DataSource is DataTable;
             // 接收工具畫面的返回事件。
-            toolForm.BackRequested += ToolForm_BackRequested;
+
         }
 
         private void ManualForm_Load(object? sender, EventArgs e)
@@ -69,13 +68,13 @@ namespace AFLA_001
 
                 // 第一列是欄名，後續各列是資料。
                 var table = new DataTable();
-				// 會讀取下一筆 CSV 資料，並把拆好的欄位回傳成字串陣列 string[]
-				//假設有a,b,c欄位,讀到c後就結束了(ReadFields(從目前的讀取位置讀一行,當沒有,這行就結束了))
-				string[] headers = parser.ReadFields()
+                // 會讀取下一筆 CSV 資料，並把拆好的欄位回傳成字串陣列 string[]
+                //假設有a,b,c欄位,讀到c後就結束了(ReadFields(從目前的讀取位置讀一行,當沒有,這行就結束了))
+                string[] headers = parser.ReadFields()
                     // 空檔缺少欄名時停止載入。
                     ?? throw new InvalidDataException("CSV 缺少欄名。");
 
-                
+
                 foreach (string header in headers)
                     // 建立一個字串欄位。
                     table.Columns.Add(header);
@@ -92,8 +91,8 @@ namespace AFLA_001
                         // 欄位數錯誤時停止載入，並指出行號。
                         throw new InvalidDataException($"CSV 第 {lineNumber} 行的欄位數不符。");
 
-					// 將這筆資料加入資料表(把整筆資料加在表格下方)
-					table.Rows.Add(fields);
+                    // 將這筆資料加入資料表(把整筆資料加在表格下方)
+                    table.Rows.Add(fields);
                 }
 
                 // 解析成功後綁定資料表，由表格自動產生欄位。
@@ -190,29 +189,28 @@ namespace AFLA_001
             return "\"" + value.Replace("\"", "\"\"") + "\"";
         }
 
-
-        private void ToolForm_BackRequested(object? sender, EventArgs e)
-        {
-            // 返回時先隱藏工具畫面。
-            toolForm.Hide();
-
-            // 逐一檢查手動面板裡的控制項。
-            foreach (Control control in manualPanel.Controls)
-            {
-                // 只處理面板內的按鈕。
-                if (control is Button)
-                {
-                    // 重新顯示這顆按鈕。
-                    control.Show();
-                }
-            }            
-        }
-
-
         private void toolbtn_Click(object sender, EventArgs e)
         {
-            // 在手動面板內顯示工具畫面。
-            PageSwitchManger.ShowPage(manualPanel, toolForm);
+            //預設glueTestbtn可見狀態是false
+            bool show = !glueTestbtn.Visible;
+            //按下後show變為true,再按又變為false
+            glueTestbtn.Visible = show;
+            oiltestbtn.Visible = show;
+            vaccumoffbtn.Visible = show;
+            vaccumonbtm.Visible = show;
+            ipatestbtn.Visible = show;
+        }
+
+        private void Checkbtn_Click(object sender, EventArgs e)
+        {
+            bool show = !Resetbtn.Visible;
+            Resetbtn.Visible = show;
+            Stopbtn.Visible = show;
+            homebtn.Visible = show;
+            jogbtn.Visible = show;
+            spinbtn.Visible = show;
+            powerbtn.Visible = show;
+
         }
     }
 }
