@@ -368,7 +368,7 @@ namespace AFLA_001
                             int ipa = Convert.ToBoolean(row["IPA"]) ? 1 : 0;
                             int oil = Convert.ToBoolean(row["OIL"]) ? 1 : 0;
                             int glue = Convert.ToBoolean(row["GLUE"]) ? 1 : 0;
-                            decimal start = Convert.ToDecimal(row["START"]);
+                            //decimal start = Convert.ToDecimal(row["START"]);
                             using SqliteCommand stepcommand = conn.CreateCommand();
                             stepcommand.Transaction = transaction;
                             stepcommand.CommandText = "Update RecipeStep Set Step=@Step," +
@@ -382,7 +382,7 @@ namespace AFLA_001
                             stepcommand.Parameters.AddWithValue("@ipa", ipa);
                             stepcommand.Parameters.AddWithValue("@oil", oil);
                             stepcommand.Parameters.AddWithValue("@glue", glue);
-                            stepcommand.Parameters.AddWithValue("@start", start);
+                            stepcommand.Parameters.AddWithValue("@start", row["START"]);
                             stepcommand.Parameters.AddWithValue("@recipeId", recipeId);
                             stepcommand.Parameters.AddWithValue("@stepId", row["StepID"]);
 							stepcommand.Parameters.AddWithValue("@end", row["END"]);
@@ -403,7 +403,7 @@ namespace AFLA_001
             }
             catch(Exception ex)
             {
-                throw;
+               Loghelper.Error(ex.ToString());
             }
         }
     }
