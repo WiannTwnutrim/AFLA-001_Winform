@@ -212,5 +212,27 @@ namespace AFLA_001
             powerbtn.Visible = show;
 
         }
+
+        private void manualdata_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            int rowIndex = e.RowIndex;       // 列索引，從 0 開始
+            int columnIndex = e.ColumnIndex; // 欄索引，從 0 開始
+
+            // 取得該儲存格
+            DataGridViewCell cell =
+                manualdata.Rows[rowIndex].Cells[columnIndex];
+            foreach (DataGridViewColumn column in manualdata.Columns)
+            {
+                column.ReadOnly = true;
+            }
+            manualdata.Columns["Value"].ReadOnly = false;
+            // 取得原本的值
+            int value =Convert.ToInt32(cell.Value);
+            int max = Convert.ToInt32(manualdata.Rows[rowIndex].Cells["Max"].Value);
+            int min = Convert.ToInt32(manualdata.Rows[rowIndex].Cells["Min"].Value);
+            e.Cancel = true;
+            ManualValueForm form = new ManualValueForm(max,min);
+            form.Show();
+        }
     }
 }

@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             button7 = new Button();
             button6 = new Button();
             button5 = new Button();
@@ -129,11 +132,25 @@
             // 
             manualdata.AllowUserToAddRows = false;
             manualdata.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = Color.LightSteelBlue;
+            manualdata.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             manualdata.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             manualdata.Location = new Point(3, 69);
             manualdata.Name = "manualdata";
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Microsoft JhengHei UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            manualdata.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            manualdata.RowHeadersVisible = false;
+            dataGridViewCellStyle3.BackColor = Color.Honeydew;
+            manualdata.RowsDefaultCellStyle = dataGridViewCellStyle3;
             manualdata.Size = new Size(1040, 342);
             manualdata.TabIndex = 1;
+            manualdata.CellBeginEdit += manualdata_CellBeginEdit;
             // 
             // flowLayoutPanel1
             // 
