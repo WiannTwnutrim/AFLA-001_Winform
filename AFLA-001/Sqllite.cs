@@ -332,7 +332,13 @@ namespace AFLA_001
 
         }
 
-
+        /// <summary>
+        /// 儲存配方
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="size"></param>
+        /// <param name="recipeId"></param>
+        /// <param name="recipeName"></param>
         public void SaveRecipe(DataTable dt,string size,int recipeId,string recipeName)
         {
             if (string.IsNullOrEmpty(recipeName))
@@ -340,11 +346,9 @@ namespace AFLA_001
             Loghelper.Error("沒輸入配方名稱存檔");
             MessageBox.Show("沒輸入配方名稱存檔");
             return;
-
             }               
             try
-            {
-              
+            {              
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
@@ -394,8 +398,7 @@ namespace AFLA_001
 							stepcommand.ExecuteNonQuery();
 
                             if (stepcommand.ExecuteNonQuery() != 1)
-                                MessageBox.Show($"無法更新步驟 {row["StepID"]}。");
-                            
+                                MessageBox.Show($"無法更新步驟 {row["StepID"]}。");                            
                         }
                         transaction.Commit();
                     }
@@ -405,6 +408,75 @@ namespace AFLA_001
             {
                Loghelper.Error(ex.ToString());
             }
+        }
+
+        /// <summary>
+        /// 載入alarm表
+        /// </summary>
+        /// <returns></returns>
+        public DataTable LoadAlarm()
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                using(SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "Select * From Alarm";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            
+                            dataTable.Load(reader);
+                        }
+
+                    }
+                    return dataTable;
+                }
+            }
+            catch(Exception ex)
+            {
+                Loghelper.Error(ex.Message);
+                return dataTable;
+            }
+        }
+
+        public bool TriggerAlarm()
+        {
+            DateTime now = DateTime.Now;
+            string date = now.ToString("yyyy/MM/dd");
+            string time = now.ToString("HH:mm:ss");
+            string alarmEvent = "觸發警告測試";
+            try
+            {
+                using(SqliteConnection conn = new SqliteConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "Insert Into Alarm(觸發日期,觸發時間,訊息) Values(@date,@time,@alarmEvent)";
+                using (SqliteCommand command = new SqliteCommand(sql, conn))
+                {
+                    command.Parameters.AddWithValue("@date",date);
+                    command.Parameters.AddWithValue("@time", time);
+                    command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
+                    
+                 if (command.ExecuteNonQuery() < 1)
+                        {
+                          return false;
+                        }
+                        return true;
+
+                }
+
+               } 
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"錯誤：{ex.Message}");
+                return false;
+                
+            }
+
         }
     }
 }

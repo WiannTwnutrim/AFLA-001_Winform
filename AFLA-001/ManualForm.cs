@@ -81,7 +81,7 @@ namespace AFLA_001
                 manualdata.DataSource = table;
 
 
-                loadUpData();
+                loadUpData();//載入後讀取上方的值
 
                 // 欄位建立後先全部設為唯讀，只允許 Value 欄進入編輯事件。
                 foreach (DataGridViewColumn column in manualdata.Columns)
