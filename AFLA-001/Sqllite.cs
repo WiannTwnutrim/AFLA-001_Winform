@@ -450,7 +450,6 @@ namespace AFLA_001
                             dataTable.Load(reader);
                         }
                     }
-
                     return dataTable;
                 }
             }
@@ -460,7 +459,10 @@ namespace AFLA_001
                 return new DataTable();
             }
         }
-
+        /// <summary>
+        /// 警告觸發
+        /// </summary>
+        /// <returns></returns>
         public bool TriggerAlarm()
         {
             DateTime now = DateTime.Now;
@@ -481,11 +483,9 @@ namespace AFLA_001
                         command.Parameters.AddWithValue("@time", time);
                         command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
                         if (command.ExecuteNonQuery() < 1)
-                        {
-                            
+                        {                            
                             return false;
                         }
-
                         return true;
                     }
                 }
@@ -496,7 +496,10 @@ namespace AFLA_001
                 return false;
             }
         }
-
+        /// <summary>
+        /// 重置警告
+        /// </summary>
+        /// <returns></returns>
         public bool ResetAlarm()
         {           
             string alarmEvent = "觸發警告測試";
@@ -507,14 +510,14 @@ namespace AFLA_001
                     conn.Open();
                     string updatesql = "Update Alarm Set IsActive=0 Where 訊息 = @alarmEvent AND IsActive=1";
                    
-
                     using (SqliteCommand command = new SqliteCommand(updatesql, conn))
                     {
                         
                         command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
                         if (command.ExecuteNonQuery() < 1)
                         {
-                            MessageBox.Show("欄位沒有變化");
+                            MessageBox.Show("重置警告失敗");
+                            Loghelper.Error("重置警告失敗");
                             return false;
                         }
                         return true;
@@ -527,6 +530,10 @@ namespace AFLA_001
                 return false ;
             }
         }
+
+        /// <summary>
+        /// 當警告IsActive為0時觸發NoError
+        /// </summary>
         public void AddNoError()
         {
             DateTime now = DateTime.Now;
@@ -540,7 +547,6 @@ namespace AFLA_001
                     conn.Open();
                     string updatesql = "Insert Into Alarm(觸發日期,觸發時間,訊息,IsActive) Values(@date,@time,@alarmEvent,1)";
 
-
                     using (SqliteCommand command = new SqliteCommand(updatesql, conn))
                     {
                         command.Parameters.AddWithValue("@date", date);
@@ -550,7 +556,6 @@ namespace AFLA_001
                         {
                             return ;
                         }
-
                     }
                 }
             }
