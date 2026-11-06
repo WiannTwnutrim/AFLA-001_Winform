@@ -43,6 +43,7 @@
             Alarmbtn = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
             logintxt = new TextBox();
+            showrecipetxt = new TextBox();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -221,6 +222,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 385F));
             tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
+            tableLayoutPanel2.Controls.Add(showrecipetxt, 2, 1);
             tableLayoutPanel2.Location = new Point(61, -1);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 2;
@@ -238,6 +240,16 @@
             logintxt.ReadOnly = true;
             logintxt.Size = new Size(379, 41);
             logintxt.TabIndex = 0;
+            // 
+            // showrecipetxt
+            // 
+            showrecipetxt.Dock = DockStyle.Fill;
+            showrecipetxt.Font = new Font("Microsoft JhengHei UI", 20F);
+            showrecipetxt.Location = new Point(817, 66);
+            showrecipetxt.Name = "showrecipetxt";
+            showrecipetxt.ReadOnly = true;
+            showrecipetxt.Size = new Size(379, 41);
+            showrecipetxt.TabIndex = 1;
             // 
             // Form1
             // 
@@ -273,5 +285,6 @@
         private Button Historybtn;
         private TableLayoutPanel tableLayoutPanel2;
         private TextBox logintxt;
+        private TextBox showrecipetxt;
     }
 }

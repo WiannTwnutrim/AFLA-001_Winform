@@ -121,6 +121,7 @@ namespace AFLA_001
             recipeWribtn.TabIndex = 5;
             recipeWribtn.Text = "WRITE PLC";
             recipeWribtn.UseVisualStyleBackColor = true;
+            recipeWribtn.Click += recipeWribtn_Click;
             // 
             // sizeCombo
             // 
@@ -166,6 +167,7 @@ namespace AFLA_001
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.Size = new Size(1251, 346);
             dataGridView1.TabIndex = 8;
+            dataGridView1.CellToolTipTextNeeded += dataGridView1_CellToolTipTextNeeded;
             dataGridView1.CellValidating += dataGridView1_CellValidating;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
             dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged_1;

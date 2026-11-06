@@ -30,6 +30,8 @@
         {
             alarmData = new DataGridView();
             alarmtestbtn = new Button();
+            alaemResetbtn = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)alarmData).BeginInit();
             SuspendLayout();
             // 
@@ -54,11 +56,33 @@
             alarmtestbtn.UseVisualStyleBackColor = true;
             alarmtestbtn.Click += alarmtestbtn_Click;
             // 
+            // alaemResetbtn
+            // 
+            alaemResetbtn.Location = new Point(207, 12);
+            alaemResetbtn.Name = "alaemResetbtn";
+            alaemResetbtn.Size = new Size(90, 35);
+            alaemResetbtn.TabIndex = 2;
+            alaemResetbtn.Text = "重置";
+            alaemResetbtn.UseVisualStyleBackColor = true;
+            alaemResetbtn.Click += alaemResetbtn_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(663, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(90, 35);
+            button1.TabIndex = 3;
+            button1.Text = "輸出";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // AlarmForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1251, 413);
+            Controls.Add(button1);
+            Controls.Add(alaemResetbtn);
             Controls.Add(alarmtestbtn);
             Controls.Add(alarmData);
             FormBorderStyle = FormBorderStyle.None;
@@ -72,5 +96,7 @@
 
         private DataGridView alarmData;
         private Button alarmtestbtn;
+        private Button alaemResetbtn;
+        private Button button1;
     }
 }

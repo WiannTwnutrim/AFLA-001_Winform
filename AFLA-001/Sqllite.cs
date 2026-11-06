@@ -1,17 +1,18 @@
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace AFLA_001
 {
     public class Sqllite
     {
         private readonly string connectionString;
-
         public Sqllite()
         {
             string dbPath = GetDatabasePath();
@@ -47,60 +48,68 @@ namespace AFLA_001
         /// <returns></returns>
         public List<string> GetAccount()
         {
-            //建空list
             List<string> accounts = new List<string>();
-            //建立資料庫連線物件,using 代表使用完後會自動釋放連線物件的資源
-            using SqliteConnection connection =
-                new SqliteConnection(connectionString);
-            //連線開啟
-            connection.Open();
-            //找User表內的Account欄位並依據ID排序ASC小到大
-            string sql = "SELECT Account FROM Users ORDER BY ID";
-            //SqliteCommand:準備要執行的 SQL 指令,參數意義(要執行的 SQL 語法,使用哪個資料庫連線)
-            using SqliteCommand command = new SqliteCommand(sql, connection);
-            //ExecuteReader() 會執行 SQL，並回傳 SqliteDataReader
-            using SqliteDataReader reader = command.ExecuteReader();
-            
-            //reader是用來讀取sql查詢結果的物件
-            //Read:將讀取位置移動到下一筆資料,回傳 bool，表示是否成功讀取下一筆資料(要呼叫才會讀取一次)
-            while (reader.Read())
-            {   //取得account欄位並轉成字串加入list尾端
-                accounts.Add(reader["Account"].ToString());
-            }
+            try
+            {
+                //建立資料庫連線物件,using 代表使用完後會自動釋放連線物件的資源
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    //連線開啟
+                    connection.Open();
+                    //找User表內的Account欄位並依據ID排序ASC小到大
+                    string sql = "SELECT Account FROM Users ORDER BY ID";
+                    //SqliteCommand:準備要執行的 SQL 指令,參數意義(要執行的 SQL 語法,使用哪個資料庫連線)
+                    using (SqliteCommand command = new SqliteCommand(sql, connection))
+                    {
+                        //ExecuteReader() 會執行 SQL，並回傳 SqliteDataReader
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            //reader是用來讀取sql查詢結果的物件
+                            //Read:將讀取位置移動到下一筆資料,回傳 bool，表示是否成功讀取下一筆資料(要呼叫才會讀取一次)
+                            while (reader.Read())
+                            { //取得account欄位並轉成字串加入list尾端
+                                accounts.Add(reader["Account"].ToString());
+                            }
 
-            return accounts;
+                            return accounts;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"讀取失敗{ex.ToString()}");
+                return new List<string>(); //讀失敗或一半回傳空集合
+            }
         }
 
         /// <summary>
         /// 登入檢查
         /// </summary>
-        /// <param name="account"></param>
-        /// <param name="password"></param>
+        /// <param name = "account"></param>
+        /// <param name = "password"></param>
         /// <returns></returns>
-        public bool LoginCheck(string account,string password)
+        public bool LoginCheck(string account, string password)
         {
             try
             {
-            using SqliteConnection connection =
-               new SqliteConnection(connectionString);
-
-            connection.Open();
-
-            string sql = $"SELECT COUNT(*) FROM Users WHERE Account = @account " +
-                $"AND Password = @password";
-
-			using SqliteCommand command = new SqliteCommand(sql, connection);
-
-			//@是作為標示命名參數用,將 C# 變數的值綁定到 SQL 指定參數，進行參數化查詢
-			command.Parameters.AddWithValue("@account", account);
-			command.Parameters.AddWithValue("@password", password);
-
-			long count = (long)command.ExecuteScalar();
-                return count > 0;
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT COUNT(*) FROM Users WHERE Account = @account " + "AND Password = @password";
+                    using (SqliteCommand command = new SqliteCommand(sql, connection))
+                    {
+                        //@是作為標示命名參數用,將 C# 變數的值綁定到 SQL 指定參數，進行參數化查詢
+                        command.Parameters.AddWithValue("@account", account);
+                        command.Parameters.AddWithValue("@password", password);
+                        long count = (long)command.ExecuteScalar();
+                        return count > 0;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Loghelper.Error($"登入失敗：{ex.Message}");
+                Loghelper.Error($"登入失敗：{ex.ToString()}");
                 return false;
             }
         }
@@ -108,38 +117,39 @@ namespace AFLA_001
         /// <summary>
         /// 修改權限
         /// </summary>
-        /// <param name="account"></param>
-        /// <param name="access"></param>
+        /// <param name = "account"></param>
+        /// <param name = "access"></param>
         /// <returns></returns>
-        public bool AlterAccess(string account,int access)
-        {            
+        public bool AlterAccess(string account, int access)
+        {
             try
             {
-            using SqliteConnection conn = new SqliteConnection(connectionString);
-            conn.Open();
-            string sql = 
-                "UPDATE Users SET RoleLevel=@access WHERE Account=@account";
-            using SqliteCommand command = new SqliteCommand(sql, conn);
-
-            command.Parameters.AddWithValue("@access", access);
-            command.Parameters.AddWithValue("@account", account);
-
-            return command.ExecuteNonQuery() > 0;
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "UPDATE Users SET RoleLevel=@access WHERE Account=@account";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        command.Parameters.AddWithValue("@access", access);
+                        command.Parameters.AddWithValue("@account", account);
+                        return command.ExecuteNonQuery() > 0;
+                    }
+                }
             }
-            catch(Exception ex)
-            {                
-                Loghelper.Error(
-            $"修改權限失敗：帳號 [{account}]\r\n{ex}");
-				return false;
-			}                       
+            catch (Exception ex)
+            {
+                Loghelper.Error($"修改權限失敗：帳號 [{account}]\r\n{ex}");
+                return false;
+            }
         }
+
         /// <summary>
         /// 修改密碼
         /// </summary>
-        /// <param name="account"></param>
-        /// <param name="password"></param>
+        /// <param name = "account"></param>
+        /// <param name = "password"></param>
         /// <returns></returns>
-        public bool AlterPassword(string account,string password)
+        public bool AlterPassword(string account, string password)
         {
             try
             {
@@ -147,115 +157,124 @@ namespace AFLA_001
                 {
                     throw new ArgumentException("請輸入密碼");
                 }
-                using SqliteConnection conn = new SqliteConnection(connectionString);
-                conn.Open();
-                string sql = "Update Users Set password=@password WHERE Account=@account ";
-                using SqliteCommand command = new SqliteCommand(sql, conn);
-                command.Parameters.AddWithValue("@account", account);
-                command.Parameters.AddWithValue("@password",password);
-                return command.ExecuteNonQuery() > 0;
+
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "Update Users Set password=@password WHERE Account=@account ";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        command.Parameters.AddWithValue("@account", account);
+                        command.Parameters.AddWithValue("@password", password);
+                        return command.ExecuteNonQuery() > 0;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Loghelper.Error($"修改失敗：{ex.Message}");
+                Loghelper.Error($"修改密碼失敗：{ex.Message}");
                 return false;
             }
         }
+
         /// <summary>
         /// 刪除帳號
         /// </summary>
-        /// <param name="account"></param>
+        /// <param name = "account"></param>
         /// <returns></returns>
         public bool DeleteAccount(string account)
         {
             try
             {
-            using SqliteConnection conn = new SqliteConnection(connectionString);
-            conn.Open();
-
-            string sql = "DELETE FROM Users WHERE Account=@account";
-
-            using SqliteCommand command = new SqliteCommand(sql, conn);
-
-            command.Parameters.AddWithValue("@account", account);
-            return command.ExecuteNonQuery() > 0;
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "DELETE FROM Users WHERE Account=@account";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        command.Parameters.AddWithValue("@account", account);
+                        return command.ExecuteNonQuery() > 0;
+                    }
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Loghelper.Error($"刪除失敗：{ex.Message}");
                 return false;
             }
-            
         }
 
         /// <summary>
         /// 新增帳號
         /// </summary>
-        /// <param name="account"></param>
-        /// <param name="password"></param>
-        /// <param name="access"></param>
+        /// <param name = "account"></param>
+        /// <param name = "password"></param>
+        /// <param name = "access"></param>
         /// <returns></returns>
-        public bool AddUser(string account,string password,int access)
+        public bool AddUser(string account, string password, int access)
         {
             try
             {
-                SqliteConnection conn = new SqliteConnection(connectionString);
-                conn.Open();
-                string sql = "Insert Into Users(account,password,rolelevel) Values(@account,@password,@access)";
-                SqliteCommand command = new SqliteCommand(sql, conn);
-                command.Parameters.AddWithValue("@account", account);
-                command.Parameters.AddWithValue("@password", password);
-                command.Parameters.AddWithValue("@access", access);
-                return command.ExecuteNonQuery()>0;
-                
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "Insert Into Users(account,password,rolelevel) Values(@account,@password,@access)";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        command.Parameters.AddWithValue("@account", account);
+                        command.Parameters.AddWithValue("@password", password);
+                        command.Parameters.AddWithValue("@access", access);
+                        return command.ExecuteNonQuery() > 0;
+                    }
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Loghelper.Error($"錯誤：{ex.Message}");
+                Loghelper.Error($"錯誤：{ex.ToString()}");
                 return false;
             }
-            
-
-            
         }
 
         /// <summary>
         /// 檢查權限
         /// </summary>
-        /// <param name="account"></param>
+        /// <param name = "account"></param>
         /// <returns></returns>
         public int? CheckRole(string account)
         {
             try
             {
-            using SqliteConnection conn = new SqliteConnection(connectionString);
-            conn.Open();
-            string sql = "Select RoleLevel From Users Where Account=@account";
-            using SqliteCommand command = new SqliteCommand(sql, conn);
-            command.Parameters.AddWithValue("@account", account);
-            var count =command.ExecuteScalar();
-            int result = Convert.ToInt32(count);
-                if (result < 0)
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
-                    Loghelper.Error("查詢權限失敗");
-                    return null;
+                    conn.Open();
+                    string sql = "Select RoleLevel From Users Where Account=@account";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        command.Parameters.AddWithValue("@account", account);
+                        var count = command.ExecuteScalar();
+                        int result = Convert.ToInt32(count);
+                        if (result < 0)
+                        {
+                            Loghelper.Error("查詢權限失敗");
+                            return null;
+                        }
+                        else
+                        {
+                            return result;
+                        }
+                    }
                 }
-                else
-                {
-                    return result;
-                }
-
             }
-            
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Loghelper.Error(ex.Message);
+                Loghelper.Error(ex.ToString());
                 throw;
             }
         }
+
         public bool CheckLevel(int? num)
         {
-            if (num<2||num ==null)
+            if (num < 2 || num == null)
             {
                 MessageBox.Show("權限等級不夠");
                 return false;
@@ -274,139 +293,139 @@ namespace AFLA_001
         {
             try
             {
-            List<string> recipeName = new List<string>();
-            using SqliteConnection conn = new SqliteConnection(connectionString);
-            conn.Open();
-            string sql = "Select RecipeName From Recipe";
-            using SqliteCommand command = new SqliteCommand(sql, conn);
+                List<string> recipeName = new List<string>();
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "Select RecipeName From Recipe";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            //reader是用來讀取sql查詢結果的物件
+                            //Read:將讀取位置移動到下一筆資料,回傳 bool，表示是否成功讀取下一筆資料(要呼叫才會讀取一次)
+                            while (reader.Read())
+                            { //取得account欄位並轉成字串加入list尾端
+                                recipeName.Add(reader["RecipeName"].ToString());
+                            }
 
-            using SqliteDataReader reader = command.ExecuteReader();
-
-            //reader是用來讀取sql查詢結果的物件
-            //Read:將讀取位置移動到下一筆資料,回傳 bool，表示是否成功讀取下一筆資料(要呼叫才會讀取一次)
-            while (reader.Read())
-            {   //取得account欄位並轉成字串加入list尾端
-                recipeName.Add(reader["RecipeName"].ToString());
+                            return recipeName;
+                        }
+                    }
+                }
             }
-
-            return recipeName;
-            }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Loghelper.Error(ex.Message);
+                Loghelper.Error(ex.ToString());
                 throw;
             }
-            
         }
 
         /// <summary>
         /// 先找到配方再找出他所有步驟
         /// </summary>
-        /// <param name="recipeName"></param>
+        /// <param name = "recipeName"></param>
         public DataTable? LoadRecipeData(string recipeName)
         {
             try
             {
-                using SqliteConnection conn = new SqliteConnection(connectionString);
-                conn.Open();
-                string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " +
-                    "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " +
-                    "WHERE r.RecipeName = @recipeName Order By s.StepID"  ;
-                
-               
-                using SqliteCommand command = new SqliteCommand(sql, conn);
-                command.Parameters.AddWithValue("@recipeName", recipeName);
-                //取得多筆資料
-                using SqliteDataReader reader = command.ExecuteReader();
-                DataTable dataTable = new DataTable();
-                dataTable.Load(reader);
-    
-                return dataTable;
-            }
-            catch
-            {
-                return null;
-            }
-           
-            
-
-        }
-
-        /// <summary>
-        /// 儲存配方
-        /// </summary>
-        /// <param name="dt"></param>
-        /// <param name="size"></param>
-        /// <param name="recipeId"></param>
-        /// <param name="recipeName"></param>
-        public void SaveRecipe(DataTable dt,string size,int recipeId,string recipeName)
-        {
-            if (string.IsNullOrEmpty(recipeName))
-            {
-            Loghelper.Error("沒輸入配方名稱存檔");
-            MessageBox.Show("沒輸入配方名稱存檔");
-            return;
-            }               
-            try
-            {              
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    using (SqliteTransaction transaction = conn.BeginTransaction())
+                    string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " + "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " + "WHERE r.RecipeName = @recipeName Order By s.StepID";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
-                        using SqliteCommand command = conn.CreateCommand();
-                        command.Transaction = transaction;
-                        // 先建立命令，再指定 SQL
-                        command.CommandText = "Update Recipe Set Size=@size,RecipeName=@recipeName Where RecipeId =@recipeID";
-                        command.Parameters.AddWithValue("@recipeID", recipeId);
-                        command.Parameters.AddWithValue("@size", size);
                         command.Parameters.AddWithValue("@recipeName", recipeName);
-
-                        command.ExecuteNonQuery();
-
-                        foreach(DataRow row in dt.Rows)
+                        //取得多筆資料
+                        using (SqliteDataReader reader = command.ExecuteReader())
                         {
-                            int step = Convert.ToBoolean(row["Step"]) ? 1 : 0;
-                            int bsoil = Convert.ToBoolean(row["BSOIL"]) ? 1 : 0;
-                            int bsair = Convert.ToBoolean(row["BSAIR"]) ? 1 : 0;
-                            int ipa = Convert.ToBoolean(row["IPA"]) ? 1 : 0;
-                            int oil = Convert.ToBoolean(row["OIL"]) ? 1 : 0;
-                            int glue = Convert.ToBoolean(row["GLUE"]) ? 1 : 0;
-                            //decimal start = Convert.ToDecimal(row["START"]);
-                            using SqliteCommand stepcommand = conn.CreateCommand();
-                            stepcommand.Transaction = transaction;
-                            stepcommand.CommandText = "Update RecipeStep Set Step=@Step," +
-                                "BSOIL=@bsoil,BSAIR=@bsair,IPA=@ipa," +
-                                "OIL=@oil,GLUE=@glue,START=@start,END=@end,"  +
-                                "SPEED=@speed,RPM=@rpm,ACC=@acc,TIME=@time"+
-                                " WHERE RecipeID = @recipeId AND StepID = @stepId";
-                            stepcommand.Parameters.AddWithValue("@Step", step);
-                            stepcommand.Parameters.AddWithValue("@bsoil", bsoil);
-                            stepcommand.Parameters.AddWithValue("@bsair", bsair);
-                            stepcommand.Parameters.AddWithValue("@ipa", ipa);
-                            stepcommand.Parameters.AddWithValue("@oil", oil);
-                            stepcommand.Parameters.AddWithValue("@glue", glue);
-                            stepcommand.Parameters.AddWithValue("@start", row["START"]);
-                            stepcommand.Parameters.AddWithValue("@recipeId", recipeId);
-                            stepcommand.Parameters.AddWithValue("@stepId", row["StepID"]);
-							stepcommand.Parameters.AddWithValue("@end", row["END"]);
-							stepcommand.Parameters.AddWithValue("@speed", row["SPEED"]);
-							stepcommand.Parameters.AddWithValue("@rpm", row["RPM"]);
-							stepcommand.Parameters.AddWithValue("@acc", row["ACC"]);
-							stepcommand.Parameters.AddWithValue("@time", row["TIME"]);
-
-							stepcommand.ExecuteNonQuery();
-
-                            if (stepcommand.ExecuteNonQuery() != 1)
-                                MessageBox.Show($"無法更新步驟 {row["StepID"]}。");                            
+                            DataTable dataTable = new DataTable();
+                            dataTable.Load(reader);
+                            return dataTable;
                         }
-                        transaction.Commit();
                     }
                 }
             }
             catch(Exception ex)
             {
-               Loghelper.Error(ex.ToString());
+                Loghelper.Error(ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 儲存配方
+        /// </summary>
+        /// <param name = "dt"></param>
+        /// <param name = "size"></param>
+        /// <param name = "recipeId"></param>
+        /// <param name = "recipeName"></param>
+        public void SaveRecipe(DataTable dt, string size, int recipeId, string recipeName)
+        {
+            if (string.IsNullOrEmpty(recipeName))
+            {
+                Loghelper.Error("沒輸入配方名稱存檔");
+                MessageBox.Show("沒輸入配方名稱存檔");
+                return;
+            }
+
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqliteTransaction transaction = conn.BeginTransaction())
+                    {
+                        using (SqliteCommand command = conn.CreateCommand())
+                        {
+                            command.Transaction = transaction;
+                            // 先建立命令，再指定 SQL
+                            command.CommandText = "Update Recipe Set Size=@size,RecipeName=@recipeName Where RecipeId =@recipeID";
+                            command.Parameters.AddWithValue("@recipeID", recipeId);
+                            command.Parameters.AddWithValue("@size", size);
+                            command.Parameters.AddWithValue("@recipeName", recipeName);
+                            command.ExecuteNonQuery();
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                int step = Convert.ToBoolean(row["Step"]) ? 1 : 0;
+                                int bsoil = Convert.ToBoolean(row["BSOIL"]) ? 1 : 0;
+                                int bsair = Convert.ToBoolean(row["BSAIR"]) ? 1 : 0;
+                                int ipa = Convert.ToBoolean(row["IPA"]) ? 1 : 0;
+                                int oil = Convert.ToBoolean(row["OIL"]) ? 1 : 0;
+                                int glue = Convert.ToBoolean(row["GLUE"]) ? 1 : 0;
+                                //decimal start = Convert.ToDecimal(row["START"]);
+                                using (SqliteCommand stepcommand = conn.CreateCommand())
+                                {
+                                    stepcommand.Transaction = transaction;
+                                    stepcommand.CommandText = "Update RecipeStep Set Step=@Step," + "BSOIL=@bsoil,BSAIR=@bsair,IPA=@ipa," + "OIL=@oil,GLUE=@glue,START=@start,END=@end," + "SPEED=@speed,RPM=@rpm,ACC=@acc,TIME=@time" + " WHERE RecipeID = @recipeId AND StepID = @stepId";
+                                    stepcommand.Parameters.AddWithValue("@Step", step);
+                                    stepcommand.Parameters.AddWithValue("@bsoil", bsoil);
+                                    stepcommand.Parameters.AddWithValue("@bsair", bsair);
+                                    stepcommand.Parameters.AddWithValue("@ipa", ipa);
+                                    stepcommand.Parameters.AddWithValue("@oil", oil);
+                                    stepcommand.Parameters.AddWithValue("@glue", glue);
+                                    stepcommand.Parameters.AddWithValue("@start", row["START"]);
+                                    stepcommand.Parameters.AddWithValue("@recipeId", recipeId);
+                                    stepcommand.Parameters.AddWithValue("@stepId", row["StepID"]);
+                                    stepcommand.Parameters.AddWithValue("@end", row["END"]);
+                                    stepcommand.Parameters.AddWithValue("@speed", row["SPEED"]);
+                                    stepcommand.Parameters.AddWithValue("@rpm", row["RPM"]);
+                                    stepcommand.Parameters.AddWithValue("@acc", row["ACC"]);
+                                    stepcommand.Parameters.AddWithValue("@time", row["TIME"]);
+                                    stepcommand.ExecuteNonQuery();
+                                    if (stepcommand.ExecuteNonQuery() != 1)
+                                        MessageBox.Show($"無法更新步驟 {row["StepID"]}。");
+                                }
+                            }
+
+                            transaction.Commit();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
             }
         }
 
@@ -419,29 +438,31 @@ namespace AFLA_001
             DataTable dataTable = new DataTable();
             try
             {
-                using(SqliteConnection conn = new SqliteConnection(connectionString))
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "Select * From Alarm";
+                    string sql = "Select 觸發日期,觸發時間,訊息 || '' AS 訊息 From Alarm " +
+                        "Order By 觸發日期 DESC,觸發時間 DESC ";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
                         using (SqliteDataReader reader = command.ExecuteReader())
                         {
-                            
                             dataTable.Load(reader);
                         }
-
                     }
                     return dataTable;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Loghelper.Error(ex.Message);
-                return dataTable;
+                Loghelper.Error(ex.ToString());                
+                return new DataTable();
             }
         }
-
+        /// <summary>
+        /// 警告觸發
+        /// </summary>
+        /// <returns></returns>
         public bool TriggerAlarm()
         {
             DateTime now = DateTime.Now;
@@ -450,33 +471,99 @@ namespace AFLA_001
             string alarmEvent = "觸發警告測試";
             try
             {
-                using(SqliteConnection conn = new SqliteConnection(connectionString))
-            {
-                conn.Open();
-                string sql = "Insert Into Alarm(觸發日期,觸發時間,訊息) Values(@date,@time,@alarmEvent)";
-                using (SqliteCommand command = new SqliteCommand(sql, conn))
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@date",date);
-                    command.Parameters.AddWithValue("@time", time);
-                    command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
-                    
-                 if (command.ExecuteNonQuery() < 1)
-                        {
-                          return false;
+                    conn.Open();
+                    string sql = "Insert Into Alarm(觸發日期,觸發時間,訊息,IsActive) " +
+                        "SELECT @date,@time,@alarmEvent,1 WHERE " +
+                        "NOT EXISTS (SELECT 1 FROM Alarm WHERE 訊息 = @alarmEvent AND IsActive=1)";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        command.Parameters.AddWithValue("@date", date);
+                        command.Parameters.AddWithValue("@time", time);
+                        command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
+                        if (command.ExecuteNonQuery() < 1)
+                        {                            
+                            return false;
                         }
                         return true;
-
+                    }
                 }
-
-               } 
             }
             catch (Exception ex)
             {
-                Loghelper.Error($"錯誤：{ex.Message}");
+                Loghelper.Error($"錯誤：{ex.ToString()}");
                 return false;
-                
             }
+        }
+        /// <summary>
+        /// 重置警告
+        /// </summary>
+        /// <returns></returns>
+        public bool ResetAlarm()
+        {           
+            string alarmEvent = "觸發警告測試";
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string updatesql = "Update Alarm Set IsActive=0 Where 訊息 = @alarmEvent AND IsActive=1";
+                   
+                    using (SqliteCommand command = new SqliteCommand(updatesql, conn))
+                    {
+                        
+                        command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
+                        if (command.ExecuteNonQuery() < 1)
+                        {
+                            MessageBox.Show("重置警告失敗");
+                            Loghelper.Error("重置警告失敗");
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"錯誤：{ex.ToString()}");
+                return false ;
+            }
+        }
 
+        /// <summary>
+        /// 當警告IsActive為0時觸發NoError
+        /// </summary>
+        public void AddNoError()
+        {
+            DateTime now = DateTime.Now;
+            string date = now.ToString("yyyy/MM/dd");
+            string time = now.ToString("HH:mm:ss");
+            string alarmEvent = "NoError";
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string updatesql = "Insert Into Alarm(觸發日期,觸發時間,訊息,IsActive) Values(@date,@time,@alarmEvent,1)";
+
+                    using (SqliteCommand command = new SqliteCommand(updatesql, conn))
+                    {
+                        command.Parameters.AddWithValue("@date", date);
+                        command.Parameters.AddWithValue("@time", time);
+                        command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
+                        if (command.ExecuteNonQuery() < 1)
+                        {
+                            return ;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"錯誤：{ex.ToString()}");
+                return ;
+            }
         }
     }
 }
