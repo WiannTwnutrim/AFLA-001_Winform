@@ -7,11 +7,11 @@ namespace AFLA_001
         private RecipeForm recipeForm = new RecipeForm();
         private ManualForm manualForm = new ManualForm();
         private AlarmForm alarmForm = new AlarmForm();
-        //private HistoryPage historyPage;
+        private HistoryForm historyForm = new HistoryForm();
         //private EventPage eventPage;
         //private LogPage logPage;
         private UserForm userform = new UserForm();
-        //private IoPage ioPage;
+        private IoForm ioForm = new IoForm();
         private Sqllite _db = new Sqllite();
         
 
@@ -24,6 +24,7 @@ namespace AFLA_001
             userform.LogoutSucceeded += LogoutSucceeded;
             Userbtn_Click(Userbtn, EventArgs.Empty);
             logintxt.Text = UserSession.LoginUser;
+            recipeForm.WriteRecipe += WriteRecipeSucceeded;
 
         }
 
@@ -37,6 +38,12 @@ namespace AFLA_001
         {
             logintxt.Text = UserSession.LoginUser;
         }
+
+        private void WriteRecipeSucceeded(object sender,EventArgs e)
+        {
+            showrecipetxt.Text = UserSession.WritedRecipe;
+        }
+
         private void Homebtn_Click(object sender, EventArgs e)
         {
             PageSwitchManger.ShowPage(MainPage, homeform);
@@ -86,8 +93,16 @@ namespace AFLA_001
         }               
         private void Historybtn_Click(object sender, EventArgs e)
         {
-            //PageSwitchManger.ShowPage(MainPage, historyPage);
-            //PageSwitchManger.ActiveButton(Historybtn);
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "舦ぃ镑ぃち传History");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, historyForm);
+                PageSwitchManger.ActiveButton(Historybtn);
+                Loghelper.Userlog(UserSession.LoginUser, "ち传ΘHistory");
+            }            
         }
         private void Eventbtn_Click(object sender, EventArgs e)
         {
@@ -104,11 +119,20 @@ namespace AFLA_001
             PageSwitchManger.ShowPage(MainPage, userform);
             PageSwitchManger.ActiveButton(Userbtn);
             userform.ClearloginResult();
+            Loghelper.Userlog(UserSession.LoginUser, "ち传ΘUser");
         }
         private void Iobtn_Click(object sender, EventArgs e)
         {
-            //PageSwitchManger.ShowPage(MainPage, ioPage);
-            //PageSwitchManger.ActiveButton(Iobtn);
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "舦ぃ镑ぃち传Io");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, ioForm);
+                PageSwitchManger.ActiveButton(Iobtn);
+                Loghelper.Userlog(UserSession.LoginUser, "ち传ΘIo");
+            }
         }
 
 

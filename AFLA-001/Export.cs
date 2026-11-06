@@ -11,8 +11,13 @@ namespace AFLA_001
     /// 輸出類別(傳入dataGridView)
     /// </summary>
     public class Export
-    {      
-        public void ExportCSV(DataGridView dataGridView)
+    {   
+        /// <summary>
+        /// 輸出excel
+        /// </summary>
+        /// <param name="dataGridView">哪個表</param>
+        /// <param name="DataName">檔名</param>
+        public void ExportCSV(DataGridView dataGridView,string DataName)
         {
             //來讓使用者選擇檔案儲存的路徑與檔名。它只負責取得路徑與檔名
             SaveFileDialog data = new SaveFileDialog();
@@ -20,7 +25,7 @@ namespace AFLA_001
             //，決定對話框中「另存為檔案類型」或「類型檔案」欄位中出現的選項。
             data.Filter = "CSV 檔案 (*.csv)|*.csv";
 
-            data.FileName = "Alarm";//檔名(stirng)
+            data.FileName = DataName;//檔名(stirng)
             if (data.ShowDialog() != DialogResult.OK)
                     //使用者在對話框要傳回ok
             {

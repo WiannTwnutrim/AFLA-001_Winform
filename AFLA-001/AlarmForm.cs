@@ -66,7 +66,7 @@ namespace AFLA_001
 
         private void button1_Click(object sender, EventArgs e)
         {
-            export.ExportCSV(alarmData);
+            export.ExportCSV(alarmData,"Alarm");
         }
     }
 }

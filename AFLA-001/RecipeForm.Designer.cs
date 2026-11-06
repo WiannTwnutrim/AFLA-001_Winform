@@ -121,6 +121,7 @@ namespace AFLA_001
             recipeWribtn.TabIndex = 5;
             recipeWribtn.Text = "WRITE PLC";
             recipeWribtn.UseVisualStyleBackColor = true;
+            recipeWribtn.Click += recipeWribtn_Click;
             // 
             // sizeCombo
             // 

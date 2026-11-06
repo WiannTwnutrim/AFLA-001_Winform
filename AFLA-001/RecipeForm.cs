@@ -13,6 +13,8 @@ namespace AFLA_001
     public partial class RecipeForm : Form
     {
         private Sqllite _db = new Sqllite();
+        //寫入recipe事件
+        public event EventHandler? WriteRecipe;
 
         public RecipeForm()
         {
@@ -197,7 +199,7 @@ namespace AFLA_001
             {
                 return;
             }
-          
+
             if (dataGridView1.Columns[e.ColumnIndex].Name == "START")
             {
                 e.ToolTipText = "上限為100.0,下限為0.0";
@@ -221,6 +223,22 @@ namespace AFLA_001
             if (dataGridView1.Columns[e.ColumnIndex].Name == "TIME")
             {
                 e.ToolTipText = "上限為300.0,下限為100.0";
+            }
+
+        }
+
+        private void recipeWribtn_Click(object sender, EventArgs e)
+        {
+            if(recipecombo.Text == recipeNametxt.Text)
+            {
+                UserSession.LoadRecipe(recipecombo.Text);//先抓combobox的值
+                //正常流程要先load save後才
+                WriteRecipe?.Invoke(sender, e);//觸發事件
+                Loghelper.Userlog(UserSession.LoginUser,"按下WritePLC,成功寫入PLC");
+            }
+            else
+            {
+                Loghelper.Error("按下WritePLC,寫入失敗,沒有照流程先LOAD再WRITE");
             }
             
         }
