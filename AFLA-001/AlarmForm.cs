@@ -22,7 +22,7 @@ namespace AFLA_001
         DataTable data = new DataTable();
         public void loadAlarm()
         {
-            
+
             data = _db.LoadAlarm();
             alarmData.DataSource = data;
         }
@@ -33,20 +33,39 @@ namespace AFLA_001
             {
                 if (_db.TriggerAlarm())
                 {
-                  loadAlarm();
+                    loadAlarm();
                 }
                 else
                 {
                     MessageBox.Show("新增失敗");
                 }
-                
+
             }
             catch
             {
                 MessageBox.Show("新增失敗");
             }
-            
-            
+
+
+        }
+
+        private void alaemResetbtn_Click(object sender, EventArgs e)
+        {
+            if (_db.ResetAlarm())
+            {
+                _db.AddNoError();
+                loadAlarm();
+                MessageBox.Show("Reset成功");
+            }
+            else
+            {
+                MessageBox.Show("Reset失敗");
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

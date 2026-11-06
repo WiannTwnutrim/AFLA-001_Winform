@@ -169,23 +169,60 @@ namespace AFLA_001
                     min = 0.0;
                     break;
                 default:
-                    return;                    
+                    return;
             }
             //e.FormattedValue是使用者剛輸入、尚未提交的值
             bool result = double.TryParse(Convert.ToString(e.FormattedValue), out double value);
             if (!result)
             {
-                e.Cancel =true;
+                e.Cancel = true;
                 MessageBox.Show("只能輸入數字");
                 return;
             }
-            if(value>max || value < min)
+            if (value > max || value < min)
             {
                 e.Cancel = true;
                 MessageBox.Show("超出上下限");
             }
+        }
+        /// <summary>
+        /// 顯示上下限提示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridView1_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
+        {
+            //避免選到標題
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+          
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "START")
+            {
+                e.ToolTipText = "上限為100.0,下限為0.0";
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "END")
+            {
+                e.ToolTipText = "上限為500.0,下限為100.0";
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "SPEED")
+            {
+                e.ToolTipText = "上限為3000.0,下限為100.0";
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "RPM")
+            {
+                e.ToolTipText = "上限為300.0,下限為100.0";
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "ACC")
+            {
+                e.ToolTipText = "上限為300.0,下限為100.0";
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "TIME")
+            {
+                e.ToolTipText = "上限為300.0,下限為100.0";
+            }
             
-
         }
     }
 }

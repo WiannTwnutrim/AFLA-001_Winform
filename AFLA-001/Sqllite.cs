@@ -1,10 +1,12 @@
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace AFLA_001
 {
@@ -439,7 +441,8 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "Select * From Alarm";
+                    string sql = "Select 觸發日期,觸發時間,訊息 || '' AS 訊息 From Alarm " +
+                        "Order By 觸發日期 DESC,觸發時間 DESC ";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
                         using (SqliteDataReader reader = command.ExecuteReader())
@@ -453,8 +456,8 @@ namespace AFLA_001
             }
             catch (Exception ex)
             {
-                Loghelper.Error(ex.ToString());
-                return dataTable;
+                Loghelper.Error(ex.ToString());                
+                return new DataTable();
             }
         }
 
@@ -469,7 +472,9 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "Insert Into Alarm(觸發日期,觸發時間,訊息) Values(@date,@time,@alarmEvent)";
+                    string sql = "Insert Into Alarm(觸發日期,觸發時間,訊息,IsActive) " +
+                        "SELECT @date,@time,@alarmEvent,1 WHERE " +
+                        "NOT EXISTS (SELECT 1 FROM Alarm WHERE 訊息 = @alarmEvent AND IsActive=1)";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
                         command.Parameters.AddWithValue("@date", date);
@@ -477,6 +482,7 @@ namespace AFLA_001
                         command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
                         if (command.ExecuteNonQuery() < 1)
                         {
+                            
                             return false;
                         }
 
@@ -488,6 +494,70 @@ namespace AFLA_001
             {
                 Loghelper.Error($"錯誤：{ex.ToString()}");
                 return false;
+            }
+        }
+
+        public bool ResetAlarm()
+        {           
+            string alarmEvent = "觸發警告測試";
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string updatesql = "Update Alarm Set IsActive=0 Where 訊息 = @alarmEvent AND IsActive=1";
+                   
+
+                    using (SqliteCommand command = new SqliteCommand(updatesql, conn))
+                    {
+                        
+                        command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
+                        if (command.ExecuteNonQuery() < 1)
+                        {
+                            MessageBox.Show("欄位沒有變化");
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"錯誤：{ex.ToString()}");
+                return false ;
+            }
+        }
+        public void AddNoError()
+        {
+            DateTime now = DateTime.Now;
+            string date = now.ToString("yyyy/MM/dd");
+            string time = now.ToString("HH:mm:ss");
+            string alarmEvent = "NoError";
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string updatesql = "Insert Into Alarm(觸發日期,觸發時間,訊息,IsActive) Values(@date,@time,@alarmEvent,1)";
+
+
+                    using (SqliteCommand command = new SqliteCommand(updatesql, conn))
+                    {
+                        command.Parameters.AddWithValue("@date", date);
+                        command.Parameters.AddWithValue("@time", time);
+                        command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
+                        if (command.ExecuteNonQuery() < 1)
+                        {
+                            return ;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"錯誤：{ex.ToString()}");
+                return ;
             }
         }
     }
