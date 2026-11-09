@@ -332,7 +332,8 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " + "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " + "WHERE r.RecipeName = @recipeName Order By s.StepID";
+                    string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " 
+                        + "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " + "WHERE r.RecipeName = @recipeName Order By s.StepID";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
                         command.Parameters.AddWithValue("@recipeName", recipeName);
@@ -346,7 +347,7 @@ namespace AFLA_001
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Loghelper.Error(ex.ToString());
                 return null;
@@ -441,8 +442,8 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "Select 觸發日期,觸發時間,訊息 || '' AS 訊息 From Alarm " +
-                        "Order By 觸發日期 DESC,觸發時間 DESC ";
+                    string sql = "Select TriggerDate,TriggerTime,Alarm || '' AS Alarm From Alarm " +
+                        "Order By TriggerDate DESC,TriggerTime DESC ";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
                         using (SqliteDataReader reader = command.ExecuteReader())
@@ -455,7 +456,7 @@ namespace AFLA_001
             }
             catch (Exception ex)
             {
-                Loghelper.Error(ex.ToString());                
+                Loghelper.Error(ex.ToString());
                 return new DataTable();
             }
         }
@@ -466,7 +467,7 @@ namespace AFLA_001
         public bool TriggerAlarm()
         {
             DateTime now = DateTime.Now;
-            string date = now.ToString("yyyy/MM/dd");
+            string date = now.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
             string time = now.ToString("HH:mm:ss");
             string alarmEvent = "觸發警告測試";
             try
@@ -474,7 +475,7 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "Insert Into Alarm(觸發日期,觸發時間,訊息,IsActive) " +
+                    string sql = "Insert Into Alarm(TriggerDate,TriggerTime,Alarm,IsActive) " +
                         "SELECT @date,@time,@alarmEvent,1 WHERE " +
                         "NOT EXISTS (SELECT 1 FROM Alarm WHERE 訊息 = @alarmEvent AND IsActive=1)";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
@@ -483,7 +484,7 @@ namespace AFLA_001
                         command.Parameters.AddWithValue("@time", time);
                         command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
                         if (command.ExecuteNonQuery() < 1)
-                        {                            
+                        {
                             return false;
                         }
                         return true;
@@ -501,22 +502,21 @@ namespace AFLA_001
         /// </summary>
         /// <returns></returns>
         public bool ResetAlarm()
-        {           
+        {
             string alarmEvent = "觸發警告測試";
             try
             {
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string updatesql = "Update Alarm Set IsActive=0 Where 訊息 = @alarmEvent AND IsActive=1";
-                   
+                    string updatesql = "Update Alarm Set IsActive=0 Where Alarm = @alarmEvent AND IsActive=1";
+
                     using (SqliteCommand command = new SqliteCommand(updatesql, conn))
                     {
-                        
+
                         command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
                         if (command.ExecuteNonQuery() < 1)
-                        {
-                            MessageBox.Show("重置警告失敗");
+                        {                            
                             Loghelper.Error("重置警告失敗");
                             return false;
                         }
@@ -527,7 +527,7 @@ namespace AFLA_001
             catch (Exception ex)
             {
                 Loghelper.Error($"錯誤：{ex.ToString()}");
-                return false ;
+                return false;
             }
         }
 
@@ -554,7 +554,7 @@ namespace AFLA_001
                         command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
                         if (command.ExecuteNonQuery() < 1)
                         {
-                            return ;
+                            return;
                         }
                     }
                 }
@@ -562,7 +562,7 @@ namespace AFLA_001
             catch (Exception ex)
             {
                 Loghelper.Error($"錯誤：{ex.ToString()}");
-                return ;
+                return;
             }
         }
 
@@ -575,19 +575,19 @@ namespace AFLA_001
             DataTable dt = new DataTable();
             try
             {
-                using(SqliteConnection conn = new SqliteConnection(connectionString))
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
-                    string sql = "Select * From Event Order By 觸發日期 DESC,觸發時間 DESC";
+                    string sql = "Select * From Event Order By TriggerDate DESC,TriggerTime DESC";
                     conn.Open();
 
-                    using (SqliteCommand command = new SqliteCommand(sql,conn))
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
 
                         using (SqliteDataReader reader = command.ExecuteReader())
                         {
                             dt.Load(reader);
                             return dt;
-                        }                                               
+                        }
                     }
                 }
             }
@@ -605,33 +605,124 @@ namespace AFLA_001
         public void AddEvent(string EventName)
         {
             DateTime now = DateTime.Now;
-			string date = now.ToString("yyyy/MM/dd");
-			string time = now.ToString("HH:mm:ss");
-			try
-			{
-				using (SqliteConnection conn = new SqliteConnection(connectionString))
-				{
-					string sql = "Insert Into Event (觸發日期,訊息,觸發時間) " +
-						"Values (@date,@EventName,@time)";
-					conn.Open();
+            string date = now.ToString("yyyy/MM/dd",System.Globalization.CultureInfo.InvariantCulture);
+            string time = now.ToString("HH:mm:ss");
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    string sql = "Insert Into Event (TriggerDate,Event,TriggerTime) " +
+                        "Values (@date,@EventName,@time)";
+                    conn.Open();
 
-					using (SqliteCommand command = new SqliteCommand(sql, conn))
-					{
-                        command.Parameters.AddWithValue ("@date", date);
-						command.Parameters.AddWithValue("@time", time);
-						command.Parameters.AddWithValue("@EventName", EventName);
-						if ( command.ExecuteNonQuery() ==0 )
-						{
-							 Loghelper.Error("新增事件失敗");
-						}                     
-					}
-				}
-			}
-			catch (Exception)
-			{
-				throw;
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        command.Parameters.AddWithValue("@date", date);
+                        command.Parameters.AddWithValue("@time", time);
+                        command.Parameters.AddWithValue("@EventName", EventName);
+                        if (command.ExecuteNonQuery() == 0)
+                        {
+                            Loghelper.Error("新增事件失敗");
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
 
-			}
-		}
+            }
+        }
+
+        /// <summary>
+        /// 載入歷史資料
+        /// </summary>
+        /// <returns></returns>
+        public DataTable LoadHistory()
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "Select ProductId,Date,Time,Station,Recipe,Temperature," +
+                        "PickedAt From StationHistory " +
+                        "Order By Date DESC,Time DESC ";
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            dataTable.Load(reader);
+                        }
+                    }
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+                return new DataTable();
+            }
+        }
+
+
+
+        /// <summary>
+        /// 新增站點
+        /// </summary>
+        /// <param name="stationName">站點名稱</param>
+        /// <param name="pickAt">站點時間</param>
+        /// <param name="Temperature">溫度</param>
+        public bool AddHistoryStation(string stationName, string pickAt, int temperature, string recipeName)
+        {
+            if (string.IsNullOrWhiteSpace(recipeName))
+            {
+                Loghelper.Error($"新增 {stationName} 站歷史失敗，配方名稱為空。");
+                return false;
+            }
+            DateTime now = DateTime.Now;
+            int productId = 0;
+            //避免轉換日期格式失敗System.Globalization.CultureInfo.InvariantCulture
+            string date = now.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
+            string time = now.ToString("HH:mm:ss");
+
+
+            try
+            {
+
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    string updatesql = "Insert Into StationHistory(ProductId,Date,Time,Station,Recipe,Temperature,PickedAt) " +
+                        "Values(@productId,@date,@time,@stationName,@recipeName,@temperature,@pickAt)";
+
+                    using (SqliteCommand command = new SqliteCommand(updatesql, conn))
+                    {
+                        command.Parameters.AddWithValue("@date", date);
+                        command.Parameters.AddWithValue("@time", time);
+                        command.Parameters.AddWithValue("@productId", productId);
+                        command.Parameters.AddWithValue("@stationName", stationName);
+                        command.Parameters.AddWithValue("@temperature", temperature);
+                        command.Parameters.AddWithValue("@pickAt", pickAt);
+                        command.Parameters.AddWithValue("@recipeName", recipeName);
+                        if (command.ExecuteNonQuery() == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Loghelper.Error("新增筆數失敗");
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"錯誤：{ex.ToString()}");
+                return false;
+            }
+        }
     }
 }
