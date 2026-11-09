@@ -8,7 +8,7 @@ namespace AFLA_001
         private ManualForm manualForm = new ManualForm();
         private AlarmForm alarmForm = new AlarmForm();
         private HistoryForm historyForm = new HistoryForm();
-        //private EventPage eventPage;
+        private EventForm eventForm = new EventForm();
         //private LogPage logPage;
         private UserForm userform = new UserForm();
         private IoForm ioForm = new IoForm();
@@ -37,6 +37,7 @@ namespace AFLA_001
         private void LogoutSucceeded(object sender,EventArgs e)
         {
             logintxt.Text = UserSession.LoginUser;
+            showrecipetxt.Text = UserSession.WritedRecipe;
         }
 
         private void WriteRecipeSucceeded(object sender,EventArgs e)
@@ -106,9 +107,18 @@ namespace AFLA_001
         }
         private void Eventbtn_Click(object sender, EventArgs e)
         {
-            //PageSwitchManger.ShowPage(MainPage, eventPage);
-            //PageSwitchManger.ActiveButton(Eventbtn);
-        }
+			if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+				Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Event頁面");
+			}
+            else
+            {
+				PageSwitchManger.ShowPage(MainPage, eventForm);
+				PageSwitchManger.ActiveButton(Eventbtn);
+				Loghelper.Userlog(UserSession.LoginUser, "切換成Event頁面");
+			}
+			
+		}
         private void Logbtn_Click(object sender, EventArgs e)
         {
             //PageSwitchManger.ShowPage(MainPage, logPage);

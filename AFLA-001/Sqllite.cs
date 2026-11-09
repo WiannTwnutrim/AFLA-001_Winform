@@ -1,4 +1,4 @@
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -565,5 +565,73 @@ namespace AFLA_001
                 return ;
             }
         }
+
+        /// <summary>
+        /// 載入事件
+        /// </summary>
+        /// <returns></returns>
+        public DataTable LoadEvent()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using(SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    string sql = "Select * From Event Order By 觸發日期 DESC,觸發時間 DESC";
+                    conn.Open();
+
+                    using (SqliteCommand command = new SqliteCommand(sql,conn))
+                    {
+
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            dt.Load(reader);
+                            return dt;
+                        }                                               
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
+        }
+
+        /// <summary>
+        /// 新增事件
+        /// </summary>
+        /// <param name="EventName">事件名稱</param>
+        public void AddEvent(string EventName)
+        {
+            DateTime now = DateTime.Now;
+			string date = now.ToString("yyyy/MM/dd");
+			string time = now.ToString("HH:mm:ss");
+			try
+			{
+				using (SqliteConnection conn = new SqliteConnection(connectionString))
+				{
+					string sql = "Insert Into Event (觸發日期,訊息,觸發時間) " +
+						"Values (@date,@EventName,@time)";
+					conn.Open();
+
+					using (SqliteCommand command = new SqliteCommand(sql, conn))
+					{
+                        command.Parameters.AddWithValue ("@date", date);
+						command.Parameters.AddWithValue("@time", time);
+						command.Parameters.AddWithValue("@EventName", EventName);
+						if ( command.ExecuteNonQuery() ==0 )
+						{
+							 Loghelper.Error("新增事件失敗");
+						}                     
+					}
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+
+			}
+		}
     }
 }

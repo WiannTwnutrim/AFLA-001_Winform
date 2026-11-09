@@ -13,7 +13,7 @@ namespace AFLA_001
     public partial class AlarmForm : Form
     {
         private Sqllite _db = new Sqllite();
-        private Export export = new Export(); 
+        
         public AlarmForm()
         {
             InitializeComponent();
@@ -23,8 +23,9 @@ namespace AFLA_001
         DataTable data = new DataTable();
         public void loadAlarm()
         {
-
+            data.Clear();
             data = _db.LoadAlarm();
+            
             alarmData.DataSource = data;
         }
 
@@ -66,7 +67,7 @@ namespace AFLA_001
 
         private void button1_Click(object sender, EventArgs e)
         {
-            export.ExportCSV(alarmData,"Alarm");
+            Export.ExportCSV(alarmData,"Alarm");
         }
     }
 }

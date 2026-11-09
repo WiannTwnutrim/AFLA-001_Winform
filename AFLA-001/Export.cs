@@ -10,14 +10,14 @@ namespace AFLA_001
     /// <summary>
     /// 輸出類別(傳入dataGridView)
     /// </summary>
-    public class Export
+    public static class Export
     {   
         /// <summary>
         /// 輸出excel
         /// </summary>
         /// <param name="dataGridView">哪個表</param>
         /// <param name="DataName">檔名</param>
-        public void ExportCSV(DataGridView dataGridView,string DataName)
+        public static void ExportCSV(DataGridView dataGridView,string DataName)
         {
             //來讓使用者選擇檔案儲存的路徑與檔名。它只負責取得路徑與檔名
             SaveFileDialog data = new SaveFileDialog();
