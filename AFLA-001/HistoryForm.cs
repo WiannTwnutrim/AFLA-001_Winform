@@ -79,5 +79,10 @@ namespace AFLA_001
 
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Export.ExportCSV(historydataGridView, "HistoryData");
+        }
     }
 }

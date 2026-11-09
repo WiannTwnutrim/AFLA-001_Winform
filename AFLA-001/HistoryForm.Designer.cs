@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             historydataGridView = new DataGridView();
             stabtn = new Button();
             stbbtn = new Button();
             stcbtn = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)historydataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -41,20 +42,20 @@
             // 
             historydataGridView.AllowUserToAddRows = false;
             historydataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = SystemColors.GradientActiveCaption;
-            historydataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = SystemColors.GradientActiveCaption;
+            historydataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             historydataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             historydataGridView.Location = new Point(2, 68);
             historydataGridView.Name = "historydataGridView";
             historydataGridView.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.ActiveCaption;
-            dataGridViewCellStyle2.Font = new Font("Microsoft JhengHei UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            historydataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.ActiveCaption;
+            dataGridViewCellStyle4.Font = new Font("Microsoft JhengHei UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            historydataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             historydataGridView.RowHeadersVisible = false;
             historydataGridView.Size = new Size(1246, 344);
             historydataGridView.TabIndex = 0;
@@ -92,11 +93,23 @@
             stcbtn.UseVisualStyleBackColor = true;
             stcbtn.Click += stcbtn_Click;
             // 
+            // button1
+            // 
+            button1.Font = new Font("Microsoft JhengHei UI", 15F);
+            button1.Location = new Point(627, 16);
+            button1.Name = "button1";
+            button1.Size = new Size(90, 35);
+            button1.TabIndex = 5;
+            button1.Text = "輸出";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // HistoryForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1251, 413);
+            Controls.Add(button1);
             Controls.Add(stcbtn);
             Controls.Add(stbbtn);
             Controls.Add(stabtn);
@@ -114,5 +127,6 @@
         private Button stabtn;
         private Button stbbtn;
         private Button stcbtn;
+        private Button button1;
     }
 }
