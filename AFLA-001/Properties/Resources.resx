@@ -121,8 +121,8 @@
   <data name="air" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\air.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="air down" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\air down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="air2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\air2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="arm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arm1.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -139,14 +139,11 @@
   <data name="flow_oil" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\flow_oil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="glue down" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\glue down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="glueout1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\glueout1.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="gray_pipe_174x59_white (2)" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gray_pipe_174x59_white (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="glueout2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\glueout2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HMI_Indicator_OFF" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HMI_Indicator_OFF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,47 +151,17 @@
   <data name="HMI_Indicator_ON" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HMI_Indicator_ON.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="leftup -" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\leftup - .png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="mada" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mada.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="offar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\offar.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="oifar2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oifar2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="oildown" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oildown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="oilfar1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oilfar1.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="oilpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oilpu.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="onfar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\onfar.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pipe_air" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pipe_air.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pipe_elbow90" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pipe_elbow90.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pipe_glue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pipe_glue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pipe_oil" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pipe_oil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rightpipe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rightpipe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rightup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rightup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tank_ipa" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tank_ipa.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -205,10 +172,13 @@
   <data name="vaccum" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\vaccum.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="vaccum1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\vaccum1.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wastank1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wastank1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="wastank2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wastank2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="white" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

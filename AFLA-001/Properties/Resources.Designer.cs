@@ -73,9 +73,9 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap air_down {
+        public static System.Drawing.Bitmap air2 {
             get {
-                object obj = ResourceManager.GetObject("air down", resourceCulture);
+                object obj = ResourceManager.GetObject("air2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,16 +133,6 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap glue_down {
-            get {
-                object obj = ResourceManager.GetObject("glue down", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
         public static System.Drawing.Bitmap glueout1 {
             get {
                 object obj = ResourceManager.GetObject("glueout1", resourceCulture);
@@ -153,9 +143,9 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap gray_pipe_174x59_white__2_ {
+        public static System.Drawing.Bitmap glueout2 {
             get {
-                object obj = ResourceManager.GetObject("gray_pipe_174x59_white (2)", resourceCulture);
+                object obj = ResourceManager.GetObject("glueout2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,16 +173,6 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap leftup__ {
-            get {
-                object obj = ResourceManager.GetObject("leftup -", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
         public static System.Drawing.Bitmap mada {
             get {
                 object obj = ResourceManager.GetObject("mada", resourceCulture);
@@ -213,36 +193,6 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap oifar2 {
-            get {
-                object obj = ResourceManager.GetObject("oifar2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap oildown {
-            get {
-                object obj = ResourceManager.GetObject("oildown", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap oilfar1 {
-            get {
-                object obj = ResourceManager.GetObject("oilfar1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
         public static System.Drawing.Bitmap oilpu {
             get {
                 object obj = ResourceManager.GetObject("oilpu", resourceCulture);
@@ -256,66 +206,6 @@ namespace AFLA_001.Properties {
         public static System.Drawing.Bitmap onfar {
             get {
                 object obj = ResourceManager.GetObject("onfar", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap pipe_air {
-            get {
-                object obj = ResourceManager.GetObject("pipe_air", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap pipe_elbow90 {
-            get {
-                object obj = ResourceManager.GetObject("pipe_elbow90", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap pipe_glue {
-            get {
-                object obj = ResourceManager.GetObject("pipe_glue", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap pipe_oil {
-            get {
-                object obj = ResourceManager.GetObject("pipe_oil", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap rightpipe {
-            get {
-                object obj = ResourceManager.GetObject("rightpipe", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap rightup {
-            get {
-                object obj = ResourceManager.GetObject("rightup", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -353,9 +243,9 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap wastank2 {
+        public static System.Drawing.Bitmap vaccum1 {
             get {
-                object obj = ResourceManager.GetObject("wastank2", resourceCulture);
+                object obj = ResourceManager.GetObject("vaccum1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -363,9 +253,19 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap white {
+        public static System.Drawing.Bitmap wastank1 {
             get {
-                object obj = ResourceManager.GetObject("white", resourceCulture);
+                object obj = ResourceManager.GetObject("wastank1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        public static System.Drawing.Bitmap wastank2 {
+            get {
+                object obj = ResourceManager.GetObject("wastank2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

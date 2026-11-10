@@ -649,7 +649,8 @@ namespace AFLA_001
                     string sql = @"Select ProductId AS 產品編號, 
                         Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
                         Date_B AS 日期,Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
-                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 From StationHistory";
+                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
+                        From StationHistory Order BY  Date_A DESC";
 
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
@@ -676,8 +677,14 @@ namespace AFLA_001
         /// <param name = "stationName" > 站點名稱 </ param >
         /// < param name="pickAt">站點時間</param>
         /// <param name = "Temperature" > 溫度 </ param >
-        public bool AddHistoryStation(int productId, string stationName, string recipeName, int temperature, string pickAt )
+        public bool AddHistoryStation(int productId, string stationName, string recipeName, int temperature, string pickAt)
         {
+            if (stationName != "A" && stationName != "B" && stationName != "C")
+            {
+                Loghelper.Error($"無效的站點名稱：{stationName}");
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(recipeName))
             {
                 Loghelper.Error($"新增 {stationName} 站歷史失敗，配方名稱為空。");
@@ -695,8 +702,23 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string updatesql = "Insert Into StationHistory(ProductId,Date,Time,Station,Recipe,Temperature,PickedAt) " +
-                        "Values(@productId,@date,@time,@stationName,@recipeName,@temperature,@pickAt)";
+                    string updatesql = $@"
+                        INSERT INTO StationHistory (
+                            ProductId, Date_{stationName}, Time_{stationName},
+                            Station_{stationName}, Recipe_{stationName},
+                            Temperature_{stationName}, PickedAt_{stationName}
+                        )
+                        VALUES (
+                            @productId, @date, @time, @stationName,
+                            @recipeName, @temperature, @pickAt
+                        )
+                        ON CONFLICT (ProductId) DO UPDATE SET
+                            Date_{stationName} = excluded.Date_{stationName},
+                            Time_{stationName} = excluded.Time_{stationName},
+                            Station_{stationName} = excluded.Station_{stationName},
+                            Recipe_{stationName} = excluded.Recipe_{stationName},
+                            Temperature_{stationName} = excluded.Temperature_{stationName},
+                            PickedAt_{stationName} = excluded.PickedAt_{stationName}";
 
                     using (SqliteCommand command = new SqliteCommand(updatesql, conn))
                     {
@@ -705,7 +727,7 @@ namespace AFLA_001
                         command.Parameters.AddWithValue("@productId", productId);
                         command.Parameters.AddWithValue("@stationName", stationName);
                         command.Parameters.AddWithValue("@temperature", temperature);
-                        command.Parameters.AddWithValue("@pickAt", pickAt);
+                        command.Parameters.AddWithValue("@pickAt", (object)pickAt ?? DBNull.Value);
                         command.Parameters.AddWithValue("@recipeName", recipeName);
                         if (command.ExecuteNonQuery() == 1)
                         {
@@ -723,6 +745,48 @@ namespace AFLA_001
             {
                 Loghelper.Error($"錯誤：{ex.ToString()}");
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// 篩選起始或結束日期,三個時間有一個符合就行
+        /// </summary>
+        /// <param name="startdate">起始</param>
+        /// <param name="enddate">結束</param>
+        /// <returns></returns>
+        public DataTable SearchData(string startdate,string enddate)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"Select ProductId AS 產品編號, 
+                        Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
+                        Date_B AS 日期,Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
+                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
+                        From StationHistory  Where Date_A  BETWEEN @startdate AND @enddate OR 
+                        Date_B BETWEEN @startdate AND @enddate OR Date_C BETWEEN @startdate AND @enddate
+                        Order BY  Date_A DESC";
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    
+                    using(SqliteCommand command = new SqliteCommand(sql,conn))
+                    {
+                        command.Parameters.AddWithValue("@startdate", startdate);
+                        command.Parameters.AddWithValue("@enddate", enddate);
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            dt.Load(reader);
+                        }
+                    }
+                    return dt;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+                return new DataTable();
             }
         }
     }
