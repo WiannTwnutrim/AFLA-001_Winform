@@ -35,6 +35,10 @@
             stbbtn = new Button();
             stcbtn = new Button();
             button1 = new Button();
+            dateTimePickerup = new DateTimePicker();
+            dateTimePickerdown = new DateTimePicker();
+            label = new Label();
+            searchbtn = new Button();
             ((System.ComponentModel.ISupportInitialize)historydataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -63,7 +67,7 @@
             // stabtn
             // 
             stabtn.Font = new Font("Microsoft JhengHei UI", 15F);
-            stabtn.Location = new Point(119, 12);
+            stabtn.Location = new Point(26, 13);
             stabtn.Name = "stabtn";
             stabtn.Size = new Size(76, 37);
             stabtn.TabIndex = 1;
@@ -74,7 +78,7 @@
             // stbbtn
             // 
             stbbtn.Font = new Font("Microsoft JhengHei UI", 15F);
-            stbbtn.Location = new Point(232, 12);
+            stbbtn.Location = new Point(146, 15);
             stbbtn.Name = "stbbtn";
             stbbtn.Size = new Size(76, 37);
             stbbtn.TabIndex = 2;
@@ -85,7 +89,7 @@
             // stcbtn
             // 
             stcbtn.Font = new Font("Microsoft JhengHei UI", 15F);
-            stcbtn.Location = new Point(355, 12);
+            stcbtn.Location = new Point(264, 16);
             stcbtn.Name = "stcbtn";
             stcbtn.Size = new Size(76, 37);
             stcbtn.TabIndex = 3;
@@ -96,7 +100,7 @@
             // button1
             // 
             button1.Font = new Font("Microsoft JhengHei UI", 15F);
-            button1.Location = new Point(627, 16);
+            button1.Location = new Point(1050, 19);
             button1.Name = "button1";
             button1.Size = new Size(90, 35);
             button1.TabIndex = 5;
@@ -104,11 +108,54 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // dateTimePickerup
+            // 
+            dateTimePickerup.CustomFormat = "yyyy-MM-dd";
+            dateTimePickerup.Format = DateTimePickerFormat.Custom;
+            dateTimePickerup.Location = new Point(399, 27);
+            dateTimePickerup.Name = "dateTimePickerup";
+            dateTimePickerup.Size = new Size(106, 23);
+            dateTimePickerup.TabIndex = 6;
+            // 
+            // dateTimePickerdown
+            // 
+            dateTimePickerdown.CustomFormat = "yyyy-MM-dd";
+            dateTimePickerdown.Format = DateTimePickerFormat.Custom;
+            dateTimePickerdown.Location = new Point(615, 27);
+            dateTimePickerdown.Name = "dateTimePickerdown";
+            dateTimePickerdown.Size = new Size(106, 23);
+            dateTimePickerdown.TabIndex = 7;
+            // 
+            // label
+            // 
+            label.AutoSize = true;
+            label.Font = new Font("Microsoft JhengHei UI", 15F);
+            label.Location = new Point(553, 27);
+            label.Name = "label";
+            label.Size = new Size(32, 25);
+            label.TabIndex = 8;
+            label.Text = "到";
+            // 
+            // searchbtn
+            // 
+            searchbtn.Font = new Font("Microsoft JhengHei UI", 15F);
+            searchbtn.Location = new Point(911, 20);
+            searchbtn.Name = "searchbtn";
+            searchbtn.Size = new Size(90, 35);
+            searchbtn.TabIndex = 9;
+            searchbtn.Text = "搜尋";
+            searchbtn.UseVisualStyleBackColor = true;
+            searchbtn.Click += searchbtn_Click;
+            // 
             // HistoryForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1251, 413);
+            Controls.Add(searchbtn);
+            Controls.Add(label);
+            Controls.Add(dateTimePickerdown);
+            Controls.Add(dateTimePickerup);
             Controls.Add(button1);
             Controls.Add(stcbtn);
             Controls.Add(stbbtn);
@@ -119,6 +166,7 @@
             Text = "HistoryForm";
             ((System.ComponentModel.ISupportInitialize)historydataGridView).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -128,5 +176,9 @@
         private Button stbbtn;
         private Button stcbtn;
         private Button button1;
+        private DateTimePicker dateTimePickerup;
+        private DateTimePicker dateTimePickerdown;
+        private Label label;
+        private Button searchbtn;
     }
 }

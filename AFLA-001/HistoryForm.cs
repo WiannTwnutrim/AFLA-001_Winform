@@ -47,7 +47,7 @@ namespace AFLA_001
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(
                 "請輸入產品編號。同一產品的各站請使用相同編號。", $"{stationName} 站");
-            if (string.IsNullOrWhiteSpace(input)|| !int.TryParse(input, out int productId))
+            if (string.IsNullOrWhiteSpace(input) || !int.TryParse(input, out int productId))
             {
                 MessageBox.Show("請輸入有效的整數產品編號。");
                 return;
@@ -66,6 +66,22 @@ namespace AFLA_001
         private void button1_Click(object sender, EventArgs e)
         {
             Export.ExportCSV(historydataGridView, "HistoryData");
+        }
+
+        private void searchbtn_Click(object sender, EventArgs e)
+        {
+            string startDate = dateTimePickerup.Value.ToString("yyyy/MM/dd");
+            string endDate = dateTimePickerdown.Value.ToString("yyyy/MM/dd");
+            dt.Clear();
+            try
+            {
+                dt = _db.SearchData(startDate, endDate);
+                historydataGridView.DataSource = dt;
+            }
+            catch(Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+            }
         }
     }
 }

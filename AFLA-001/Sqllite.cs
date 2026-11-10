@@ -649,7 +649,8 @@ namespace AFLA_001
                     string sql = @"Select ProductId AS 產品編號, 
                         Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
                         Date_B AS 日期,Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
-                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 From StationHistory";
+                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
+                        From StationHistory Order BY  Date_A DESC";
 
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
@@ -744,6 +745,48 @@ namespace AFLA_001
             {
                 Loghelper.Error($"錯誤：{ex.ToString()}");
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// 篩選起始或結束日期,三個時間有一個符合就行
+        /// </summary>
+        /// <param name="startdate">起始</param>
+        /// <param name="enddate">結束</param>
+        /// <returns></returns>
+        public DataTable SearchData(string startdate,string enddate)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"Select ProductId AS 產品編號, 
+                        Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
+                        Date_B AS 日期,Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
+                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
+                        From StationHistory  Where Date_A  BETWEEN @startdate AND @enddate OR 
+                        Date_B BETWEEN @startdate AND @enddate OR Date_C BETWEEN @startdate AND @enddate
+                        Order BY  Date_A DESC";
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    
+                    using(SqliteCommand command = new SqliteCommand(sql,conn))
+                    {
+                        command.Parameters.AddWithValue("@startdate", startdate);
+                        command.Parameters.AddWithValue("@enddate", enddate);
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            dt.Load(reader);
+                        }
+                    }
+                    return dt;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+                return new DataTable();
             }
         }
     }
