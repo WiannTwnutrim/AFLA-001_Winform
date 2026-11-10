@@ -25,7 +25,7 @@ namespace AFLA_001
             //，決定對話框中「另存為檔案類型」或「類型檔案」欄位中出現的選項。
             data.Filter = "CSV 檔案 (*.csv)|*.csv";
 
-            data.FileName = DataName;//檔名(stirng)
+            data.FileName =$"{DateTime.Now.ToString("yyyy/MM/dd")}  {DataName}" ;//檔名(stirng)
             if (data.ShowDialog() != DialogResult.OK)
                     //使用者在對話框要傳回ok
             {
