@@ -30,54 +30,54 @@ namespace AFLA_001
 
         private void stabtn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (!_db.AddHistoryStation("A", "2:40", 45, UserSession.WritedRecipe))
-                {
-                    MessageBox.Show("A 站歷史新增失敗，請查看日誌");
-                }
-                LoadHistory();
-            }
-            catch (Exception ex)
-            {
-                Loghelper.Error($"錯誤：{ex.ToString()}");
+            //try
+            //{
+            //    if (!_db.AddHistoryStation("A", "2:40", 45, UserSession.WritedRecipe))
+            //    {
+            //        MessageBox.Show("A 站歷史新增失敗，請查看日誌");
+            //    }
+            //    LoadHistory();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Loghelper.Error($"錯誤：{ex.ToString()}");
 
-            }
+            //}
 
         }
 
         private void stbbtn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (!_db.AddHistoryStation("B", "7:10", 80, UserSession.WritedRecipe))
-                {
-                    MessageBox.Show("B 站歷史新增失敗，請查看日誌");
-                }
-                LoadHistory();
-            }
-            catch (Exception ex)
-            {
-                Loghelper.Error($"錯誤：{ex.ToString()}");
+            //try
+            //{
+            //    if (!_db.AddHistoryStation("B", "7:10", 80, UserSession.WritedRecipe))
+            //    {
+            //        MessageBox.Show("B 站歷史新增失敗，請查看日誌");
+            //    }
+            //    LoadHistory();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Loghelper.Error($"錯誤：{ex.ToString()}");
 
-            }
+            //}
         }
 
         private void stcbtn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (!_db.AddHistoryStation("C", "2:10", 30, UserSession.WritedRecipe))
-                {
-                    MessageBox.Show("C 站歷史新增失敗，請查看日誌");
-                }
-                LoadHistory();
-            }
-            catch (Exception ex)
-            {
-                Loghelper.Error($"錯誤：{ex.ToString()}");
+            //try
+            //{
+            //    if (!_db.AddHistoryStation("C", "2:10", 30, UserSession.WritedRecipe))
+            //    {
+            //        MessageBox.Show("C 站歷史新增失敗，請查看日誌");
+            //    }
+            //    LoadHistory();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Loghelper.Error($"錯誤：{ex.ToString()}");
 
-            }
+            //}
         }
 
         private void button1_Click(object sender, EventArgs e)

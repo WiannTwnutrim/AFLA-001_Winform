@@ -332,7 +332,7 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s " 
+                    string sql = "SELECT s.*,r.Size AS Size FROM RecipeStep AS s "
                         + "INNER JOIN Recipe AS r  ON s.RecipeID = r.RecipeID " + "WHERE r.RecipeName = @recipeName Order By s.StepID";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
@@ -516,7 +516,7 @@ namespace AFLA_001
 
                         command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
                         if (command.ExecuteNonQuery() < 1)
-                        {                            
+                        {
                             Loghelper.Error("重置警告失敗");
                             return false;
                         }
@@ -605,7 +605,7 @@ namespace AFLA_001
         public void AddEvent(string EventName)
         {
             DateTime now = DateTime.Now;
-            string date = now.ToString("yyyy/MM/dd",System.Globalization.CultureInfo.InvariantCulture);
+            string date = now.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
             string time = now.ToString("HH:mm:ss");
             try
             {
@@ -646,9 +646,11 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "Select ProductId,Date,Time,Station,Recipe,Temperature," +
-                        "PickedAt From StationHistory " +
-                        "Order By Date DESC,Time DESC ";
+                    string sql = @"Select ProductId AS 產品編號, 
+                        Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
+                        Date_B AS 日期,Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
+                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 From StationHistory";
+
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
                         using (SqliteDataReader reader = command.ExecuteReader())
@@ -671,10 +673,10 @@ namespace AFLA_001
         /// <summary>
         /// 新增站點
         /// </summary>
-        /// <param name="stationName">站點名稱</param>
-        /// <param name="pickAt">站點時間</param>
-        /// <param name="Temperature">溫度</param>
-        public bool AddHistoryStation(string stationName, string pickAt, int temperature, string recipeName)
+        /// <param name = "stationName" > 站點名稱 </ param >
+        /// < param name="pickAt">站點時間</param>
+        /// <param name = "Temperature" > 溫度 </ param >
+        public bool AddHistoryStation(int productId, string stationName, string recipeName, int temperature, string pickAt )
         {
             if (string.IsNullOrWhiteSpace(recipeName))
             {
@@ -682,7 +684,6 @@ namespace AFLA_001
                 return false;
             }
             DateTime now = DateTime.Now;
-            int productId = 0;
             //避免轉換日期格式失敗System.Globalization.CultureInfo.InvariantCulture
             string date = now.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
             string time = now.ToString("HH:mm:ss");
