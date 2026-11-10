@@ -676,8 +676,14 @@ namespace AFLA_001
         /// <param name = "stationName" > 站點名稱 </ param >
         /// < param name="pickAt">站點時間</param>
         /// <param name = "Temperature" > 溫度 </ param >
-        public bool AddHistoryStation(int productId, string stationName, string recipeName, int temperature, string pickAt )
+        public bool AddHistoryStation(int productId, string stationName, string recipeName, int temperature, string pickAt)
         {
+            if (stationName != "A" && stationName != "B" && stationName != "C")
+            {
+                Loghelper.Error($"無效的站點名稱：{stationName}");
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(recipeName))
             {
                 Loghelper.Error($"新增 {stationName} 站歷史失敗，配方名稱為空。");
@@ -695,8 +701,23 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string updatesql = "Insert Into StationHistory(ProductId,Date,Time,Station,Recipe,Temperature,PickedAt) " +
-                        "Values(@productId,@date,@time,@stationName,@recipeName,@temperature,@pickAt)";
+                    string updatesql = $@"
+                        INSERT INTO StationHistory (
+                            ProductId, Date_{stationName}, Time_{stationName},
+                            Station_{stationName}, Recipe_{stationName},
+                            Temperature_{stationName}, PickedAt_{stationName}
+                        )
+                        VALUES (
+                            @productId, @date, @time, @stationName,
+                            @recipeName, @temperature, @pickAt
+                        )
+                        ON CONFLICT (ProductId) DO UPDATE SET
+                            Date_{stationName} = excluded.Date_{stationName},
+                            Time_{stationName} = excluded.Time_{stationName},
+                            Station_{stationName} = excluded.Station_{stationName},
+                            Recipe_{stationName} = excluded.Recipe_{stationName},
+                            Temperature_{stationName} = excluded.Temperature_{stationName},
+                            PickedAt_{stationName} = excluded.PickedAt_{stationName}";
 
                     using (SqliteCommand command = new SqliteCommand(updatesql, conn))
                     {
@@ -705,7 +726,7 @@ namespace AFLA_001
                         command.Parameters.AddWithValue("@productId", productId);
                         command.Parameters.AddWithValue("@stationName", stationName);
                         command.Parameters.AddWithValue("@temperature", temperature);
-                        command.Parameters.AddWithValue("@pickAt", pickAt);
+                        command.Parameters.AddWithValue("@pickAt", (object)pickAt ?? DBNull.Value);
                         command.Parameters.AddWithValue("@recipeName", recipeName);
                         if (command.ExecuteNonQuery() == 1)
                         {
