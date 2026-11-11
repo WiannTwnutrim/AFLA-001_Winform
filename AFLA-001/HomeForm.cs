@@ -169,7 +169,7 @@ namespace AFLA_001
                     pipeglue1.FlowColor = Color.Empty;
                     arm2Control1.FlowColor = Color.Empty;
                 }
-                Invalidate();
+                Invalidate();//重繪
             }
         }
     }
