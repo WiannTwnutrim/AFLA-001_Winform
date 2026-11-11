@@ -117,6 +117,7 @@
             Languagebtn.TabIndex = 8;
             Languagebtn.Text = "Language";
             Languagebtn.UseVisualStyleBackColor = false;
+            Languagebtn.Click += Languagebtn_Click;
             // 
             // Manualbtn
             // 

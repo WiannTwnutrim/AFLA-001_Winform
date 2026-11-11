@@ -13,7 +13,10 @@ namespace AFLA_001
         private UserForm userform = new UserForm();
         private IoForm ioForm = new IoForm();
         private Sqllite _db = new Sqllite();
-        
+        bool isEnglish = false;
+
+
+
 
         public Form1()
         {
@@ -26,21 +29,32 @@ namespace AFLA_001
             logintxt.Text = UserSession.LoginUser;
             recipeForm.WriteRecipe += WriteRecipeSucceeded;
 
+
+            Recipebtn.Tag = new LanguageManger("皌よ", "Recipe");
+            Manualbtn.Tag = new LanguageManger("も笆", "Manual");
+            Userbtn.Tag = new LanguageManger("ㄏノ", "User");
+            Languagebtn.Tag = new LanguageManger("いゅ", "Language");
+            Historybtn.Tag = new LanguageManger("菌", Historybtn.Text);
+            Logbtn.Tag = new LanguageManger("魁", Logbtn.Text);
+            Iobtn.Tag = new LanguageManger("钡翴", Iobtn.Text);
+            Alarmbtn.Tag = new LanguageManger("牡", Alarmbtn.Text);
+            Eventbtn.Tag = new LanguageManger("ㄆン", Eventbtn.Text);
+            Homebtn.Tag = new LanguageManger("", Homebtn.Text);
         }
 
         private void LoginSucceeded(object sender, EventArgs e)
         {
             logintxt.Text = UserSession.LoginUser;
-            Homebtn_Click(Homebtn,e);
+            Homebtn_Click(Homebtn, e);
         }
-      
-        private void LogoutSucceeded(object sender,EventArgs e)
+
+        private void LogoutSucceeded(object sender, EventArgs e)
         {
             logintxt.Text = UserSession.LoginUser;
             showrecipetxt.Text = UserSession.WritedRecipe;
         }
 
-        private void WriteRecipeSucceeded(object sender,EventArgs e)
+        private void WriteRecipeSucceeded(object sender, EventArgs e)
         {
             showrecipetxt.Text = UserSession.WritedRecipe;
         }
@@ -54,15 +68,15 @@ namespace AFLA_001
         {
             if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
             {
-             Loghelper.Userlog(UserSession.LoginUser, "舦ぃ镑ぃち传Recipe");
+                Loghelper.Userlog(UserSession.LoginUser, "舦ぃ镑ぃち传Recipe");
             }
             else
             {
-            PageSwitchManger.ShowPage(MainPage, recipeForm);
-            PageSwitchManger.ActiveButton(Recipebtn);
-            Loghelper.Userlog(UserSession.LoginUser, "ち传ΘRecipe");
+                PageSwitchManger.ShowPage(MainPage, recipeForm);
+                PageSwitchManger.ActiveButton(Recipebtn);
+                Loghelper.Userlog(UserSession.LoginUser, "ち传ΘRecipe");
             }
-            
+
         }
         private void Manualbtn_Click(object sender, EventArgs e)
         {
@@ -72,11 +86,11 @@ namespace AFLA_001
             }
             else
             {
-            PageSwitchManger.ShowPage(MainPage, manualForm);
-            PageSwitchManger.ActiveButton(Manualbtn);
-            Loghelper.Userlog(UserSession.LoginUser, "ち传ΘManual");
+                PageSwitchManger.ShowPage(MainPage, manualForm);
+                PageSwitchManger.ActiveButton(Manualbtn);
+                Loghelper.Userlog(UserSession.LoginUser, "ち传ΘManual");
             }
-            
+
         }
         private void Alarmbtn_Click(object sender, EventArgs e)
         {
@@ -90,8 +104,8 @@ namespace AFLA_001
                 PageSwitchManger.ActiveButton(Alarmbtn);
                 Loghelper.Userlog(UserSession.LoginUser, "ち传ΘAlarm");
             }
-            
-        }               
+
+        }
         private void Historybtn_Click(object sender, EventArgs e)
         {
             if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
@@ -103,22 +117,22 @@ namespace AFLA_001
                 PageSwitchManger.ShowPage(MainPage, historyForm);
                 PageSwitchManger.ActiveButton(Historybtn);
                 Loghelper.Userlog(UserSession.LoginUser, "ち传ΘHistory");
-            }            
+            }
         }
         private void Eventbtn_Click(object sender, EventArgs e)
         {
-			if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
             {
-				Loghelper.Userlog(UserSession.LoginUser, "舦ぃ镑ぃち传Event");
-			}
+                Loghelper.Userlog(UserSession.LoginUser, "舦ぃ镑ぃち传Event");
+            }
             else
             {
-				PageSwitchManger.ShowPage(MainPage, eventForm);
-				PageSwitchManger.ActiveButton(Eventbtn);
-				Loghelper.Userlog(UserSession.LoginUser, "ち传ΘEvent");
-			}
-			
-		}
+                PageSwitchManger.ShowPage(MainPage, eventForm);
+                PageSwitchManger.ActiveButton(Eventbtn);
+                Loghelper.Userlog(UserSession.LoginUser, "ち传ΘEvent");
+            }
+
+        }
         private void Logbtn_Click(object sender, EventArgs e)
         {
             //PageSwitchManger.ShowPage(MainPage, logPage);
@@ -146,5 +160,44 @@ namespace AFLA_001
         }
 
 
+        private void Languagebtn_Click(object sender, EventArgs e)
+        {           
+            isEnglish = !isEnglish;//がち传
+
+            changeLanguage();
+        }
+
+        public void SetButton(Button button)
+        {
+            
+            LanguageManger text = (LanguageManger)button.Tag;
+
+            if (text == null)
+            {
+                return;
+            }
+            if (isEnglish)
+            {
+                button.Text = text.English;
+            }
+            else
+            {
+                button.Text = text.Taiwan;
+            }
+
+        }
+        public void changeLanguage()
+        {
+            SetButton(Historybtn);
+            SetButton(Userbtn);
+            SetButton(Recipebtn);
+            SetButton(Languagebtn);
+            SetButton(Alarmbtn);
+            SetButton(Homebtn);
+            SetButton(Iobtn);
+            SetButton(Logbtn);
+            SetButton(Eventbtn);
+            SetButton(Manualbtn);
+        }
     }
 }
