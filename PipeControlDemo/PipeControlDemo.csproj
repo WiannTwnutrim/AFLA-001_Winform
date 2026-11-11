@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <!-- 刻意只引用 DLL，示範其他專案不需要參考主程式。 -->
+  <ItemGroup>
+    <Reference Include="PathDrawing">
+      <HintPath>../PathDrawing/bin/Release/net8.0-windows/PathDrawing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

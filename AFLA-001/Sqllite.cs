@@ -648,9 +648,9 @@ namespace AFLA_001
                     conn.Open();
                     string sql = @"Select ProductId AS 產品編號, 
                         Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
-                        Date_B AS 日期,Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
-                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
-                        From StationHistory Order BY  Date_A DESC";
+                        Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
+                        Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
+                        From StationHistory Order BY  ProductId DESC";
 
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
@@ -672,7 +672,7 @@ namespace AFLA_001
 
 
         /// <summary>
-        /// 新增站點
+        /// 新增站點只有第一個新增才有日期
         /// </summary>
         /// <param name = "stationName" > 站點名稱 </ param >
         /// < param name="pickAt">站點時間</param>
@@ -704,7 +704,7 @@ namespace AFLA_001
                     conn.Open();
                     string updatesql = $@"
                         INSERT INTO StationHistory (
-                            ProductId, Date_{stationName}, Time_{stationName},
+                            ProductId, Date_A, Time_{stationName},
                             Station_{stationName}, Recipe_{stationName},
                             Temperature_{stationName}, PickedAt_{stationName}
                         )
@@ -712,8 +712,7 @@ namespace AFLA_001
                             @productId, @date, @time, @stationName,
                             @recipeName, @temperature, @pickAt
                         )
-                        ON CONFLICT (ProductId) DO UPDATE SET
-                            Date_{stationName} = excluded.Date_{stationName},
+                        ON CONFLICT (ProductId) DO UPDATE SET                            
                             Time_{stationName} = excluded.Time_{stationName},
                             Station_{stationName} = excluded.Station_{stationName},
                             Recipe_{stationName} = excluded.Recipe_{stationName},
@@ -759,11 +758,9 @@ namespace AFLA_001
             DataTable dt = new DataTable();
             string sql = @"Select ProductId AS 產品編號, 
                         Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
-                        Date_B AS 日期,Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
-                        Date_C AS 日期,Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
-                        From StationHistory  Where Date_A  BETWEEN @startdate AND @enddate OR 
-                        Date_B BETWEEN @startdate AND @enddate OR Date_C BETWEEN @startdate AND @enddate
-                        Order BY  Date_A DESC";
+                        Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
+                        Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
+                        From StationHistory  Where Date_A  BETWEEN @startdate AND @enddate Order BY  Date_A DESC";
             try
             {
                 using (SqliteConnection conn = new SqliteConnection(connectionString))

@@ -70,8 +70,8 @@ namespace AFLA_001
 
         private void searchbtn_Click(object sender, EventArgs e)
         {
-            string startDate = dateTimePickerup.Value.ToString("yyyy/MM/dd");
-            string endDate = dateTimePickerdown.Value.ToString("yyyy/MM/dd");
+            string startDate = dateTimePickerup.Value.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
+            string endDate = dateTimePickerdown.Value.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
             dt.Clear();
             try
             {
