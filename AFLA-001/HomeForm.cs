@@ -12,6 +12,10 @@ namespace AFLA_001
         public HomeForm()
         {
             InitializeComponent();
+            levelTankControl1.BringToFront();
+            // Keep the independent metal arms above their connecting pipes.
+            arm1Control1.BringToFront();
+            arm2Control1.BringToFront();
 
             // 啟用雙緩衝，減少首頁重繪時的閃爍。
             DoubleBuffered = true;
@@ -44,8 +48,8 @@ namespace AFLA_001
             if (valve == ipavalve)
             {
                 Color flowColor = valve.ForeColor == Color.LimeGreen
-                    ? Color.SkyBlue : Color.Empty;
-                pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = flowColor;
+                    ? Color.Blue : Color.Empty;
+                pipeipa4.FlowColor = flowColor;
             }
             Invalidate();
             return true;
@@ -65,14 +69,12 @@ namespace AFLA_001
                     if (valve.ForeColor == Color.LimeGreen)
                     {
                         airpicture.Image = Properties.Resources.air2;
-                        airpipe1.FlowColor = Color.SkyBlue;
-                        airpipe2.FlowColor = Color.SkyBlue;
+                        airpipe3.FlowColor = Color.SkyBlue;
                     }
                     else
                     {
                         airpicture.Image = Properties.Resources.air;
-                        airpipe1.FlowColor = Color.Empty;
-                        airpipe2.FlowColor = Color.Empty;
+                        airpipe3.FlowColor = Color.Empty;
                     }
                 }
                 //oil下
@@ -80,14 +82,12 @@ namespace AFLA_001
                 {
                     if (valve.ForeColor == Color.LimeGreen)
                     {
-                        pipeoil2.FlowColor = pipeoil14.FlowColor
-                        = pipeoil15.FlowColor = pipeoil16.FlowColor = Color.Orange;
+                        pipeoil2.FlowColor = Color.Orange;
 
                     }
                     else
                     {
-                        pipeoil2.FlowColor = pipeoil14.FlowColor
-                        = pipeoil15.FlowColor = pipeoil16.FlowColor = Color.Empty;
+                        pipeoil2.FlowColor = Color.Empty;
                     }
                 }
                 //oil上
@@ -95,13 +95,11 @@ namespace AFLA_001
                 {
                     if (valve.ForeColor == Color.LimeGreen)
                     {
-                        pipeoil11.FlowColor = pipeoil12.FlowColor = pipeoil13.FlowColor
-                        = pipeoil17.FlowColor = arm1Control1.FlowColor = Color.Orange;
+                        pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Orange;
                     }
                     else
                     {
-                        pipeoil11.FlowColor = pipeoil12.FlowColor = pipeoil13.FlowColor
-                        = pipeoil17.FlowColor = arm1Control1.FlowColor = Color.Empty;
+                        pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Empty;
                     }
                 }
                 if (valve.ForeColor == Color.LimeGreen)
@@ -159,18 +157,53 @@ namespace AFLA_001
                 : Color.LimeGreen;
                 if (glueval.ForeColor == Color.LimeGreen)
                 {
-                    gluepicture.Image = Properties.Resources.glueout2;
-                    pipeglue1.FlowColor = Color.DarkBlue;
-                    arm2Control1.FlowColor = Color.DarkBlue;
+                    gluepic.Image = Properties.Resources.glueout1;
+                    pipeglue2.FlowColor = Color.DarkBlue;
                 }
                 else
                 {
-                    gluepicture.Image = Properties.Resources.glueout1;
+                    gluepic.Image = Properties.Resources.glueout2;
                     pipeglue1.FlowColor = Color.Empty;
-                    arm2Control1.FlowColor = Color.Empty;
                 }
                 Invalidate();//重繪
             }
         }
+
+        private void vaccumval_Click(object sender, EventArgs e)
+        {
+            if (form.ShowDialog(this) == DialogResult.Yes)
+            {
+                // 在這裡加入 GLUE 閥門的變色邏輯。
+                glueval.ForeColor = glueval.ForeColor == Color.LimeGreen
+                ? Color.Silver
+                : Color.LimeGreen;
+                if (glueval.ForeColor == Color.LimeGreen)
+                {
+                    vaccumpic.Image = Properties.Resources.vaccum;
+                    pipevacc2.FlowColor = Color.Gray;
+                }
+                else
+                {
+                    vaccumpic.Image = Properties.Resources.vaccum1;
+                    pipeglue2.FlowColor = Color.Empty;
+                }
+                Invalidate();//重繪
+            }
+        }
+
+        private void ipaLow_Click(object sender, EventArgs e)
+        {
+            ipatank.Level = 10f;
+            ipavalve.ForeColor = Color.Silver;
+            pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Empty;
+        }
+
+        private void ipaHigh_Click(object sender, EventArgs e)
+        {
+            ipatank.Level = 80f;
+            pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Blue;
+        }
     }
 }
+
+

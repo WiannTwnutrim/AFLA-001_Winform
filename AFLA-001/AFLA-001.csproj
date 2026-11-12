@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.14" />
-    <PackageReference Include="PathDrawing" Version="1.0.5" />
+
   </ItemGroup>
 
   <ItemGroup>
@@ -35,4 +35,7 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PathDrawing\PathDrawing.csproj" />
+  </ItemGroup>
 </Project>

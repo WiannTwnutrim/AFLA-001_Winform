@@ -1,82 +1,12 @@
-# PathDrawing 1.0.4 使用說明
+# PathDrawing 1.0.5 使用說明
 
 適用 .NET 8 Windows Forms；本套件不適用 .NET Framework 4.x。
 
 ## 安裝與更新
 
-在 Visual Studio「工具 → NuGet 套件管理員 → 套件管理員設定 → 套件來源」新增本 packages 資料夾，並在目標專案安裝 PathDrawing 1.0.4。建置後重新開啟表單設計工具，在工具箱搜尋 PipeControl（管線）及 ValveControl（閥門），另有 ArmControl（ARM 圓筒），三者皆可拖入表單。
+在 Visual Studio「工具 → NuGet 套件管理員 → 套件管理員設定 → 套件來源」新增本 packages 資料夾，並在目標專案安裝 PathDrawing 1.0.5。建置後重新開啟表單設計工具，在工具箱搜尋 PipeControl（管線）及 ValveControl（閥門），手臂只提供 Arm1Control、Arm2Control 兩個工具箱項目。
 
-從舊版更新時，在目標專案的 NuGet 套件管理員選擇本機來源，將 PathDrawing 更新至 1.0.4，建置後重新開啟設計工具。若工具箱尚未出現三個元件，重新啟動 Visual Studio 並確認專案實際引用版本為 1.0.4。
-
-
-### 目前 1111 分支與同版本更新
-
-1111 分支的 AFLA-001.csproj 直接 ProjectReference 到 ../PathDrawing/PathDrawing.csproj。此模式修改 PathDrawing/ArmControl.cs 並重建主程式即可生效，不需要重新安裝 NuGet。關閉再開啟表單設計工具後，選取 ArmControl，應能看到 Shape 與 FlowColor 屬性。
-
-若其他專案使用 NuGet 版，這次仍沿用 1.0.4 版本號；只更換 packages 裡的 nupkg 不保證 NuGet 已安裝的快取會更新。請關閉設計工具，確認實際使用的 PathDrawing 1.0.4 套件位置，清除該版本舊快取後從本機來源重新安裝，再重建專案並重新開啟設計工具。若直接引用 DLL，則將引用指向更新後的 PathDrawing.dll。只有版本號為 1.0.4，不能證明已載入最新內容；ArmControl 是否具有 Shape、FlowColor 才是本次更新的辨識方式。
-
-## 將自己的類別庫輸出為 DLL 與 NuGet 套件
-
-本專案的類別庫為 PathDrawing/PathDrawing.csproj。先安裝支援 .NET 8 的 SDK 與 Windows Forms 開發環境，在 PowerShell 切換到方案根目錄，再執行下列指令。
-
-### 1. 確認類別庫設定
-
-目前 PathDrawing.csproj 使用以下設定；Version 決定套件版本，未另外設定 PackageId 時，套件名稱預設沿用專案名稱 PathDrawing。
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Version>1.0.4</Version>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Update="README.md" Pack="true" PackagePath="/" />
-  </ItemGroup>
-</Project>
-```
-
-此設定適用本專案的 Windows Forms 自訂控制項。README.md 必須存在於 PathDrawing 資料夾，封裝時會一併放入套件。
-
-### 2. 建置 DLL
-
-```powershell
-Set-Location 'C:\Users\wiann\Desktop\code\AFLA-001_Winform'
-dotnet build .\PathDrawing\PathDrawing.csproj -c Release
-```
-
-輸出 DLL：`PathDrawing\bin\Release\net8.0-windows\PathDrawing.dll`。
-
-PipeControl、ValveControl、ArmControl 等 public 類別會包含在同一個 PathDrawing.dll 中，不會各自輸出一份 DLL。不要把單一 .cs 原始碼改副檔名當成 DLL，必須經過建置。
-
-### 3. 封裝為 NuGet 套件
-
-```powershell
-dotnet pack .\PathDrawing\PathDrawing.csproj -c Release -o .\packages
-```
-
-這個指令預設會還原相依套件、建置類別庫，再產生 `packages\PathDrawing.1.0.4.nupkg`。一般更新使用這個指令即可，不需要先手動執行 build。
-
-`.dll` 是可供程式引用的組件；`.nupkg` 是裝有 DLL、版本與相依資訊的 NuGet 套件。封裝不會自動上傳到 nuget.org。可將整個 nupkg 提供給其他專案，並將其所在的 packages 資料夾設為本機 NuGet 來源。
-
-若只是更新說明文件，而且 Release DLL 已是最新版本，可省略重建：
-
-```powershell
-dotnet pack .\PathDrawing\PathDrawing.csproj -c Release -o .\packages --no-build --no-restore
-```
-
-修改過 .cs 程式碼時請使用前面的正常 pack 指令，避免把舊 DLL 包進新套件。
-
-### 4. 檢查與使用輸出
-
-用壓縮檔工具開啟 nupkg，在 `lib` 下對應目標框架的資料夾確認有 PathDrawing.dll，並確認根目錄包含 README.md。NuGet 的目標框架資料夾名稱可能帶有 Windows 平台版本，與 bin 的資料夾名稱不一定完全相同。
-
-使用 NuGet 時安裝 nupkg；使用手動組件引用時，選取 Release 輸出的 PathDrawing.dll。兩種方式擇一即可。1111 分支目前直接引用 PathDrawing 專案，因此日常修改後重建主程式即可；pack 是提供其他專案安裝或交付時使用。
-
-後續發布新版本可修改 csproj 的 Version（例如 1.0.5），再執行 pack，會產生對應版本的 nupkg。本次依原要求維持 1.0.4，覆蓋同版本套件時仍需留意前述 NuGet 快取。
+從舊版更新時，在目標專案的 NuGet 套件管理員選擇本機來源，將 PathDrawing 更新至 1.0.5，建置後重新開啟設計工具。若工具箱尚未出現元件，重新啟動 Visual Studio 並確認專案實際引用版本為 1.0.5。
 
 ## 設計畫面操作
 
@@ -153,39 +83,50 @@ ForeColor 及 FlowColor 改變時會自動重畫。新閥門使用標準 Click �
 
 ## 套件內容
 
-同一份 PathDrawing.dll 包含可拖曳的 PipeControl、ValveControl、ArmControl，並保留原本 PathDrawer API（含 DrawArm）。
+同一份 PathDrawing.dll 包含可拖曳的 PipeControl、ValveControl、Arm1Control、Arm2Control，並保留原本 PathDrawer API（含 DrawArm）。
 
-## ArmControl：ARM1 / ARM2 完整接管組件
+## Arm1Control / Arm2Control：透明背景手臂
 
-在工具箱拖入兩個 ArmControl，按 F4，在「ARM」分類設定 Shape。使用現有 ArmControl 即可，不需要另外尋找 Arm1Control 或 Arm2Control。
+工具箱只顯示 Arm1Control、Arm2Control；ArmControl 保留為相容基底，不列入工具箱。兩個手臂只繪製銀色 ARM，不包含上接管或橫向管線。
 
-| 屬性 | 用法 |
-|---|---|
-| Shape | Arm1（預設）：右側銀色圓筒，包含上方直管與右側橫管；Arm2：左側細圓筒，包含上方直管與下方接頭 |
-| Angle | 未自訂時，Arm1 自動使用 30 度，Arm2 自動使用 -30 度；可自訂 -180～180 度 |
-| FlowColor | 接管流體顏色，與外接 PipeControl.FlowColor 設為相同值即可；Empty 使用預設金屬色 |
-| Size | 預設 142 × 124；筒身與接管位置依可用範圍等比例縮放，接管粗細維持與一般 PipeControl 相同的 DPI 管徑 |
-| Location | 移動整個組件，將上方直管或右側橫管中心對準外部管線 |
-| BackColor | 預設 Transparent，顯示父容器背景 |
+手臂在 OnPaint 中繪製，BackColor 預設 Transparent，由 WinForms 繪製父容器的背景（包含父容器 OnPaint 的圖案）。父容器背景可在 OnPaint 繪製；透明區域會顯示該背景。ARM1／ARM2 使用圓筒輪廓 Region，輪廓外可顯示同層管線，兩者維持獨立控制項。手臂請使用 BringToFront() 疊在管線上。
 
-接管和筒身繪製於同一個控制項，先畫接管、再畫筒身，避免內建接管被 ARM 的透明背景遮住。接管共用 PathDrawer.DrawFlowPipe 的四層金屬配色，標準 DPI 下外徑為 12 像素，與 PipeControl 一致。極小控制項仍可能縮小或不顯示圖形，請保留足夠空間。
+Arm1Control 預設 Angle = 30，Arm2Control 預設 Angle = -30。Angle 可設 -180～180；Size 等比例縮放並置中，Location 決定位置。InletPoint 回傳手臂頂端中心的控制項內座標。雙擊可建立 Click 事件。
 
-Angle 的 0 度表示接口朝下，正角度使下端向左傾斜，負角度使下端向右傾斜。自訂 Angle 後切換 Shape 會保留自訂角度；在屬性視窗對 Angle 按右鍵「重設」，即可恢復該 Shape 的預設角度。舊表單若已儲存 Angle，切換 Shape 後也建議先重設 Angle。
+FlowColor 僅保留舊程式相容性，已從屬性視窗隱藏，不再影響手臂外觀。
+
+
+## 液位桶 LevelTankControl（1.0.5）
+工具箱元件名稱：LevelTankControl。金屬桶身、液體與 0、25、50、75、100 刻度由控制項繪製。
+Level：0～100 的 float 百分比，預設 50，拒絕超出範圍及非有限數值。
+LiquidColor：液體顏色，預設 Gold。ForeColor 控制刻度顏色。
+LevelChanged：液位變動事件。請在 UI 執行緒更新控制項。
 
 ```csharp
-arm1Control.Shape = PathDrawing.ArmShape.Arm1; // 右側完整組件
-arm1Control.ResetAngle();                    // 使用預設 30 度
-arm2Control.Shape = PathDrawing.ArmShape.Arm2; // 左側完整組件
-arm2Control.ResetAngle();                    // 使用預設 -30 度
-
-// 外接管與 ARM 內建接管使用相同流體顏色。
-pipeControl1.FlowColor = Color.Orange;
-arm1Control.FlowColor = pipeControl1.FlowColor;
-
-// 回到預設金屬色。
-arm2Control.FlowColor = Color.Empty;
+var tank = new PathDrawing.LevelTankControl
+{
+    Location = new Point(20, 20),
+    Size = new Size(100, 130),
+    Level = 50,
+    LiquidColor = Color.Gold
+};
+Controls.Add(tank);
+tank.Level = 75;
+tank.LiquidColor = Color.DodgerBlue;
 ```
 
-InletPoint 為唯讀 PointF，回傳筒身接管接口在控制項內的位置，並非最上方直管的外接端點。位置、角度或大小改變後需重新取得；在同一父容器內可加上 Location 換算座標。
+建議 Size 使用 100×130 或更大，避免刻度文字因縮小而難以閱讀。
 
-FlowColor 只影響接管，筒身保持銀色；ForeColor 不控制筒身金屬色。Click 為標準事件，控制項未內建設備動作或動畫。外部獨立 PipeControl 與 ArmControl 仍需以端點對接，WinForms 的 Transparent 不會透出重疊的同層控制項。
+
+液位桶背景修正：LevelTankControl 現在以桶身、刻度線及文字輪廓設定 Control.Region，外圍空白與刻度間隙不會遮擋同層管線。調整尺寸、DPI 或重建視窗時自動更新輪廓。請使用 BringToFront() 將桶身疊在接管處上方。
+
+## 刻度字型設定（1.0.5 同版本更新）
+LevelTankControl 現在支援 Font 屬性，可在 Visual Studio 屬性視窗設定字型、大小與粗體。
+例如：levelTankControl1.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+ForeColor 控制刻度顏色。Font 沿用標準 WinForms 字型繼承與設計工具序列化行為。
+刻度按 Font 實際大小與 DPI 繪製，不再跟著桶身縮放；字型變動時會同步重建透明輪廓，保留外圍與刻度間隙透出管線的效果。
+字體加大時請增加控制項寬度及高度，避免文字超出邊界或刻度互相重疊。主程式首頁已設定 Segoe UI 8pt Bold。
+本次套件仍為1.0.5，使用NuGet者須依同版本更新步驟重新安裝，僅覆蓋nupkg不會更新既有快取。
+
+## 桶頂外觀更新（1.0.5）
+移除 LevelTankControl 頂端突出的小接口，桶頂保留圓弧金屬外形。同步移除接口的視窗 Region，原接口位置不再遮擋管線。液位、顏色、Font 與刻度功能維持原設定。
