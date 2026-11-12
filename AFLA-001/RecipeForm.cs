@@ -229,18 +229,18 @@ namespace AFLA_001
 
         private void recipeWribtn_Click(object sender, EventArgs e)
         {
-            if(recipecombo.Text == recipeNametxt.Text)
+            if (recipecombo.Text == recipeNametxt.Text)
             {
                 UserSession.LoadRecipe(recipecombo.Text);//先抓combobox的值
                 //正常流程要先load save後才
                 WriteRecipe?.Invoke(sender, e);//觸發事件
-                Loghelper.Userlog(UserSession.LoginUser,"按下WritePLC,成功寫入PLC");
+                Loghelper.Userlog(UserSession.LoginUser, "按下WritePLC,成功寫入PLC");
             }
             else
             {
                 Loghelper.Error("按下WritePLC,寫入失敗,沒有照流程先LOAD再WRITE");
             }
-            
+
         }
     }
 }

@@ -83,19 +83,9 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap arm1 {
+        public static System.Drawing.Bitmap black {
             get {
-                object obj = ResourceManager.GetObject("arm1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap arm2 {
-            get {
-                object obj = ResourceManager.GetObject("arm2", resourceCulture);
+                object obj = ResourceManager.GetObject("black", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,49 +173,9 @@ namespace AFLA_001.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        public static System.Drawing.Bitmap offar {
-            get {
-                object obj = ResourceManager.GetObject("offar", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
         public static System.Drawing.Bitmap oilpu {
             get {
                 object obj = ResourceManager.GetObject("oilpu", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap onfar {
-            get {
-                object obj = ResourceManager.GetObject("onfar", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap tank_ipa {
-            get {
-                object obj = ResourceManager.GetObject("tank_ipa", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        public static System.Drawing.Bitmap tank_oil {
-            get {
-                object obj = ResourceManager.GetObject("tank_oil", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

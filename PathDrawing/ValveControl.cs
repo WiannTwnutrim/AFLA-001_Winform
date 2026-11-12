@@ -37,6 +37,7 @@ public class ValveControl : Control
                 throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(Orientation));
             if (orientation == value) return;
             orientation = value;
+            UpdateValveRegion();
             Invalidate();
         }
     }
@@ -61,6 +62,55 @@ public class ValveControl : Control
     {
         get => base.TabStop;
         set => base.TabStop = value;
+    }
+
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        UpdateValveRegion();
+    }
+
+    protected override void OnSizeChanged(EventArgs e)
+    {
+        base.OnSizeChanged(e);
+        UpdateValveRegion();
+    }
+
+    protected override void OnDpiChangedAfterParent(EventArgs e)
+    {
+        base.OnDpiChangedAfterParent(e);
+        UpdateValveRegion();
+    }
+
+    private void UpdateValveRegion()
+    {
+        float width = Orientation == Orientation.Horizontal ? ClientSize.Height : ClientSize.Width;
+        float height = Orientation == Orientation.Horizontal ? ClientSize.Width : ClientSize.Height;
+        var next = new Region();
+        next.MakeEmpty();
+        if (width > 0 && height > 0)
+        {
+            float x = width / 2, y = height / 2, half = width * .42f, radius = width * .13f;
+            using var upper = new GraphicsPath();
+            upper.AddPolygon([new PointF(x - half, 0), new PointF(x + half, 0), new PointF(x, y)]);
+            using var lower = new GraphicsPath();
+            lower.AddPolygon([new PointF(x - half, height), new PointF(x + half, height), new PointF(x, y)]);
+            using var hub = new GraphicsPath();
+            hub.AddEllipse(x - radius, y - radius, radius * 2, radius * 2);
+            next.Union(upper);
+            next.Union(lower);
+            next.Union(hub);
+            if (Orientation == Orientation.Horizontal)
+            {
+                using var transform = new Matrix();
+                transform.Translate(ClientSize.Width, 0);
+                transform.Rotate(90);
+                next.Transform(transform);
+            }
+        }
+        var previous = Region;
+        Region = next;
+        previous?.Dispose();
     }
 
     protected override void OnPaint(PaintEventArgs e)
@@ -89,3 +139,4 @@ public class ValveControl : Control
         base.OnPaint(e);
     }
 }
+

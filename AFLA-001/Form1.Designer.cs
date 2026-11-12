@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             MainPage = new Panel();
             panel2 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -42,8 +43,10 @@
             Eventbtn = new Button();
             Alarmbtn = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
+            nowtxt = new TextBox();
             logintxt = new TextBox();
             showrecipetxt = new TextBox();
+            nowtime = new System.Windows.Forms.Timer(components);
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -222,6 +225,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 385F));
+            tableLayoutPanel2.Controls.Add(nowtxt, 0, 0);
             tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
             tableLayoutPanel2.Controls.Add(showrecipetxt, 2, 1);
             tableLayoutPanel2.Location = new Point(61, -1);
@@ -231,6 +235,16 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 47F));
             tableLayoutPanel2.Size = new Size(1199, 120);
             tableLayoutPanel2.TabIndex = 3;
+            // 
+            // nowtxt
+            // 
+            nowtxt.Dock = DockStyle.Fill;
+            nowtxt.Font = new Font("Microsoft JhengHei UI", 20F);
+            nowtxt.Location = new Point(3, 3);
+            nowtxt.Name = "nowtxt";
+            nowtxt.ReadOnly = true;
+            nowtxt.Size = new Size(401, 41);
+            nowtxt.TabIndex = 2;
             // 
             // logintxt
             // 
@@ -251,6 +265,12 @@
             showrecipetxt.ReadOnly = true;
             showrecipetxt.Size = new Size(379, 41);
             showrecipetxt.TabIndex = 1;
+            // 
+            // nowtime
+            // 
+            nowtime.Enabled = true;
+            nowtime.Interval = 1000;
+            nowtime.Tick += nowtime_Tick;
             // 
             // Form1
             // 
@@ -287,5 +307,7 @@
         private TableLayoutPanel tableLayoutPanel2;
         private TextBox logintxt;
         private TextBox showrecipetxt;
+        private TextBox nowtxt;
+        private System.Windows.Forms.Timer nowtime;
     }
 }

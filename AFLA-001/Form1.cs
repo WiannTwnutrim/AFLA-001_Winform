@@ -14,9 +14,7 @@ namespace AFLA_001
         private IoForm ioForm = new IoForm();
         private Sqllite _db = new Sqllite();
         bool isEnglish = false;
-
-
-
+        
 
         public Form1()
         {
@@ -161,7 +159,7 @@ namespace AFLA_001
 
 
         private void Languagebtn_Click(object sender, EventArgs e)
-        {           
+        {
             isEnglish = !isEnglish;//¤¬¬Û¤Á´«
 
             changeLanguage();
@@ -169,7 +167,7 @@ namespace AFLA_001
 
         public void SetButton(Button button)
         {
-            
+
             LanguageManger text = (LanguageManger)button.Tag;
 
             if (text == null)
@@ -198,6 +196,11 @@ namespace AFLA_001
             SetButton(Logbtn);
             SetButton(Eventbtn);
             SetButton(Manualbtn);
+        }
+
+        private void nowtime_Tick(object sender, EventArgs e)
+        {
+            nowtxt.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
         }
     }
 }

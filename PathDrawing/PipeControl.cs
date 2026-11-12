@@ -49,6 +49,7 @@ public class PipeControl : Control
                 throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(PipeShape));
             if (shape == value) return;
             shape = value;
+            UpdatePipeRegion();
             Invalidate();
         }
     }
@@ -64,6 +65,7 @@ public class PipeControl : Control
                 throw new ArgumentOutOfRangeException(nameof(value), "BendX 必須介於 0 與 100。");
             if (bendX == value) return;
             bendX = value;
+            UpdatePipeRegion();
             Invalidate();
         }
     }
@@ -79,6 +81,7 @@ public class PipeControl : Control
                 throw new ArgumentOutOfRangeException(nameof(value), "BendY 必須介於 0 與 100。");
             if (bendY == value) return;
             bendY = value;
+            UpdatePipeRegion();
             Invalidate();
         }
     }
@@ -91,6 +94,7 @@ public class PipeControl : Control
         {
             if (flowColor == value) return;
             flowColor = value;
+            UpdatePipeRegion();
             Invalidate();
         }
     }
@@ -107,6 +111,80 @@ public class PipeControl : Control
     {
         get => base.TabStop;
         set => base.TabStop = value;
+    }
+
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        UpdatePipeRegion();
+    }
+
+    protected override void OnSizeChanged(EventArgs e)
+    {
+        base.OnSizeChanged(e);
+        UpdatePipeRegion();
+    }
+
+    protected override void OnDpiChangedAfterParent(EventArgs e)
+    {
+        base.OnDpiChangedAfterParent(e);
+        UpdatePipeRegion();
+    }
+
+    private void UpdatePipeRegion()
+    {
+        float scale = Math.Min(DeviceDpi / 96f, Math.Min(ClientSize.Width, ClientSize.Height) / 14f);
+        var next = new Region();
+        next.MakeEmpty();
+        if (scale > 0)
+        {
+            int width = Math.Max(1, (int)(ClientSize.Width / scale));
+            int height = Math.Max(1, (int)(ClientSize.Height / scale));
+            bool straight = Shape == PipeShape.Horizontal || Shape == PipeShape.Vertical;
+            var center = straight ? new Point(width / 2, height / 2)
+                : new Point((int)Math.Round(width * BendX / 100.0),
+                    (int)Math.Round(height * BendY / 100.0));
+            var left = new Point(0, center.Y);
+            var right = new Point(width, center.Y);
+            var top = new Point(center.X, 0);
+            var bottom = new Point(center.X, height);
+            using var path = new GraphicsPath();
+            Point[] points = Shape switch
+            {
+                PipeShape.Vertical => [top, bottom],
+                PipeShape.LeftUp => [left, center, top],
+                PipeShape.LeftDown => [left, center, bottom],
+                PipeShape.RightUp => [right, center, top],
+                PipeShape.RightDown => [right, center, bottom],
+                _ => [left, right]
+            };
+            if (Shape == PipeShape.TeeRight)
+            {
+                path.AddLine(top, bottom);
+                path.StartFigure();
+                path.AddLine(center, right);
+            }
+            else
+            {
+                // GDI+ Widen can fail on repeated vertices at 0/100 percent bends.
+                var distinct = new List<Point>();
+                foreach (var point in points)
+                    if (distinct.Count == 0 || distinct[^1] != point) distinct.Add(point);
+                if (distinct.Count >= 2) path.AddLines(distinct.ToArray());
+            }
+            using var pen = new Pen(Color.Black, 12f)
+            {
+                StartCap = LineCap.Flat, EndCap = LineCap.Flat, LineJoin = LineJoin.Round
+            };
+            path.Widen(pen);
+            using var transform = new Matrix();
+            transform.Scale(scale, scale);
+            path.Transform(transform);
+            next.Union(path);
+        }
+        var previous = Region;
+        Region = next;
+        previous?.Dispose();
     }
 
     protected override void OnPaint(PaintEventArgs e)
@@ -181,4 +259,6 @@ public class PipeControl : Control
         }
     }
 }
+
+
 

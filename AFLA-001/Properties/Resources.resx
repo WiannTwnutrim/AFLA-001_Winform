@@ -124,11 +124,8 @@
   <data name="air2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\air2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arm1.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="arm2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arm2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,20 +151,8 @@
   <data name="mada" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mada.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="offar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\offar.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="oilpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oilpu.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="onfar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\onfar.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tank_ipa" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tank_ipa.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tank_oil" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tank_oil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="vaccum" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\vaccum.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

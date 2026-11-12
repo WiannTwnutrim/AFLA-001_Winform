@@ -28,6 +28,7 @@ namespace AFLA_001
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             button1 = new Button();
             button2 = new Button();
             buzzerbtn = new Button();
@@ -35,16 +36,14 @@ namespace AFLA_001
             button5 = new Button();
             vaccumoffbtn = new Button();
             vaccumonbtn = new Button();
-            pictureBox1 = new PictureBox();
+            vaccumpic = new PictureBox();
             label1 = new Label();
             pictureBox5 = new PictureBox();
             airpicture = new PictureBox();
-            gluepicture = new PictureBox();
             label2 = new Label();
-            pictureBox20 = new PictureBox();
+            levelTankControl1 = new PathDrawing.LevelTankControl();
             showair = new PictureBox();
             showoil = new PictureBox();
-            pictureBox35 = new PictureBox();
             pictureBox3 = new PictureBox();
             pictureBox7 = new PictureBox();
             oilpupic = new PictureBox();
@@ -59,10 +58,9 @@ namespace AFLA_001
             pipeoil17 = new PathDrawing.PipeControl();
             pipeipa1 = new PathDrawing.PipeControl();
             pipeipa2 = new PathDrawing.PipeControl();
-            pipeipa3 = new PathDrawing.PipeControl();
             pipeglue1 = new PathDrawing.PipeControl();
             airpipe1 = new PathDrawing.PipeControl();
-            pipeControl16 = new PathDrawing.PipeControl();
+            pipevacc1 = new PathDrawing.PipeControl();
             airpipe2 = new PathDrawing.PipeControl();
             oil1val2 = new PathDrawing.ValveControl();
             ipavalve = new PathDrawing.ValveControl();
@@ -72,17 +70,45 @@ namespace AFLA_001
             airval = new PathDrawing.ValveControl();
             arm1Control1 = new PathDrawing.Arm1Control();
             arm2Control1 = new PathDrawing.Arm2Control();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pipeipa4 = new PathDrawing.PipeControl();
+            pipeglue2 = new PathDrawing.PipeControl();
+            airpipe3 = new PathDrawing.PipeControl();
+            pipevacc2 = new PathDrawing.PipeControl();
+            pipeControl1 = new PathDrawing.PipeControl();
+            pictureBox1 = new PictureBox();
+            ipatank = new PathDrawing.LevelTankControl();
+            pipeipa3 = new PathDrawing.PipeControl();
+            gluepic = new PictureBox();
+            ipaHigh = new Button();
+            ipaLow = new Button();
+            label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            label9 = new Label();
+            label10 = new Label();
+            label11 = new Label();
+            columnControl1 = new PathDrawing.ColumnControl();
+            columnControl2 = new PathDrawing.ColumnControl();
+            label12 = new Label();
+            label13 = new Label();
+            label14 = new Label();
+            label15 = new Label();
+            oiltimer = new System.Windows.Forms.Timer(components);
+            airtimer = new System.Windows.Forms.Timer(components);
+            oil1tiimer = new System.Windows.Forms.Timer(components);
+            ((System.ComponentModel.ISupportInitialize)vaccumpic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)airpicture).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)gluepicture).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox20).BeginInit();
             ((System.ComponentModel.ISupportInitialize)showair).BeginInit();
             ((System.ComponentModel.ISupportInitialize)showoil).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox35).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)oilpupic).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gluepic).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -161,81 +187,70 @@ namespace AFLA_001
             vaccumonbtn.UseVisualStyleBackColor = false;
             vaccumonbtn.Click += vaccumCheck_Click;
             // 
-            // pictureBox1
+            // vaccumpic
             // 
-            pictureBox1.Image = Properties.Resources.vaccum1;
-            pictureBox1.Location = new Point(181, 401);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(147, 50);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 12;
-            pictureBox1.TabStop = false;
+            vaccumpic.Image = Properties.Resources.vaccum1;
+            vaccumpic.Location = new Point(228, 410);
+            vaccumpic.Name = "vaccumpic";
+            vaccumpic.Size = new Size(119, 41);
+            vaccumpic.SizeMode = PictureBoxSizeMode.Zoom;
+            vaccumpic.TabIndex = 12;
+            vaccumpic.TabStop = false;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Microsoft JhengHei UI", 15F);
-            label1.Location = new Point(197, 418);
+            label1.BackColor = Color.White;
+            label1.Font = new Font("Microsoft JhengHei UI", 10F);
+            label1.Location = new Point(245, 421);
             label1.Name = "label1";
-            label1.Size = new Size(99, 25);
+            label1.Size = new Size(69, 18);
             label1.TabIndex = 13;
             label1.Text = "VACCUM";
             // 
             // pictureBox5
             // 
-            pictureBox5.Image = Properties.Resources.wastank2;
-            pictureBox5.Location = new Point(390, 371);
+            pictureBox5.Image = Properties.Resources.wastank1;
+            pictureBox5.Location = new Point(394, 404);
             pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(158, 75);
-            pictureBox5.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox5.Size = new Size(121, 46);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox5.TabIndex = 16;
             pictureBox5.TabStop = false;
             // 
             // airpicture
             // 
             airpicture.Image = Properties.Resources.air;
-            airpicture.Location = new Point(98, 353);
+            airpicture.Location = new Point(117, 353);
             airpicture.Name = "airpicture";
             airpicture.Size = new Size(33, 96);
             airpicture.SizeMode = PictureBoxSizeMode.AutoSize;
             airpicture.TabIndex = 32;
             airpicture.TabStop = false;
             // 
-            // gluepicture
-            // 
-            gluepicture.BackColor = Color.Transparent;
-            gluepicture.Image = Properties.Resources.glueout1;
-            gluepicture.Location = new Point(91, -2);
-            gluepicture.Name = "gluepicture";
-            gluepicture.Size = new Size(130, 92);
-            gluepicture.SizeMode = PictureBoxSizeMode.AutoSize;
-            gluepicture.TabIndex = 30;
-            gluepicture.TabStop = false;
-            // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Microsoft JhengHei UI", 15F);
-            label2.Location = new Point(409, 410);
+            label2.BackColor = Color.White;
+            label2.Font = new Font("Microsoft JhengHei UI", 10F);
+            label2.Location = new Point(412, 422);
             label2.Name = "label2";
-            label2.Size = new Size(120, 25);
+            label2.Size = new Size(85, 18);
             label2.TabIndex = 38;
             label2.Text = "Waste Tank";
             // 
-            // pictureBox20
+            // levelTankControl1
             // 
-            pictureBox20.Image = Properties.Resources.tank_oil;
-            pictureBox20.Location = new Point(734, 213);
-            pictureBox20.Name = "pictureBox20";
-            pictureBox20.Size = new Size(59, 87);
-            pictureBox20.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox20.TabIndex = 50;
-            pictureBox20.TabStop = false;
+            levelTankControl1.Font = new Font("Copperplate Gothic Bold", 10F);
+            levelTankControl1.Location = new Point(715, 216);
+            levelTankControl1.Name = "levelTankControl1";
+            levelTankControl1.Size = new Size(126, 153);
+            levelTankControl1.TabIndex = 50;
             // 
             // showair
             // 
             showair.Image = Properties.Resources.flow_air;
-            showair.Location = new Point(241, 232);
+            showair.Location = new Point(239, 201);
             showair.Name = "showair";
             showair.Size = new Size(41, 41);
             showair.SizeMode = PictureBoxSizeMode.Zoom;
@@ -246,7 +261,7 @@ namespace AFLA_001
             // showoil
             // 
             showoil.Image = Properties.Resources.flow_oil;
-            showoil.Location = new Point(564, 223);
+            showoil.Location = new Point(505, 202);
             showoil.Name = "showoil";
             showoil.Size = new Size(42, 41);
             showoil.SizeMode = PictureBoxSizeMode.Zoom;
@@ -254,23 +269,12 @@ namespace AFLA_001
             showoil.TabStop = false;
             showoil.Visible = false;
             // 
-            // pictureBox35
-            // 
-            pictureBox35.BackColor = Color.Transparent;
-            pictureBox35.Image = Properties.Resources.tank_ipa;
-            pictureBox35.Location = new Point(603, 24);
-            pictureBox35.Name = "pictureBox35";
-            pictureBox35.Size = new Size(59, 87);
-            pictureBox35.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox35.TabIndex = 65;
-            pictureBox35.TabStop = false;
-            // 
             // pictureBox3
             // 
             pictureBox3.Image = Properties.Resources.cup;
-            pictureBox3.Location = new Point(205, 181);
+            pictureBox3.Location = new Point(319, 200);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(374, 27);
+            pictureBox3.Size = new Size(127, 27);
             pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox3.TabIndex = 67;
             pictureBox3.TabStop = false;
@@ -279,18 +283,19 @@ namespace AFLA_001
             // 
             pictureBox7.BackColor = Color.Transparent;
             pictureBox7.Image = Properties.Resources.mada;
-            pictureBox7.Location = new Point(326, 214);
+            pictureBox7.Location = new Point(353, 212);
             pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(85, 147);
+            pictureBox7.Size = new Size(50, 97);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox7.TabIndex = 68;
             pictureBox7.TabStop = false;
             // 
             // oilpupic
             // 
             oilpupic.Image = Properties.Resources.oilpu;
-            oilpupic.Location = new Point(324, 133);
+            oilpupic.Location = new Point(340, 151);
             oilpupic.Name = "oilpupic";
-            oilpupic.Size = new Size(102, 47);
+            oilpupic.Size = new Size(80, 34);
             oilpupic.SizeMode = PictureBoxSizeMode.Zoom;
             oilpupic.TabIndex = 69;
             oilpupic.TabStop = false;
@@ -298,7 +303,8 @@ namespace AFLA_001
             // 
             // pipeoil11
             // 
-            pipeoil11.Location = new Point(702, 181);
+            pipeoil11.FlowColor = Color.Orange;
+            pipeoil11.Location = new Point(702, 188);
             pipeoil11.Name = "pipeoil11";
             pipeoil11.Shape = PathDrawing.PipeShape.LeftDown;
             pipeoil11.Size = new Size(124, 35);
@@ -307,7 +313,8 @@ namespace AFLA_001
             // 
             // pipeoil12
             // 
-            pipeoil12.Location = new Point(629, 181);
+            pipeoil12.FlowColor = Color.Orange;
+            pipeoil12.Location = new Point(629, 188);
             pipeoil12.Name = "pipeoil12";
             pipeoil12.Shape = PathDrawing.PipeShape.TeeRight;
             pipeoil12.Size = new Size(74, 35);
@@ -316,43 +323,47 @@ namespace AFLA_001
             // 
             // pipeoil15
             // 
-            pipeoil15.Location = new Point(606, 410);
+            pipeoil15.FlowColor = Color.Orange;
+            pipeoil15.Location = new Point(606, 361);
             pipeoil15.Name = "pipeoil15";
             pipeoil15.Shape = PathDrawing.PipeShape.LeftUp;
-            pipeoil15.Size = new Size(120, 30);
+            pipeoil15.Size = new Size(119, 30);
             pipeoil15.TabIndex = 74;
             pipeoil15.Text = "pipeControl5";
             // 
             // pipeoil14
             // 
-            pipeoil14.Location = new Point(648, 213);
+            pipeoil14.FlowColor = Color.Orange;
+            pipeoil14.Location = new Point(648, 222);
             pipeoil14.Name = "pipeoil14";
             pipeoil14.Shape = PathDrawing.PipeShape.Vertical;
-            pipeoil14.Size = new Size(37, 201);
+            pipeoil14.Size = new Size(37, 141);
             pipeoil14.TabIndex = 73;
             pipeoil14.Text = "pipeControl4";
             // 
             // pipeoil2
             // 
-            pipeoil2.Location = new Point(565, 266);
+            pipeoil2.Location = new Point(505, 248);
             pipeoil2.Name = "pipeoil2";
             pipeoil2.Shape = PathDrawing.PipeShape.Vertical;
-            pipeoil2.Size = new Size(37, 89);
+            pipeoil2.Size = new Size(37, 50);
             pipeoil2.TabIndex = 75;
             pipeoil2.Text = "pipeControl6";
             // 
             // pipeControl7
             // 
-            pipeControl7.Location = new Point(440, 216);
+            pipeControl7.FlowColor = Color.Lime;
+            pipeControl7.Location = new Point(429, 246);
             pipeControl7.Name = "pipeControl7";
             pipeControl7.Shape = PathDrawing.PipeShape.Vertical;
-            pipeControl7.Size = new Size(37, 155);
+            pipeControl7.Size = new Size(37, 160);
             pipeControl7.TabIndex = 76;
             pipeControl7.Text = "pipeControl7";
             // 
             // pipeoil16
             // 
-            pipeoil16.Location = new Point(558, 397);
+            pipeoil16.FlowColor = Color.Orange;
+            pipeoil16.Location = new Point(499, 348);
             pipeoil16.Name = "pipeoil16";
             pipeoil16.Shape = PathDrawing.PipeShape.RightUp;
             pipeoil16.Size = new Size(49, 55);
@@ -370,15 +381,16 @@ namespace AFLA_001
             // 
             // pipeoil17
             // 
-            pipeoil17.Location = new Point(523, 111);
+            pipeoil17.Location = new Point(449, 111);
             pipeoil17.Name = "pipeoil17";
-            pipeoil17.Size = new Size(85, 30);
+            pipeoil17.Size = new Size(159, 30);
             pipeoil17.TabIndex = 79;
             pipeoil17.Text = "pipeControl10";
             // 
             // pipeipa1
             // 
-            pipeipa1.Location = new Point(574, -6);
+            pipeipa1.FlowColor = Color.Blue;
+            pipeipa1.Location = new Point(708, -6);
             pipeipa1.Name = "pipeipa1";
             pipeipa1.Shape = PathDrawing.PipeShape.LeftDown;
             pipeipa1.Size = new Size(119, 32);
@@ -387,54 +399,50 @@ namespace AFLA_001
             // 
             // pipeipa2
             // 
-            pipeipa2.Location = new Point(415, -10);
+            pipeipa2.FlowColor = Color.Blue;
+            pipeipa2.Location = new Point(325, -10);
             pipeipa2.Name = "pipeipa2";
             pipeipa2.Shape = PathDrawing.PipeShape.RightDown;
-            pipeipa2.Size = new Size(160, 41);
+            pipeipa2.Size = new Size(250, 41);
             pipeipa2.TabIndex = 82;
             pipeipa2.Text = "pipeControl13";
             // 
-            // pipeipa3
-            // 
-            pipeipa3.Location = new Point(415, 24);
-            pipeipa3.Name = "pipeipa3";
-            pipeipa3.Shape = PathDrawing.PipeShape.Vertical;
-            pipeipa3.Size = new Size(160, 23);
-            pipeipa3.TabIndex = 83;
-            pipeipa3.Text = "pipeControl14";
-            // 
             // pipeglue1
             // 
+            pipeglue1.FlowColor = Color.DarkBlue;
             pipeglue1.Location = new Point(207, -6);
             pipeglue1.Name = "pipeglue1";
             pipeglue1.Shape = PathDrawing.PipeShape.LeftDown;
-            pipeglue1.Size = new Size(160, 32);
+            pipeglue1.Size = new Size(195, 32);
             pipeglue1.TabIndex = 85;
             pipeglue1.Text = "pipeControl15";
             // 
             // airpipe1
             // 
-            airpipe1.Location = new Point(34, 322);
+            airpipe1.FlowColor = Color.SkyBlue;
+            airpipe1.Location = new Point(88, 322);
             airpipe1.Name = "airpipe1";
             airpipe1.Shape = PathDrawing.PipeShape.RightDown;
-            airpipe1.Size = new Size(160, 32);
+            airpipe1.Size = new Size(93, 32);
             airpipe1.TabIndex = 86;
             airpipe1.Text = "pipeControl2";
             // 
-            // pipeControl16
+            // pipevacc1
             // 
-            pipeControl16.BendX = 40;
-            pipeControl16.BendY = 80;
-            pipeControl16.Location = new Point(325, 406);
-            pipeControl16.Name = "pipeControl16";
-            pipeControl16.Shape = PathDrawing.PipeShape.LeftUp;
-            pipeControl16.Size = new Size(103, 50);
-            pipeControl16.TabIndex = 87;
-            pipeControl16.Text = "pipeControl16";
+            pipevacc1.BendX = 40;
+            pipevacc1.BendY = 80;
+            pipevacc1.FlowColor = Color.Gray;
+            pipevacc1.Location = new Point(335, 406);
+            pipevacc1.Name = "pipevacc1";
+            pipevacc1.Shape = PathDrawing.PipeShape.LeftUp;
+            pipevacc1.Size = new Size(103, 50);
+            pipevacc1.TabIndex = 87;
+            pipevacc1.Text = "pipeControl16";
             // 
             // airpipe2
             // 
-            airpipe2.Location = new Point(178, 322);
+            airpipe2.FlowColor = Color.SkyBlue;
+            airpipe2.Location = new Point(179, 322);
             airpipe2.Name = "airpipe2";
             airpipe2.Shape = PathDrawing.PipeShape.LeftUp;
             airpipe2.Size = new Size(160, 32);
@@ -443,56 +451,61 @@ namespace AFLA_001
             // 
             // oil1val2
             // 
-            oil1val2.Location = new Point(564, 349);
+            oil1val2.Location = new Point(505, 298);
             oil1val2.Name = "oil1val2";
-            oil1val2.Size = new Size(36, 48);
+            oil1val2.Size = new Size(36, 50);
             oil1val2.TabIndex = 89;
             oil1val2.Text = "valveControl1";
+            oil1val2.Click += oil1val2_Click;
             // 
             // ipavalve
             // 
-            ipavalve.Location = new Point(477, 40);
+            ipavalve.Location = new Point(432, 31);
             ipavalve.Name = "ipavalve";
-            ipavalve.Size = new Size(36, 62);
+            ipavalve.Size = new Size(36, 50);
             ipavalve.TabIndex = 90;
             ipavalve.Text = "valveControl1";
+            ipavalve.Click += ipavalve_Click;
             // 
             // glueval
             // 
-            glueval.Location = new Point(269, 26);
+            glueval.Location = new Point(286, 25);
             glueval.Name = "glueval";
-            glueval.Size = new Size(36, 53);
+            glueval.Size = new Size(36, 50);
             glueval.TabIndex = 91;
             glueval.Text = "valveControl1";
             glueval.Click += glueval_Click;
             // 
             // vaccumval
             // 
-            vaccumval.Location = new Point(348, 363);
+            vaccumval.Location = new Point(362, 378);
             vaccumval.Name = "vaccumval";
-            vaccumval.Size = new Size(36, 48);
+            vaccumval.Size = new Size(28, 35);
             vaccumval.TabIndex = 93;
             vaccumval.Text = "valveControl1";
+            vaccumval.Click += vaccumval_Click;
             // 
             // oilval1
             // 
-            oilval1.Location = new Point(648, 136);
+            oilval1.Location = new Point(648, 140);
             oilval1.Name = "oilval1";
             oilval1.Size = new Size(36, 48);
             oilval1.TabIndex = 92;
             oilval1.Text = "valveControl4";
+            oilval1.Click += oilval1_Click;
             // 
             // airval
             // 
-            airval.Location = new Point(241, 275);
+            airval.Location = new Point(242, 271);
             airval.Name = "airval";
-            airval.Size = new Size(36, 48);
+            airval.Size = new Size(35, 51);
             airval.TabIndex = 94;
             airval.Text = "valveControl6";
+            airval.Click += airval_Click;
             // 
             // arm1Control1
             // 
-            arm1Control1.Location = new Point(466, 89);
+            arm1Control1.Location = new Point(408, 89);
             arm1Control1.Name = "arm1Control1";
             arm1Control1.Size = new Size(69, 68);
             arm1Control1.TabIndex = 95;
@@ -500,50 +513,350 @@ namespace AFLA_001
             // 
             // arm2Control1
             // 
-            arm2Control1.Location = new Point(274, 70);
+            arm2Control1.Angle = -40F;
+            arm2Control1.Location = new Point(286, 82);
             arm2Control1.Name = "arm2Control1";
-            arm2Control1.Size = new Size(47, 71);
+            arm2Control1.Size = new Size(66, 71);
             arm2Control1.TabIndex = 96;
             arm2Control1.Text = "arm2Control1";
+            // 
+            // pipeipa4
+            // 
+            pipeipa4.Location = new Point(433, 81);
+            pipeipa4.Name = "pipeipa4";
+            pipeipa4.Shape = PathDrawing.PipeShape.Vertical;
+            pipeipa4.Size = new Size(37, 24);
+            pipeipa4.TabIndex = 97;
+            pipeipa4.Text = "pipeControl1";
+            // 
+            // pipeglue2
+            // 
+            pipeglue2.Location = new Point(286, 75);
+            pipeglue2.Name = "pipeglue2";
+            pipeglue2.Shape = PathDrawing.PipeShape.Vertical;
+            pipeglue2.Size = new Size(37, 22);
+            pipeglue2.TabIndex = 98;
+            pipeglue2.Text = "pipeControl2";
+            // 
+            // airpipe3
+            // 
+            airpipe3.Location = new Point(242, 248);
+            airpipe3.Name = "airpipe3";
+            airpipe3.Shape = PathDrawing.PipeShape.Vertical;
+            airpipe3.Size = new Size(37, 25);
+            airpipe3.TabIndex = 99;
+            airpipe3.Text = "pipeControl2";
+            // 
+            // pipevacc2
+            // 
+            pipevacc2.Location = new Point(358, 309);
+            pipevacc2.Name = "pipevacc2";
+            pipevacc2.Shape = PathDrawing.PipeShape.Vertical;
+            pipevacc2.Size = new Size(37, 69);
+            pipevacc2.TabIndex = 100;
+            pipevacc2.Text = "pipeControl2";
+            // 
+            // pipeControl1
+            // 
+            pipeControl1.FlowColor = Color.Orange;
+            pipeControl1.Location = new Point(537, 361);
+            pipeControl1.Name = "pipeControl1";
+            pipeControl1.Size = new Size(71, 30);
+            pipeControl1.TabIndex = 101;
+            pipeControl1.Text = "pipeControl10";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.black;
+            pictureBox1.Location = new Point(238, 190);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(303, 10);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 102;
+            pictureBox1.TabStop = false;
+            // 
+            // ipatank
+            // 
+            ipatank.Font = new Font("Copperplate Gothic Bold", 10F);
+            ipatank.LiquidColor = Color.Aqua;
+            ipatank.Location = new Point(715, 21);
+            ipatank.Name = "ipatank";
+            ipatank.Size = new Size(125, 150);
+            ipatank.TabIndex = 103;
+            // 
+            // pipeipa3
+            // 
+            pipeipa3.FlowColor = Color.Blue;
+            pipeipa3.Location = new Point(562, -5);
+            pipeipa3.Name = "pipeipa3";
+            pipeipa3.Size = new Size(163, 30);
+            pipeipa3.TabIndex = 104;
+            pipeipa3.Text = "pipeControl10";
+            // 
+            // gluepic
+            // 
+            gluepic.Image = Properties.Resources.glueout2;
+            gluepic.Location = new Point(88, 0);
+            gluepic.Name = "gluepic";
+            gluepic.Size = new Size(130, 92);
+            gluepic.SizeMode = PictureBoxSizeMode.AutoSize;
+            gluepic.TabIndex = 105;
+            gluepic.TabStop = false;
+            // 
+            // ipaHigh
+            // 
+            ipaHigh.Location = new Point(1015, 57);
+            ipaHigh.Name = "ipaHigh";
+            ipaHigh.Size = new Size(75, 33);
+            ipaHigh.TabIndex = 106;
+            ipaHigh.Text = "ipaHigh";
+            ipaHigh.UseVisualStyleBackColor = true;
+            ipaHigh.Click += ipaHigh_Click;
+            // 
+            // ipaLow
+            // 
+            ipaLow.Location = new Point(1015, 124);
+            ipaLow.Name = "ipaLow";
+            ipaLow.Size = new Size(75, 33);
+            ipaLow.TabIndex = 107;
+            ipaLow.Text = "ipaLow";
+            ipaLow.UseVisualStyleBackColor = true;
+            ipaLow.Click += ipaLow_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.MistyRose;
+            label3.Font = new Font("Microsoft JhengHei UI", 9F);
+            label3.ForeColor = Color.FromArgb(0, 0, 192);
+            label3.Location = new Point(120, 388);
+            label3.Name = "label3";
+            label3.Size = new Size(26, 15);
+            label3.TabIndex = 108;
+            label3.Text = "AIR";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Microsoft JhengHei UI", 10F);
+            label4.ForeColor = SystemColors.ControlLightLight;
+            label4.Location = new Point(207, 289);
+            label4.Name = "label4";
+            label4.Size = new Size(31, 18);
+            label4.TabIndex = 109;
+            label4.Text = "AIR";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Microsoft JhengHei UI", 10F);
+            label5.ForeColor = Color.OrangeRed;
+            label5.Location = new Point(132, 110);
+            label5.Name = "label5";
+            label5.Size = new Size(43, 18);
+            label5.TabIndex = 110;
+            label5.Text = "GLUE";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Microsoft JhengHei UI", 10F);
+            label6.ForeColor = SystemColors.ControlLightLight;
+            label6.Location = new Point(474, 47);
+            label6.Name = "label6";
+            label6.Size = new Size(30, 18);
+            label6.TabIndex = 111;
+            label6.Text = "IPA";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Microsoft JhengHei UI", 10F);
+            label7.ForeColor = SystemColors.ControlLightLight;
+            label7.Location = new Point(325, 40);
+            label7.Name = "label7";
+            label7.Size = new Size(43, 18);
+            label7.TabIndex = 112;
+            label7.Text = "GLUE";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Microsoft JhengHei UI", 10F);
+            label8.ForeColor = SystemColors.ControlLightLight;
+            label8.Location = new Point(547, 313);
+            label8.Name = "label8";
+            label8.Size = new Size(30, 18);
+            label8.TabIndex = 113;
+            label8.Text = "OIL";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Microsoft JhengHei UI", 10F);
+            label9.ForeColor = SystemColors.ControlLightLight;
+            label9.Location = new Point(329, 94);
+            label9.Name = "label9";
+            label9.Size = new Size(49, 18);
+            label9.TabIndex = 114;
+            label9.Text = "ARM2";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Microsoft JhengHei UI", 10F);
+            label10.ForeColor = SystemColors.ControlLightLight;
+            label10.Location = new Point(474, 94);
+            label10.Name = "label10";
+            label10.Size = new Size(49, 18);
+            label10.TabIndex = 115;
+            label10.Text = "ARM1";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Microsoft JhengHei UI", 10F);
+            label11.ForeColor = SystemColors.ControlLightLight;
+            label11.Location = new Point(606, 154);
+            label11.Name = "label11";
+            label11.Size = new Size(30, 18);
+            label11.TabIndex = 116;
+            label11.Text = "OIL";
+            // 
+            // columnControl1
+            // 
+            columnControl1.InnerColor = Color.Sienna;
+            columnControl1.Location = new Point(864, 110);
+            columnControl1.Name = "columnControl1";
+            columnControl1.Size = new Size(43, 75);
+            columnControl1.TabIndex = 0;
+            // 
+            // columnControl2
+            // 
+            columnControl2.InnerColor = Color.Sienna;
+            columnControl2.Location = new Point(864, 353);
+            columnControl2.Name = "columnControl2";
+            columnControl2.OuterColor = Color.Yellow;
+            columnControl2.Size = new Size(43, 75);
+            columnControl2.TabIndex = 117;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Microsoft JhengHei UI", 10F);
+            label12.ForeColor = Color.SkyBlue;
+            label12.Location = new Point(752, 176);
+            label12.Name = "label12";
+            label12.Size = new Size(30, 18);
+            label12.TabIndex = 118;
+            label12.Text = "IPA";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Microsoft JhengHei UI", 10F);
+            label13.ForeColor = Color.Yellow;
+            label13.Location = new Point(752, 387);
+            label13.Name = "label13";
+            label13.Size = new Size(30, 18);
+            label13.TabIndex = 119;
+            label13.Text = "OIL";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Microsoft JhengHei UI", 10F);
+            label14.ForeColor = SystemColors.ControlLightLight;
+            label14.Location = new Point(927, 395);
+            label14.Name = "label14";
+            label14.Size = new Size(42, 18);
+            label14.TabIndex = 120;
+            label14.Text = "LEAK";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Microsoft JhengHei UI", 10F);
+            label15.ForeColor = SystemColors.ControlLightLight;
+            label15.Location = new Point(927, 154);
+            label15.Name = "label15";
+            label15.Size = new Size(42, 18);
+            label15.TabIndex = 121;
+            label15.Text = "LEAK";
+            // 
+            // oiltimer
+            // 
+            oiltimer.Interval = 300;
+            oiltimer.Tick += oiltimer_Tick;
+            // 
+            // airtimer
+            // 
+            airtimer.Interval = 600;
+            airtimer.Tick += airtimer_Tick;
+            // 
+            // oil1tiimer
+            // 
+            oil1tiimer.Interval = 400;
+            oil1tiimer.Tick += oil1tiimer_Tick;
             // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.DarkSlateGray;
             ClientSize = new Size(1267, 452);
             ControlBox = false;
+            Controls.Add(oil1val2);
+            Controls.Add(label15);
+            Controls.Add(label14);
+            Controls.Add(label13);
+            Controls.Add(label12);
+            Controls.Add(columnControl2);
+            Controls.Add(columnControl1);
+            Controls.Add(label11);
+            Controls.Add(label10);
+            Controls.Add(label9);
+            Controls.Add(label8);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(arm1Control1);
+            Controls.Add(ipaLow);
+            Controls.Add(ipaHigh);
+            Controls.Add(ipatank);
+            Controls.Add(levelTankControl1);
+            Controls.Add(pipeoil12);
+            Controls.Add(pipeoil11);
+            Controls.Add(pictureBox1);
+            Controls.Add(pipeoil16);
+            Controls.Add(pipeControl1);
+            Controls.Add(pictureBox3);
+            Controls.Add(pipevacc2);
+            Controls.Add(arm2Control1);
+            Controls.Add(pipeglue2);
+            Controls.Add(pipeipa4);
             Controls.Add(pipeoil17);
-            Controls.Add(pictureBox35);
             Controls.Add(ipavalve);
             Controls.Add(pipeipa2);
-            Controls.Add(pipeipa1);
             Controls.Add(oilpupic);
-            Controls.Add(pipeoil12);
             Controls.Add(airval);
             Controls.Add(vaccumval);
             Controls.Add(oilval1);
             Controls.Add(glueval);
             Controls.Add(pipeoil14);
-            Controls.Add(pipeoil16);
-            Controls.Add(oil1val2);
             Controls.Add(pipeoil15);
             Controls.Add(pictureBox7);
             Controls.Add(label2);
             Controls.Add(pictureBox5);
-            Controls.Add(pipeControl16);
+            Controls.Add(pipevacc1);
             Controls.Add(airpipe1);
-            Controls.Add(pipeglue1);
-            Controls.Add(pipeipa3);
-            Controls.Add(pipeoil13);
             Controls.Add(pipeControl7);
-            Controls.Add(pipeoil2);
-            Controls.Add(pipeoil11);
-            Controls.Add(pictureBox3);
             Controls.Add(showoil);
             Controls.Add(showair);
             Controls.Add(airpicture);
             Controls.Add(label1);
-            Controls.Add(pictureBox1);
             Controls.Add(vaccumoffbtn);
             Controls.Add(vaccumonbtn);
             Controls.Add(button4);
@@ -552,30 +865,34 @@ namespace AFLA_001
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(airpipe2);
-            Controls.Add(gluepicture);
-            Controls.Add(pictureBox20);
-            Controls.Add(arm2Control1);
-            Controls.Add(arm1Control1);
+            Controls.Add(pipeipa3);
+            Controls.Add(pipeipa1);
+            Controls.Add(pipeoil13);
+            Controls.Add(vaccumpic);
+            Controls.Add(pipeglue1);
+            Controls.Add(gluepic);
+            Controls.Add(airpipe3);
+            Controls.Add(pipeoil2);
             FormBorderStyle = FormBorderStyle.None;
             Name = "HomeForm";
             Text = "HomeForm";
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)vaccumpic).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)airpicture).EndInit();
-            ((System.ComponentModel.ISupportInitialize)gluepicture).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox20).EndInit();
             ((System.ComponentModel.ISupportInitialize)showair).EndInit();
             ((System.ComponentModel.ISupportInitialize)showoil).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox35).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)oilpupic).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gluepic).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
+        private PathDrawing.ColumnControl columnControl1;
         private Button button1;
         private Button button2;
         private Button buzzerbtn;
@@ -583,16 +900,14 @@ namespace AFLA_001
         private Button button5;
         private Button vaccumoffbtn;
         private Button vaccumonbtn;
-        private PictureBox pictureBox1;
+        private PictureBox vaccumpic;
         private Label label1;
         private PictureBox pictureBox5;
         private PictureBox airpicture;
-        private PictureBox gluepicture;
         private Label label2;
-        private PictureBox pictureBox20;
+        private PathDrawing.LevelTankControl levelTankControl1;
         private PictureBox showair;
         private PictureBox showoil;
-        private PictureBox pictureBox35;
         private PictureBox pictureBox3;
         private PictureBox pictureBox7;
         private PictureBox oilpupic;
@@ -607,10 +922,9 @@ namespace AFLA_001
         private PathDrawing.PipeControl pipeoil17;
         private PathDrawing.PipeControl pipeipa1;
         private PathDrawing.PipeControl pipeipa2;
-        private PathDrawing.PipeControl pipeipa3;
         private PathDrawing.PipeControl pipeglue1;
         private PathDrawing.PipeControl airpipe1;
-        private PathDrawing.PipeControl pipeControl16;
+        private PathDrawing.PipeControl pipevacc1;
         private PathDrawing.PipeControl airpipe2;
         private PathDrawing.ValveControl oil1val2;
         private PathDrawing.ValveControl ipavalve;
@@ -620,5 +934,35 @@ namespace AFLA_001
         private PathDrawing.ValveControl airval;
         private PathDrawing.Arm1Control arm1Control1;
         private PathDrawing.Arm2Control arm2Control1;
+        private PathDrawing.PipeControl pipeipa4;
+        private PathDrawing.PipeControl pipeglue2;
+        private PathDrawing.PipeControl airpipe3;
+        private PathDrawing.PipeControl pipevacc2;
+        private PathDrawing.PipeControl pipeControl1;
+        private PictureBox pictureBox1;
+        private PathDrawing.LevelTankControl ipatank;
+        private PathDrawing.PipeControl pipeipa3;
+        private PictureBox gluepic;
+        private Button ipaHigh;
+        private Button ipaLow;
+        private Label label3;
+        private Label label4;
+        private Label label5;
+        private Label label6;
+        private Label label7;
+        private Label label8;
+        private Label label9;
+        private Label label10;
+        private Label label11;
+        private PathDrawing.ColumnControl columnControl2;
+        private Label label12;
+        private Label label13;
+        private Label label14;
+        private Label label15;
+        private System.Windows.Forms.Timer oiltimer;
+        private System.Windows.Forms.Timer airtimer;
+        private System.Windows.Forms.Timer oil1tiimer;
     }
 }
+
+
