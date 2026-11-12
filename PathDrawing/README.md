@@ -130,3 +130,21 @@ ForeColor 控制刻度顏色。Font 沿用標準 WinForms 字型繼承與設計�
 
 ## 桶頂外觀更新（1.0.5）
 移除 LevelTankControl 頂端突出的小接口，桶頂保留圓弧金屬外形。同步移除接口的視窗 Region，原接口位置不再遮擋管線。液位、顏色、Font 與刻度功能維持原設定。
+
+## Pipe／Valve 外圍透明修正（1.0.5，1112 主程式）
+PipeControl 依實際12單位管徑、圓角彎頭與三通路徑設定原生視窗 Region；ValveControl 依三角閥身與中央圓形設定 Region。輪廓外空白不再遮住同層其他圖片或控制項，實體圖形交疊仍由前後順序決定。
+改變 Size、DPI、Pipe.Shape／BendX／BendY、Valve.Orientation 時會自動重建輪廓。FlowColor、ForeColor 與既有事件用法維持不變。
+主程式更新目標為1112分支，直接引用PathDrawing專案，重新建置即可。其他使用NuGet的專案仍須依上述同版本1.0.5更新步驟重新安裝，覆蓋nupkg不會自動替換已還原的快取。
+
+## 柱狀元件 ColumnControl（1.0.5）
+從工具箱拖入 ColumnControl，即可使用屬性調色：
+- OuterColor：外框、頂蓋與底座整體顏色，預設 SkyBlue。
+- InnerColor：中央八片環形圖案顏色，預設 Firebrick。
+- ChamberColor：中央內腔底色，預設 DimGray。
+- Size／Location：大小與位置，預設140×180，等比例顯示。
+例如 columnControl1.OuterColor = Color.LimeGreen;
+columnControl1.InnerColor = Color.Gold;
+columnControl1.ChamberColor = Color.DimGray;
+使用原生 Region 裁切外框與底座輪廓，外圍空白不遮擋其他圖片或管線；實體部分仍依控制項前後順序顯示。Click 可用於接入 HMI 操作。
+主程式1112首頁右側已加入 columnControl1（預設藍色外框、紅色環片），未綁定設備訊號，可直接以屬性連接現有狀態邏輯。
+套件維持1.0.5：ProjectReference 專案重建即可；NuGet 使用者需依同版本更新流程重新安裝，避免沿用舊快取。

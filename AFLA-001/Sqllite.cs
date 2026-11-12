@@ -369,7 +369,6 @@ namespace AFLA_001
                 MessageBox.Show("沒輸入配方名稱存檔");
                 return;
             }
-
             try
             {
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
@@ -418,7 +417,6 @@ namespace AFLA_001
                                         MessageBox.Show($"無法更新步驟 {row["StepID"]}。");
                                 }
                             }
-
                             transaction.Commit();
                         }
                     }
@@ -695,10 +693,8 @@ namespace AFLA_001
             string date = now.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
             string time = now.ToString("HH:mm:ss");
 
-
             try
             {
-
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
@@ -753,7 +749,7 @@ namespace AFLA_001
         /// <param name="startdate">起始</param>
         /// <param name="enddate">結束</param>
         /// <returns></returns>
-        public DataTable SearchData(string startdate,string enddate)
+        public DataTable SearchData(string startdate, string enddate)
         {
             DataTable dt = new DataTable();
             string sql = @"Select ProductId AS 產品編號, 
@@ -766,8 +762,8 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    
-                    using(SqliteCommand command = new SqliteCommand(sql,conn))
+
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
                         command.Parameters.AddWithValue("@startdate", startdate);
                         command.Parameters.AddWithValue("@enddate", enddate);

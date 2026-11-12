@@ -12,6 +12,7 @@ namespace AFLA_001
         public HomeForm()
         {
             InitializeComponent();
+            //BringToFront移到最上層
             levelTankControl1.BringToFront();
             // Keep the independent metal arms above their connecting pipes.
             arm1Control1.BringToFront();
@@ -20,15 +21,10 @@ namespace AFLA_001
             // 啟用雙緩衝，減少首頁重繪時的閃爍。
             DoubleBuffered = true;
 
-            ipavalve.Click += (_, _) => ToggleValve(ipavalve);
-            BindFlowValve(airval, showair, 500);
-            BindFlowValve(oil1val2, showoil, 400);
-            BindFlowValve(oilval1, oilpupic, 300);
         }
 
-
         /// <summary>
-        /// 閥變色(ipa變色套用)
+        /// 閥變色
         /// </summary>
         /// <param name="valve"></param>
         /// <returns></returns>
@@ -45,74 +41,9 @@ namespace AFLA_001
             {
                 valve.ForeColor = Color.LimeGreen;
             }
-            if (valve == ipavalve)
-            {
-                Color flowColor = valve.ForeColor == Color.LimeGreen
-                    ? Color.Blue : Color.Empty;
-                pipeipa4.FlowColor = flowColor;
-            }
             Invalidate();
             return true;
-        }
-
-        // 每個流量指示各有自己的計時器，由表單統一釋放。
-        private void BindFlowValve(ValveControl valve, PictureBox indicator, int interval)
-        {
-            var timer = new System.Windows.Forms.Timer(components ??= new Container()) { Interval = interval };
-            timer.Tick += (_, _) => indicator.Visible = !indicator.Visible;
-            valve.Click += (_, _) =>
-            {
-                if (!ToggleValve(valve))
-                    return;
-                if (valve == airval)
-                {
-                    if (valve.ForeColor == Color.LimeGreen)
-                    {
-                        airpicture.Image = Properties.Resources.air2;
-                        airpipe3.FlowColor = Color.SkyBlue;
-                    }
-                    else
-                    {
-                        airpicture.Image = Properties.Resources.air;
-                        airpipe3.FlowColor = Color.Empty;
-                    }
-                }
-                //oil下
-                if (valve == oil1val2)
-                {
-                    if (valve.ForeColor == Color.LimeGreen)
-                    {
-                        pipeoil2.FlowColor = Color.Orange;
-
-                    }
-                    else
-                    {
-                        pipeoil2.FlowColor = Color.Empty;
-                    }
-                }
-                //oil上
-                if (valve == oilval1)
-                {
-                    if (valve.ForeColor == Color.LimeGreen)
-                    {
-                        pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Orange;
-                    }
-                    else
-                    {
-                        pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Empty;
-                    }
-                }
-                if (valve.ForeColor == Color.LimeGreen)
-                {
-                    timer.Start();
-                }
-                else
-                {
-                    timer.Stop();
-                    indicator.Hide();
-                }
-            };
-        }
+        }       
 
         private void buzzerbtn_Click(object sender, EventArgs e)
         {
@@ -149,46 +80,48 @@ namespace AFLA_001
         // 確認後只切換被點擊的閥門，並更新glue圖片。
         private void glueval_Click(object sender, EventArgs e)
         {
-            if (form.ShowDialog(this) == DialogResult.Yes)
+            ToggleValve(glueval);
+            if (glueval.ForeColor == Color.LimeGreen)
             {
-                // 在這裡加入 GLUE 閥門的變色邏輯。
-                glueval.ForeColor = glueval.ForeColor == Color.LimeGreen
-                ? Color.Silver
-                : Color.LimeGreen;
-                if (glueval.ForeColor == Color.LimeGreen)
-                {
-                    gluepic.Image = Properties.Resources.glueout1;
-                    pipeglue2.FlowColor = Color.DarkBlue;
-                }
-                else
-                {
-                    gluepic.Image = Properties.Resources.glueout2;
-                    pipeglue1.FlowColor = Color.Empty;
-                }
-                Invalidate();//重繪
+                gluepic.Image = Properties.Resources.glueout1;
+                pipeglue2.FlowColor = Color.DarkBlue;
             }
+            else
+            {
+                gluepic.Image = Properties.Resources.glueout2;
+                pipeglue2.FlowColor = Color.Empty;
+            }
+            Invalidate();//重繪            
         }
 
         private void vaccumval_Click(object sender, EventArgs e)
         {
-            if (form.ShowDialog(this) == DialogResult.Yes)
+            ToggleValve(vaccumval);
+            if (vaccumval.ForeColor == Color.LimeGreen)
             {
-                // 在這裡加入 GLUE 閥門的變色邏輯。
-                glueval.ForeColor = glueval.ForeColor == Color.LimeGreen
-                ? Color.Silver
-                : Color.LimeGreen;
-                if (glueval.ForeColor == Color.LimeGreen)
-                {
-                    vaccumpic.Image = Properties.Resources.vaccum;
-                    pipevacc2.FlowColor = Color.Gray;
-                }
-                else
-                {
-                    vaccumpic.Image = Properties.Resources.vaccum1;
-                    pipeglue2.FlowColor = Color.Empty;
-                }
-                Invalidate();//重繪
+                vaccumpic.Image = Properties.Resources.vaccum;
+                pipevacc2.FlowColor = Color.Gray;
             }
+            else
+            {
+                vaccumpic.Image = Properties.Resources.vaccum1;
+                pipevacc2.FlowColor = Color.Empty;
+            }
+            Invalidate();//重繪
+        }
+
+        private void ipavalve_Click(object sender, EventArgs e)
+        {
+            ToggleValve(ipavalve);
+            if (ipavalve.ForeColor == Color.LimeGreen)
+            {
+                pipeipa4.FlowColor = Color.Blue;
+            }
+            else
+            {
+                pipeipa4.FlowColor = Color.Empty;
+            }
+            Invalidate();//重繪
         }
 
         private void ipaLow_Click(object sender, EventArgs e)
@@ -196,12 +129,82 @@ namespace AFLA_001
             ipatank.Level = 10f;
             ipavalve.ForeColor = Color.Silver;
             pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Empty;
+            Invalidate();//重繪
         }
 
         private void ipaHigh_Click(object sender, EventArgs e)
         {
             ipatank.Level = 80f;
             pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Blue;
+            Invalidate();//重繪
+        }
+
+        private void airval_Click(object sender, EventArgs e)
+        {
+            ToggleValve(airval);
+            if (airval.ForeColor == Color.LimeGreen)
+            {
+                airpicture.Image = Properties.Resources.air2;
+                airpipe3.FlowColor = Color.SkyBlue;
+                airtimer.Start();
+            }
+            else
+            {
+                airpicture.Image = Properties.Resources.air;
+                airpipe3.FlowColor = Color.Empty;
+                airtimer.Stop();
+            }
+            Invalidate();//重繪 
+
+        }
+
+        private void airtimer_Tick(object sender, EventArgs e)
+        {
+            showair.Visible = !showair.Visible;
+        }
+
+        private void oil1val2_Click(object sender, EventArgs e)
+        {
+            ToggleValve(oil1val2);
+
+            if (oil1val2.ForeColor == Color.LimeGreen)
+            {
+                pipeoil2.FlowColor = Color.Orange;
+                oiltimer.Start();
+
+            }
+            else
+            {
+                pipeoil2.FlowColor = Color.Empty;
+                oiltimer.Stop();
+            }
+
+        }
+
+        private void oiltimer_Tick(object sender, EventArgs e)
+        {
+            showoil.Visible = !showoil.Visible;
+        }
+
+        private void oilval1_Click(object sender, EventArgs e)
+        {
+            ToggleValve(oilval1);
+            if (oilval1.ForeColor == Color.LimeGreen)
+            {
+                pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Orange;
+                oil1tiimer.Start();
+            }
+            else
+            {
+                pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Empty;
+                oil1tiimer.Stop();
+            }
+        }
+
+        //上方顯示計時器
+        private void oil1tiimer_Tick(object sender, EventArgs e)
+        {
+            oilpupic.Visible = !oilpupic.Visible;
         }
     }
 }
