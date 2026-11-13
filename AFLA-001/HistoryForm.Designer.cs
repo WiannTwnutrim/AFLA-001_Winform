@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             historydataGridView = new DataGridView();
             stabtn = new Button();
             stbbtn = new Button();
@@ -46,21 +47,23 @@
             // 
             historydataGridView.AllowUserToAddRows = false;
             historydataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.BackColor = SystemColors.GradientActiveCaption;
-            historydataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = Color.Orange;
+            historydataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             historydataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             historydataGridView.Location = new Point(2, 68);
             historydataGridView.Name = "historydataGridView";
             historydataGridView.ReadOnly = true;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.ActiveCaption;
-            dataGridViewCellStyle4.Font = new Font("Microsoft JhengHei UI", 9F);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            historydataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.ActiveCaption;
+            dataGridViewCellStyle2.Font = new Font("Microsoft JhengHei UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            historydataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             historydataGridView.RowHeadersVisible = false;
+            dataGridViewCellStyle3.BackColor = Color.Bisque;
+            historydataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
             historydataGridView.Size = new Size(1246, 344);
             historydataGridView.TabIndex = 0;
             // 

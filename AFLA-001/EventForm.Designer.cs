@@ -30,6 +30,7 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             EventdataGridView = new DataGridView();
             button1 = new Button();
             addeventbtn = new Button();
@@ -40,7 +41,7 @@
             // 
             EventdataGridView.AllowUserToAddRows = false;
             EventdataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Color.OldLace;
+            dataGridViewCellStyle1.BackColor = Color.Orange;
             EventdataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             EventdataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -51,16 +52,18 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             EventdataGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            EventdataGridView.Location = new Point(0, 54);
+            EventdataGridView.Location = new Point(1, 53);
             EventdataGridView.Name = "EventdataGridView";
             EventdataGridView.ReadOnly = true;
             EventdataGridView.RowHeadersVisible = false;
-            EventdataGridView.Size = new Size(1236, 320);
+            dataGridViewCellStyle3.BackColor = Color.Bisque;
+            EventdataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            EventdataGridView.Size = new Size(487, 320);
             EventdataGridView.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(954, 12);
+            button1.Location = new Point(1020, 120);
             button1.Name = "button1";
             button1.Size = new Size(90, 35);
             button1.TabIndex = 4;
@@ -70,7 +73,7 @@
             // 
             // addeventbtn
             // 
-            addeventbtn.Location = new Point(447, 12);
+            addeventbtn.Location = new Point(1020, 53);
             addeventbtn.Name = "addeventbtn";
             addeventbtn.Size = new Size(90, 35);
             addeventbtn.TabIndex = 5;

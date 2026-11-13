@@ -27,7 +27,8 @@ namespace AFLA_001
             logintxt.Text = UserSession.LoginUser;
             recipeForm.WriteRecipe += WriteRecipeSucceeded;
             recipeForm.WriteRecipeData += TransferRecipe;//封面寫值訂閱:來源recipe->form1再轉交給home
-
+            alarmForm.transferData += TransferAlarmData;
+            alarmForm.loadAlarm();
             Recipebtn.Tag = new LanguageManger("配方", "Recipe");
             Manualbtn.Tag = new LanguageManger("手動", "Manual");
             Userbtn.Tag = new LanguageManger("使用者", "User");
@@ -206,6 +207,11 @@ namespace AFLA_001
         private void TransferRecipe(object sender, RecipeAppliedEventArgs e)
         {
             homeform.RecipeForm_RecipeApplied(sender, e);
+        }
+
+        private void TransferAlarmData(object sender, DataTransferEventArgs e)
+        {
+            alarmtxt.Text = $"{e.alarmTime}  {e.alarm}";
         }
     }
 }

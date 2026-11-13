@@ -985,6 +985,17 @@ namespace AFLA_001
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkSlateGray;
+            indicatorLightControl1 = new PathDrawing.IndicatorLightControl();
+            indicatorLightControl1.Name = "indicatorLightControl1";
+            indicatorLightControl1.DisplayName = "OIL液位1";
+            indicatorLightControl1.IONumber = "DI 2.09";
+            indicatorLightControl1.Font = new Font("Microsoft JhengHei UI", 10F);
+            indicatorLightControl1.ForeColor = Color.White;
+            indicatorLightControl1.Location = new Point(1050, 140);
+            indicatorLightControl1.Size = new Size(180, 56);
+            indicatorLightControl1.LightColor = Color.DimGray;
+            Controls.Add(indicatorLightControl1);
+            indicatorLightControl1.BringToFront();
             ClientSize = new Size(1267, 452);
             ControlBox = false;
             Controls.Add(textBox1);
@@ -1077,6 +1088,7 @@ namespace AFLA_001
         #endregion
 
         private PathDrawing.ColumnControl columnControl1;
+        private PathDrawing.IndicatorLightControl indicatorLightControl1;
         private Button button1;
         private Button button2;
         private Button buzzerbtn;
@@ -1161,5 +1173,7 @@ namespace AFLA_001
         private Label label23;
     }
 }
+
+
 
 

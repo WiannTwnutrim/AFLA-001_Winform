@@ -37,7 +37,9 @@ namespace AFLA_001
 				else
 				{
 					EventdataGridView.DataSource = dt;
-				}
+					EventdataGridView.Columns["Event"].Width = 200;
+
+                }
 			}
 
 			catch (Exception ex)

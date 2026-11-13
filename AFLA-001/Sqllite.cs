@@ -475,7 +475,7 @@ namespace AFLA_001
                     conn.Open();
                     string sql = "Insert Into Alarm(TriggerDate,TriggerTime,Alarm,IsActive) " +
                         "SELECT @date,@time,@alarmEvent,1 WHERE " +
-                        "NOT EXISTS (SELECT 1 FROM Alarm WHERE 訊息 = @alarmEvent AND IsActive=1)";
+                        "NOT EXISTS (SELECT 1 FROM Alarm WHERE Alarm = @alarmEvent AND IsActive=1)";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
                         command.Parameters.AddWithValue("@date", date);
@@ -543,7 +543,7 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string updatesql = "Insert Into Alarm(觸發日期,觸發時間,訊息,IsActive) Values(@date,@time,@alarmEvent,1)";
+                    string updatesql = "Insert Into Alarm(TriggerDate,TriggerTime,Alarm,IsActive) Values(@date,@time,@alarmEvent,1)";
 
                     using (SqliteCommand command = new SqliteCommand(updatesql, conn))
                     {

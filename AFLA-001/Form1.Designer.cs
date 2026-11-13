@@ -43,9 +43,9 @@
             Eventbtn = new Button();
             Alarmbtn = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
-            textBox3 = new TextBox();
+            eventtxt = new TextBox();
             textBox2 = new TextBox();
-            textBox1 = new TextBox();
+            alarmtxt = new TextBox();
             nowtxt = new TextBox();
             logintxt = new TextBox();
             showrecipetxt = new TextBox();
@@ -231,9 +231,9 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 385F));
-            tableLayoutPanel2.Controls.Add(textBox3, 1, 1);
+            tableLayoutPanel2.Controls.Add(eventtxt, 1, 1);
             tableLayoutPanel2.Controls.Add(textBox2, 0, 1);
-            tableLayoutPanel2.Controls.Add(textBox1, 1, 0);
+            tableLayoutPanel2.Controls.Add(alarmtxt, 1, 0);
             tableLayoutPanel2.Controls.Add(nowtxt, 0, 0);
             tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
             tableLayoutPanel2.Controls.Add(showrecipetxt, 2, 1);
@@ -246,17 +246,17 @@
             tableLayoutPanel2.Size = new Size(1174, 111);
             tableLayoutPanel2.TabIndex = 3;
             // 
-            // textBox3
+            // eventtxt
             // 
-            textBox3.BackColor = Color.LightCyan;
-            textBox3.BorderStyle = BorderStyle.None;
-            textBox3.Dock = DockStyle.Fill;
-            textBox3.Font = new Font("Microsoft JhengHei UI", 20F);
-            textBox3.Location = new Point(397, 62);
-            textBox3.Name = "textBox3";
-            textBox3.ReadOnly = true;
-            textBox3.Size = new Size(386, 34);
-            textBox3.TabIndex = 5;
+            eventtxt.BackColor = Color.LightCyan;
+            eventtxt.BorderStyle = BorderStyle.None;
+            eventtxt.Dock = DockStyle.Fill;
+            eventtxt.Font = new Font("Microsoft JhengHei UI", 20F);
+            eventtxt.Location = new Point(397, 62);
+            eventtxt.Name = "eventtxt";
+            eventtxt.ReadOnly = true;
+            eventtxt.Size = new Size(386, 34);
+            eventtxt.TabIndex = 5;
             // 
             // textBox2
             // 
@@ -270,17 +270,17 @@
             textBox2.Size = new Size(386, 34);
             textBox2.TabIndex = 4;
             // 
-            // textBox1
+            // alarmtxt
             // 
-            textBox1.BackColor = Color.LightCyan;
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Dock = DockStyle.Fill;
-            textBox1.Font = new Font("Microsoft JhengHei UI", 20F);
-            textBox1.Location = new Point(397, 4);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(386, 34);
-            textBox1.TabIndex = 3;
+            alarmtxt.BackColor = Color.LightCyan;
+            alarmtxt.BorderStyle = BorderStyle.None;
+            alarmtxt.Dock = DockStyle.Fill;
+            alarmtxt.Font = new Font("Microsoft JhengHei UI", 20F);
+            alarmtxt.Location = new Point(397, 4);
+            alarmtxt.Name = "alarmtxt";
+            alarmtxt.ReadOnly = true;
+            alarmtxt.Size = new Size(386, 34);
+            alarmtxt.TabIndex = 3;
             // 
             // nowtxt
             // 
@@ -374,8 +374,8 @@
         private TextBox nowtxt;
         private System.Windows.Forms.Timer nowtime;
         private Panel panel1;
-        private TextBox textBox3;
+        private TextBox eventtxt;
         private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox alarmtxt;
     }
 }

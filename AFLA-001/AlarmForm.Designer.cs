@@ -41,21 +41,21 @@
             // 
             alarmData.AllowUserToAddRows = false;
             alarmData.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Color.OldLace;
+            dataGridViewCellStyle1.BackColor = Color.Orange;
             alarmData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             alarmData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            alarmData.Location = new Point(0, 53);
+            alarmData.Location = new Point(2, 52);
             alarmData.Name = "alarmData";
             alarmData.ReadOnly = true;
             alarmData.RowHeadersVisible = false;
-            dataGridViewCellStyle2.BackColor = Color.Peru;
+            dataGridViewCellStyle2.BackColor = Color.Bisque;
             alarmData.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            alarmData.Size = new Size(1251, 360);
+            alarmData.Size = new Size(500, 360);
             alarmData.TabIndex = 0;
             // 
             // alarmtestbtn
             // 
-            alarmtestbtn.Location = new Point(31, 12);
+            alarmtestbtn.Location = new Point(1093, 101);
             alarmtestbtn.Name = "alarmtestbtn";
             alarmtestbtn.Size = new Size(90, 35);
             alarmtestbtn.TabIndex = 1;
@@ -65,7 +65,7 @@
             // 
             // alaemResetbtn
             // 
-            alaemResetbtn.Location = new Point(207, 12);
+            alaemResetbtn.Location = new Point(1093, 161);
             alaemResetbtn.Name = "alaemResetbtn";
             alaemResetbtn.Size = new Size(90, 35);
             alaemResetbtn.TabIndex = 2;
@@ -75,7 +75,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(663, 12);
+            button1.Location = new Point(1093, 222);
             button1.Name = "button1";
             button1.Size = new Size(90, 35);
             button1.TabIndex = 3;
