@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,7 +16,8 @@ namespace AFLA_001
         private Sqllite _db = new Sqllite();
         //寫入recipe事件
         public event EventHandler? WriteRecipe;
-
+        public event EventHandler<RecipeAppliedEventArgs> WriteRecipeData;
+        
         public RecipeForm()
         {
             InitializeComponent();
@@ -229,11 +231,27 @@ namespace AFLA_001
 
         private void recipeWribtn_Click(object sender, EventArgs e)
         {
+            
             if (recipecombo.Text == recipeNametxt.Text)
             {
                 UserSession.LoadRecipe(recipecombo.Text);//先抓combobox的值
                 //正常流程要先load save後才
                 WriteRecipe?.Invoke(sender, e);//觸發事件
+                try
+                {
+                    string size = sizeCombo.Text;
+                    double rpm = Convert.ToDouble(dataGridView1.Rows[0].Cells["RPM"].Value);
+                    int bsoil = Convert.ToInt32(dataGridView1.Rows[0].Cells["BSOIL"].Value);
+                    int bsair = Convert.ToInt32(dataGridView1.Rows[0].Cells["BSAIR"].Value);
+                    int time = Convert.ToInt32(dataGridView1.Rows[0].Cells["TIME"].Value);
+                    //觸發form1讀取資料事件
+                    WriteRecipeData?.Invoke(sender, new RecipeAppliedEventArgs(size, rpm, bsair, bsoil, time));
+                }
+                catch(Exception ex)
+                {
+                    Loghelper.Error($"錯誤:{ex.ToString()}");
+                }
+
                 Loghelper.Userlog(UserSession.LoginUser, "按下WritePLC,成功寫入PLC");
             }
             else

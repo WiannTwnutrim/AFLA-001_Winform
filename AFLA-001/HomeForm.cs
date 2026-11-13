@@ -90,7 +90,7 @@ namespace AFLA_001
             {
                 gluepic.Image = Properties.Resources.glueout2;
                 pipeglue2.FlowColor = Color.Empty;
-            }         
+            }
         }
 
         private void vaccumval_Click(object sender, EventArgs e)
@@ -120,19 +120,19 @@ namespace AFLA_001
                 pipeipa4.FlowColor = Color.Empty;
             }
         }
+        //舊測試用
+        //private void ipaLow_Click(object sender, EventArgs e)
+        //{
+        //    ipatank.Level = 10f;
+        //    ipavalve.ForeColor = Color.Silver;
+        //    pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Empty;
+        //}
 
-        private void ipaLow_Click(object sender, EventArgs e)
-        {
-            ipatank.Level = 10f;
-            ipavalve.ForeColor = Color.Silver;
-            pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Empty;
-        }
-
-        private void ipaHigh_Click(object sender, EventArgs e)
-        {
-            ipatank.Level = 80f;
-            pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Blue;
-        }
+        //private void ipaHigh_Click(object sender, EventArgs e)
+        //{
+        //    ipatank.Level = 80f;
+        //    pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Blue;
+        //}
 
         private void airval_Click(object sender, EventArgs e)
         {
@@ -161,7 +161,7 @@ namespace AFLA_001
             else
             {
                 pipeoil2.FlowColor = Color.Empty;
-            }            
+            }
         }
 
         private void oilval1_Click(object sender, EventArgs e)
@@ -206,6 +206,15 @@ namespace AFLA_001
             {
                 pic.Visible = false;
             }
+        }
+        public void RecipeForm_RecipeApplied(object? sender,RecipeAppliedEventArgs e)
+        {
+            sizetxt.Text = e.Size;
+            rpmtxt.Text = e.Rpm.ToString();
+            bsairtxt.Text = e.Bsair.ToString();
+            bsoiltxt.Text = e.Bsoil.ToString();
+            timetxt.Text = e.Time.ToString();
+
         }
     }
 }

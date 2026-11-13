@@ -26,6 +26,7 @@ public class PipeControl : Control
     private int bendX = 50;
     private int bendY = 50;
     private Color flowColor = Color.Empty;
+    private float pipeWidth = 12f;
 
     public PipeControl()
     {
@@ -37,6 +38,21 @@ public class PipeControl : Control
     }
 
     protected override Size DefaultSize => new(160, 32);
+
+    [Category("管路"), DefaultValue(12f), Description("管徑粗細（96 DPI繪圖單位），範圍1～512，預設12。控制項太小時自動縮小。")]
+    public float PipeWidth
+    {
+        get => pipeWidth;
+        set
+        {
+            if (!float.IsFinite(value) || value < 1f || value > 512f)
+                throw new ArgumentOutOfRangeException(nameof(value), "PipeWidth 必須介於1與512。");
+            if (pipeWidth == value) return;
+            pipeWidth = value;
+            UpdatePipeRegion();
+            Invalidate();
+        }
+    }
 
     [Category("管路"), Description("管路的方向或彎頭形狀；端點會隨控制項大小自動計算。")]
     [DefaultValue(PipeShape.Horizontal)]
@@ -133,7 +149,7 @@ public class PipeControl : Control
 
     private void UpdatePipeRegion()
     {
-        float scale = Math.Min(DeviceDpi / 96f, Math.Min(ClientSize.Width, ClientSize.Height) / 14f);
+        float scale = Math.Min(DeviceDpi / 96f, Math.Min(ClientSize.Width, ClientSize.Height) / (PipeWidth + 2f));
         var next = new Region();
         next.MakeEmpty();
         if (scale > 0)
@@ -172,7 +188,7 @@ public class PipeControl : Control
                     if (distinct.Count == 0 || distinct[^1] != point) distinct.Add(point);
                 if (distinct.Count >= 2) path.AddLines(distinct.ToArray());
             }
-            using var pen = new Pen(Color.Black, 12f)
+            using var pen = new Pen(Color.Black, PipeWidth)
             {
                 StartCap = LineCap.Flat, EndCap = LineCap.Flat, LineJoin = LineJoin.Round
             };
@@ -189,8 +205,8 @@ public class PipeControl : Control
 
     protected override void OnPaint(PaintEventArgs e)
     {
-        // 原繪圖的管徑是 12；依螢幕 DPI 調整，極小尺寸則等比例縮小。
-        float scale = Math.Min(DeviceDpi / 96f, Math.Min(ClientSize.Width, ClientSize.Height) / 14f);
+        // 依管徑與 DPI 繪製；控制項太小時等比例縮小。
+        float scale = Math.Min(DeviceDpi / 96f, Math.Min(ClientSize.Width, ClientSize.Height) / (PipeWidth + 2f));
         if (scale > 0)
         {
             var state = e.Graphics.Save();
@@ -222,7 +238,7 @@ public class PipeControl : Control
                 if (Shape == PipeShape.TeeRight)
                     DrawTeeRight(e.Graphics, top, center, bottom, right);
                 else
-                    drawer.DrawFlowPipe(e.Graphics, FlowColor, points);
+                    drawer.DrawFlowPipe(e.Graphics, FlowColor, PipeWidth, points);
             }
             finally
             {
@@ -249,7 +265,7 @@ public class PipeControl : Control
         float[] widths = [12f, 9f, 5f, 2f];
         for (int i = 0; i < widths.Length; i++)
         {
-            using var pen = new Pen(colors[i], widths[i])
+            using var pen = new Pen(colors[i], widths[i] * PipeWidth / 12f)
             {
                 StartCap = LineCap.Flat,
                 EndCap = LineCap.Flat,
@@ -259,6 +275,7 @@ public class PipeControl : Control
         }
     }
 }
+
 
 
 
