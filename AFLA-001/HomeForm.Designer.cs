@@ -96,9 +96,7 @@ namespace AFLA_001
             label13 = new Label();
             label14 = new Label();
             label15 = new Label();
-            oiltimer = new System.Windows.Forms.Timer(components);
-            airtimer = new System.Windows.Forms.Timer(components);
-            oil1tiimer = new System.Windows.Forms.Timer(components);
+            showpictimer = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)vaccumpic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)airpicture).BeginInit();
@@ -784,20 +782,11 @@ namespace AFLA_001
             label15.TabIndex = 121;
             label15.Text = "LEAK";
             // 
-            // oiltimer
+            // showpictimer
             // 
-            oiltimer.Interval = 300;
-            oiltimer.Tick += oiltimer_Tick;
-            // 
-            // airtimer
-            // 
-            airtimer.Interval = 600;
-            airtimer.Tick += airtimer_Tick;
-            // 
-            // oil1tiimer
-            // 
-            oil1tiimer.Interval = 400;
-            oil1tiimer.Tick += oil1tiimer_Tick;
+            showpictimer.Enabled = true;
+            showpictimer.Interval = 500;
+            showpictimer.Tick += showpictimer_Tick;
             // 
             // HomeForm
             // 
@@ -959,9 +948,7 @@ namespace AFLA_001
         private Label label13;
         private Label label14;
         private Label label15;
-        private System.Windows.Forms.Timer oiltimer;
-        private System.Windows.Forms.Timer airtimer;
-        private System.Windows.Forms.Timer oil1tiimer;
+        private System.Windows.Forms.Timer showpictimer;
     }
 }
 

@@ -13,7 +13,7 @@ namespace AFLA_001
         private UserForm userform = new UserForm();
         private IoForm ioForm = new IoForm();
         private Sqllite _db = new Sqllite();
-        bool isEnglish = false;
+        bool isEnglish = true;//原先是中文
         
 
         public Form1()

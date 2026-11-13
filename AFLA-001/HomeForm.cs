@@ -9,6 +9,7 @@ namespace AFLA_001
     public partial class HomeForm : Form
     {
         private CheckForm form = new CheckForm();
+
         public HomeForm()
         {
             InitializeComponent();
@@ -20,11 +21,10 @@ namespace AFLA_001
 
             // 啟用雙緩衝，減少首頁重繪時的閃爍。
             DoubleBuffered = true;
-
         }
 
         /// <summary>
-        /// 閥變色
+        /// 閥變色,他屬性沒有Invalidate();//重繪
         /// </summary>
         /// <param name="valve"></param>
         /// <returns></returns>
@@ -43,7 +43,7 @@ namespace AFLA_001
             }
             Invalidate();
             return true;
-        }       
+        }
 
         private void buzzerbtn_Click(object sender, EventArgs e)
         {
@@ -90,8 +90,7 @@ namespace AFLA_001
             {
                 gluepic.Image = Properties.Resources.glueout2;
                 pipeglue2.FlowColor = Color.Empty;
-            }
-            Invalidate();//重繪            
+            }         
         }
 
         private void vaccumval_Click(object sender, EventArgs e)
@@ -107,7 +106,6 @@ namespace AFLA_001
                 vaccumpic.Image = Properties.Resources.vaccum1;
                 pipevacc2.FlowColor = Color.Empty;
             }
-            Invalidate();//重繪
         }
 
         private void ipavalve_Click(object sender, EventArgs e)
@@ -121,7 +119,6 @@ namespace AFLA_001
             {
                 pipeipa4.FlowColor = Color.Empty;
             }
-            Invalidate();//重繪
         }
 
         private void ipaLow_Click(object sender, EventArgs e)
@@ -129,14 +126,12 @@ namespace AFLA_001
             ipatank.Level = 10f;
             ipavalve.ForeColor = Color.Silver;
             pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Empty;
-            Invalidate();//重繪
         }
 
         private void ipaHigh_Click(object sender, EventArgs e)
         {
             ipatank.Level = 80f;
             pipeipa1.FlowColor = pipeipa2.FlowColor = pipeipa3.FlowColor = Color.Blue;
-            Invalidate();//重繪
         }
 
         private void airval_Click(object sender, EventArgs e)
@@ -146,22 +141,14 @@ namespace AFLA_001
             {
                 airpicture.Image = Properties.Resources.air2;
                 airpipe3.FlowColor = Color.SkyBlue;
-                airtimer.Start();
             }
             else
             {
                 airpicture.Image = Properties.Resources.air;
                 airpipe3.FlowColor = Color.Empty;
-                airtimer.Stop();
             }
-            Invalidate();//重繪 
-
         }
 
-        private void airtimer_Tick(object sender, EventArgs e)
-        {
-            showair.Visible = !showair.Visible;
-        }
 
         private void oil1val2_Click(object sender, EventArgs e)
         {
@@ -170,41 +157,55 @@ namespace AFLA_001
             if (oil1val2.ForeColor == Color.LimeGreen)
             {
                 pipeoil2.FlowColor = Color.Orange;
-                oiltimer.Start();
-
             }
             else
             {
                 pipeoil2.FlowColor = Color.Empty;
-                oiltimer.Stop();
-            }
-
-        }
-
-        private void oiltimer_Tick(object sender, EventArgs e)
-        {
-            showoil.Visible = !showoil.Visible;
+            }            
         }
 
         private void oilval1_Click(object sender, EventArgs e)
         {
-            ToggleValve(oilval1);
+            if (!ToggleValve(oilval1))
+                return;
+
+            oilpupic.Visible = oilval1.ForeColor == Color.LimeGreen;
             if (oilval1.ForeColor == Color.LimeGreen)
             {
                 pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Orange;
-                oil1tiimer.Start();
             }
             else
             {
                 pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Empty;
-                oil1tiimer.Stop();
             }
         }
-
-        //上方顯示計時器
-        private void oil1tiimer_Tick(object sender, EventArgs e)
+        /// <summary>
+        /// 閃爍圖片的計時器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void showpictimer_Tick(object sender, EventArgs e)
         {
-            oilpupic.Visible = !oilpupic.Visible;
+            ShowPic(oilpupic, oilval1);
+            ShowPic(showoil, oil1val2);
+            ShowPic(showair, airval);
+        }
+        /// <summary>
+        /// 控制圖片閃爍
+        /// </summary>
+        /// <param name="pic"></param>
+        /// <param name="valve"></param>
+        private void ShowPic(PictureBox pic, ValveControl valve)
+        {
+            // 關掉閥直接讓圖片消失
+            if (valve.ForeColor == Color.LimeGreen)
+            {
+                pic.Visible = !pic.Visible;
+            }
+            else
+            {
+                pic.Visible = false;
+            }
         }
     }
 }
