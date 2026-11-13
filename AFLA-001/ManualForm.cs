@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,6 +22,7 @@ namespace AFLA_001
 
             InitializeComponent();
             // 表單首次載入時讀取 CSV。
+            manualdata.DataBindingComplete += Manualdata_DataBindingComplete;
             Load += ManualForm_Load;
             
 
@@ -79,7 +80,9 @@ namespace AFLA_001
 
                 // 解析成功後綁定資料表，由表格自動產生欄位。
                 manualdata.DataSource = table;
+                manualdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
+                
 
                 loadUpData();//載入後讀取上方的值
 
@@ -89,6 +92,7 @@ namespace AFLA_001
                     column.ReadOnly = true;
                 }
                 manualdata.Columns["Value"].ReadOnly = false;
+
             }
             // 依例外篩選條件處理預期的檔案或資料錯誤。
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException
@@ -98,6 +102,16 @@ namespace AFLA_001
                 // 顯示讀檔失敗的路徑與原因。
                 MessageBox.Show(this, $"無法載入手動資料。\n{manualDataPath}\n{ex.Message}",
                     "載入失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Manualdata_DataBindingComplete(object? sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // 自動產生欄位並完成繫結後，再套用固定欄寬。
+            if (manualdata.Columns["Difinition"] is DataGridViewColumn column)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                column.Width = 200; // 調整此數值即可改變 Difinition 欄寬（像素）。
             }
         }
 

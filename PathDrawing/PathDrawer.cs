@@ -30,18 +30,26 @@ namespace PathDrawing
         // 依座標繪製金屬管，可用變色(轉彎會讓座標增加)
         public void DrawFlowPipe(Graphics graphics, Color flowColor, params Point[] points)
         {
+            DrawFlowPipe(graphics, flowColor, 12f, points);
+        }
+
+        public void DrawFlowPipe(Graphics graphics, Color flowColor, float pipeWidth, params Point[] points)
+        {
+            if (!float.IsFinite(pipeWidth) || pipeWidth < 1f || pipeWidth > 512f)
+                throw new ArgumentOutOfRangeException(nameof(pipeWidth));
+            float ratio = pipeWidth / 12f;
             // 至少需要兩個座標才能形成管段。
             if (points.Length < 2)
                 return; // 點數不足時沒有可畫的管段。
 
             // 先畫最寬的深色輪廓。
-            DrawPipeStroke(graphics, points, Color.FromArgb(39, 72, 76), 12f);
+            DrawPipeStroke(graphics, points, Color.FromArgb(39, 72, 76), 12f * ratio);
             // 疊上較窄的灰藍色管壁。
-            DrawPipeStroke(graphics, points, Color.FromArgb(109, 151, 155), 9f);
+            DrawPipeStroke(graphics, points, Color.FromArgb(109, 151, 155), 9f * ratio);
             // 使用淺灰藍色管身，或套用指定的流體顏色。
-            DrawPipeStroke(graphics, points, flowColor.IsEmpty ? Color.FromArgb(186, 217, 219) : flowColor, 5f);
+            DrawPipeStroke(graphics, points, flowColor.IsEmpty ? Color.FromArgb(186, 217, 219) : flowColor, 5f * ratio);
             // 最後畫窄亮線，呈現管身反光。
-            DrawPipeStroke(graphics, points, Color.FromArgb(233, 246, 246), 2f);
+            DrawPipeStroke(graphics, points, Color.FromArgb(233, 246, 246), 2f * ratio);
         }
 
         // 用兩個三角形和中央圓形畫出直立的閥門。
@@ -140,3 +148,4 @@ namespace PathDrawing
         }
     }
 }
+

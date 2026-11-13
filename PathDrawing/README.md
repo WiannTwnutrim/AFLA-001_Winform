@@ -148,3 +148,31 @@ columnControl1.ChamberColor = Color.DimGray;
 使用原生 Region 裁切外框與底座輪廓，外圍空白不遮擋其他圖片或管線；實體部分仍依控制項前後順序顯示。Click 可用於接入 HMI 操作。
 主程式1112首頁右側已加入 columnControl1（預設藍色外框、紅色環片），未綁定設備訊號，可直接以屬性連接現有狀態邏輯。
 套件維持1.0.5：ProjectReference 專案重建即可；NuGet 使用者需依同版本更新流程重新安裝，避免沿用舊快取。
+
+## PipeWidth 管徑設定（1.0.5／1113）
+PipeControl 新增 PipeWidth 屬性，可在 Visual Studio 屬性視窗「管路」類別直接設定，預設12，支援1～512的float數值。
+例如：pipeControl1.PipeWidth = 20F;
+控制項 Size 決定長度與可用空間，PipeWidth 決定管身粗細；管壁、流體、反光及透明輪廓會同步依比例調整，適用直管、彎管、三通。
+數值為96 DPI繪圖單位，隨螢幕DPI調整；控制項尺寸不足時自動縮小，要顯示較粗管身請增大Size。彎點靠邊時管身超出控制項的部分會被裁切。
+小於1、大於512、NaN與Infinity會拒絕。既有元件未設定此屬性時維持原12單位外觀。
+主程式1113使用ProjectReference，已同步原始碼並重建。NuGet使用者須依同版本更新流程重新安裝1.0.5以替換舊快取。
+
+## 指示燈 IndicatorLightControl（1.0.5／1113）
+工具箱拖入 IndicatorLightControl，透過唯一專用外觀屬性 LightColor 設定內部顏色；預設 DimGray，可設 LimeGreen、Red、Gold 等。金屬外圈與反光由元件繪製，不需自行畫圖。
+範例：indicatorLightControl1.LightColor = Color.LimeGreen;
+預設Size為56×56，非正方形時圓形置中；以原生圓形Region裁切，外圍空白不遮擋同層管線及圖片。支援標準Click事件，沒有自動閃爍或PLC綁定，狀態由主程式設定LightColor。
+主程式1113首頁右側加入indicatorLightControl1，預設灰色。ProjectReference專案重建即可；NuGet使用者請依同版本更新流程重新安裝1.0.5，避免載入舊快取。
+
+## 指示燈名稱與IO標籤（1.0.5／1113）
+IndicatorLightControl新增兩行文字屬性：
+DisplayName：第一行顯示名稱，例如「OIL液位1」；IONumber：第二行IO編號，例如「DI 2.09」。
+Name仍是WinForms程式識別名稱，與畫面上的DisplayName分開。
+Font調整兩行字型與大小，ForeColor調整兩行顏色，LightColor只改指示燈內部。
+範例：
+indicatorLightControl1.DisplayName = "OIL液位1";
+indicatorLightControl1.IONumber = "DI 2.09";
+indicatorLightControl1.ForeColor = Color.White;
+有文字時燈靠左、文字在右；兩項留空時保留舊版圓燈置中外觀。新元件預設180×56，既有56×56元件要顯示文字請加寬，長文字或大字型請增加Size。
+標籤按文字字形加入Region，文字間隙與燈周圍不遮圖；不需自行加Label。兩行使用元件本身Click事件。
+主程式1113首頁指示燈已設定名稱與IO範例。未綁定實際PLC。
+套件維持1.0.5，使用NuGet時需依同版本更新流程重新安裝以取代舊快取；ProjectReference重新建置即可。

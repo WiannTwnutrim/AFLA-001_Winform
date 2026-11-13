@@ -43,13 +43,18 @@
             Eventbtn = new Button();
             Alarmbtn = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
+            eventtxt = new TextBox();
+            textBox2 = new TextBox();
+            alarmtxt = new TextBox();
             nowtxt = new TextBox();
             logintxt = new TextBox();
             showrecipetxt = new TextBox();
             nowtime = new System.Windows.Forms.Timer(components);
+            panel1 = new Panel();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // MainPage
@@ -220,50 +225,98 @@
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.Anchor = AnchorStyles.None;
+            tableLayoutPanel2.BackColor = Color.LightCyan;
+            tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
             tableLayoutPanel2.ColumnCount = 3;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 385F));
+            tableLayoutPanel2.Controls.Add(eventtxt, 1, 1);
+            tableLayoutPanel2.Controls.Add(textBox2, 0, 1);
+            tableLayoutPanel2.Controls.Add(alarmtxt, 1, 0);
             tableLayoutPanel2.Controls.Add(nowtxt, 0, 0);
             tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
             tableLayoutPanel2.Controls.Add(showrecipetxt, 2, 1);
-            tableLayoutPanel2.Location = new Point(61, -1);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 53F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 47F));
-            tableLayoutPanel2.Size = new Size(1199, 120);
+            tableLayoutPanel2.Size = new Size(1174, 111);
             tableLayoutPanel2.TabIndex = 3;
+            // 
+            // eventtxt
+            // 
+            eventtxt.BackColor = Color.LightCyan;
+            eventtxt.BorderStyle = BorderStyle.None;
+            eventtxt.Dock = DockStyle.Fill;
+            eventtxt.Font = new Font("Microsoft JhengHei UI", 20F);
+            eventtxt.Location = new Point(397, 62);
+            eventtxt.Name = "eventtxt";
+            eventtxt.ReadOnly = true;
+            eventtxt.Size = new Size(386, 34);
+            eventtxt.TabIndex = 5;
+            // 
+            // textBox2
+            // 
+            textBox2.BackColor = Color.LightCyan;
+            textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Dock = DockStyle.Fill;
+            textBox2.Font = new Font("Microsoft JhengHei UI", 20F);
+            textBox2.Location = new Point(4, 62);
+            textBox2.Name = "textBox2";
+            textBox2.ReadOnly = true;
+            textBox2.Size = new Size(386, 34);
+            textBox2.TabIndex = 4;
+            // 
+            // alarmtxt
+            // 
+            alarmtxt.BackColor = Color.LightCyan;
+            alarmtxt.BorderStyle = BorderStyle.None;
+            alarmtxt.Dock = DockStyle.Fill;
+            alarmtxt.Font = new Font("Microsoft JhengHei UI", 20F);
+            alarmtxt.Location = new Point(397, 4);
+            alarmtxt.Name = "alarmtxt";
+            alarmtxt.ReadOnly = true;
+            alarmtxt.Size = new Size(386, 34);
+            alarmtxt.TabIndex = 3;
             // 
             // nowtxt
             // 
+            nowtxt.BackColor = Color.LightCyan;
+            nowtxt.BorderStyle = BorderStyle.None;
             nowtxt.Dock = DockStyle.Fill;
             nowtxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            nowtxt.Location = new Point(3, 3);
+            nowtxt.Location = new Point(7, 4);
+            nowtxt.Margin = new Padding(6, 3, 3, 3);
             nowtxt.Name = "nowtxt";
             nowtxt.ReadOnly = true;
-            nowtxt.Size = new Size(401, 41);
+            nowtxt.Size = new Size(383, 34);
             nowtxt.TabIndex = 2;
             // 
             // logintxt
             // 
+            logintxt.BackColor = Color.LightCyan;
+            logintxt.BorderStyle = BorderStyle.None;
             logintxt.Dock = DockStyle.Fill;
             logintxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            logintxt.Location = new Point(817, 3);
+            logintxt.Location = new Point(790, 4);
             logintxt.Name = "logintxt";
             logintxt.ReadOnly = true;
-            logintxt.Size = new Size(379, 41);
+            logintxt.Size = new Size(380, 34);
             logintxt.TabIndex = 0;
             // 
             // showrecipetxt
             // 
+            showrecipetxt.BackColor = Color.LightCyan;
+            showrecipetxt.BorderStyle = BorderStyle.None;
             showrecipetxt.Dock = DockStyle.Fill;
             showrecipetxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            showrecipetxt.Location = new Point(817, 66);
+            showrecipetxt.Location = new Point(790, 62);
             showrecipetxt.Name = "showrecipetxt";
             showrecipetxt.ReadOnly = true;
-            showrecipetxt.Size = new Size(379, 41);
+            showrecipetxt.Size = new Size(380, 34);
             showrecipetxt.TabIndex = 1;
             // 
             // nowtime
@@ -272,12 +325,22 @@
             nowtime.Interval = 1000;
             nowtime.Tick += nowtime_Tick;
             // 
+            // panel1
+            // 
+            panel1.BackColor = SystemColors.ActiveCaptionText;
+            panel1.Controls.Add(tableLayoutPanel2);
+            panel1.Location = new Point(85, 2);
+            panel1.Name = "panel1";
+            panel1.Padding = new Padding(3);
+            panel1.Size = new Size(1180, 117);
+            panel1.TabIndex = 4;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1272, 691);
-            Controls.Add(tableLayoutPanel2);
+            Controls.Add(panel1);
             Controls.Add(panel2);
             Controls.Add(MainPage);
             Name = "Form1";
@@ -287,6 +350,7 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -309,5 +373,9 @@
         private TextBox showrecipetxt;
         private TextBox nowtxt;
         private System.Windows.Forms.Timer nowtime;
+        private Panel panel1;
+        private TextBox eventtxt;
+        private TextBox textBox2;
+        private TextBox alarmtxt;
     }
 }

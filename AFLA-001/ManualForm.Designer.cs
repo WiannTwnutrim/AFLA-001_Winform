@@ -136,7 +136,7 @@
             // 
             manualdata.AllowUserToAddRows = false;
             manualdata.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Color.LightSteelBlue;
+            dataGridViewCellStyle1.BackColor = Color.Orange;
             manualdata.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             manualdata.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             manualdata.Location = new Point(3, 69);
@@ -150,9 +150,9 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             manualdata.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             manualdata.RowHeadersVisible = false;
-            dataGridViewCellStyle3.BackColor = Color.Honeydew;
+            dataGridViewCellStyle3.BackColor = Color.Bisque;
             manualdata.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            manualdata.Size = new Size(1040, 342);
+            manualdata.Size = new Size(823, 342);
             manualdata.TabIndex = 1;
             manualdata.CellBeginEdit += manualdata_CellBeginEdit;
             // 
@@ -308,7 +308,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 15F);
-            label1.Location = new Point(716, 32);
+            label1.Location = new Point(480, 35);
             label1.Name = "label1";
             label1.Size = new Size(84, 25);
             label1.TabIndex = 8;
@@ -317,7 +317,7 @@
             // cuplifttxt
             // 
             cuplifttxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            cuplifttxt.Location = new Point(819, 29);
+            cuplifttxt.Location = new Point(583, 32);
             cuplifttxt.Name = "cuplifttxt";
             cuplifttxt.ReadOnly = true;
             cuplifttxt.Size = new Size(100, 33);
@@ -326,7 +326,7 @@
             // Chuckrpmtxt
             // 
             Chuckrpmtxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            Chuckrpmtxt.Location = new Point(505, 26);
+            Chuckrpmtxt.Location = new Point(269, 29);
             Chuckrpmtxt.Name = "Chuckrpmtxt";
             Chuckrpmtxt.ReadOnly = true;
             Chuckrpmtxt.Size = new Size(100, 33);
@@ -336,7 +336,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 15F);
-            label2.Location = new Point(375, 29);
+            label2.Location = new Point(139, 32);
             label2.Name = "label2";
             label2.Size = new Size(124, 25);
             label2.TabIndex = 10;

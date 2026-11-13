@@ -128,7 +128,7 @@ namespace AFLA_001
             sizeCombo.Font = new Font("Microsoft JhengHei UI", 14F);
             sizeCombo.FormattingEnabled = true;
             sizeCombo.Items.AddRange(new object[] { "8", "12" });
-            sizeCombo.Location = new Point(848, 2);
+            sizeCombo.Location = new Point(944, 17);
             sizeCombo.Name = "sizeCombo";
             sizeCombo.Size = new Size(140, 32);
             sizeCombo.TabIndex = 6;
@@ -137,7 +137,7 @@ namespace AFLA_001
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 14F);
-            label1.Location = new Point(853, 37);
+            label1.Location = new Point(1105, 20);
             label1.Name = "label1";
             label1.Size = new Size(48, 24);
             label1.TabIndex = 7;
@@ -151,8 +151,7 @@ namespace AFLA_001
             dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, Step, BSOIL, BSAIR, IPA, OIL, GLUE, START, END, SPEED, RPM, ACC, TIME, RATIO1, RATIO2, RATIO3, RATIO4, RATIO5, RATIO6, RATIO7, RATIO8, RATIO9, RATIO10 });
-            dataGridView1.Dock = DockStyle.Bottom;
-            dataGridView1.Location = new Point(0, 67);
+            dataGridView1.Location = new Point(3, 67);
             dataGridView1.Name = "dataGridView1";
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.White;
@@ -165,7 +164,7 @@ namespace AFLA_001
             dataGridView1.RowHeadersVisible = false;
             dataGridViewCellStyle3.BackColor = Color.Bisque;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            dataGridView1.Size = new Size(1251, 346);
+            dataGridView1.Size = new Size(1248, 296);
             dataGridView1.TabIndex = 8;
             dataGridView1.CellToolTipTextNeeded += dataGridView1_CellToolTipTextNeeded;
             dataGridView1.CellValidating += dataGridView1_CellValidating;

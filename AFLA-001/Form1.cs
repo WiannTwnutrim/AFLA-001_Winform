@@ -13,7 +13,7 @@ namespace AFLA_001
         private UserForm userform = new UserForm();
         private IoForm ioForm = new IoForm();
         private Sqllite _db = new Sqllite();
-        bool isEnglish = false;
+        bool isEnglish = true;//原先是中文
         
 
         public Form1()
@@ -26,8 +26,9 @@ namespace AFLA_001
             Userbtn_Click(Userbtn, EventArgs.Empty);
             logintxt.Text = UserSession.LoginUser;
             recipeForm.WriteRecipe += WriteRecipeSucceeded;
-
-
+            recipeForm.WriteRecipeData += TransferRecipe;//封面寫值訂閱:來源recipe->form1再轉交給home
+            alarmForm.transferData += TransferAlarmData;
+            alarmForm.loadAlarm();
             Recipebtn.Tag = new LanguageManger("配方", "Recipe");
             Manualbtn.Tag = new LanguageManger("手動", "Manual");
             Userbtn.Tag = new LanguageManger("使用者", "User");
@@ -49,13 +50,13 @@ namespace AFLA_001
         private void LogoutSucceeded(object sender, EventArgs e)
         {
             logintxt.Text = UserSession.LoginUser;
-            showrecipetxt.Text = UserSession.WritedRecipe;
         }
 
         private void WriteRecipeSucceeded(object sender, EventArgs e)
         {
             showrecipetxt.Text = UserSession.WritedRecipe;
         }
+
 
         private void Homebtn_Click(object sender, EventArgs e)
         {
@@ -201,6 +202,16 @@ namespace AFLA_001
         private void nowtime_Tick(object sender, EventArgs e)
         {
             nowtxt.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+        }
+
+        private void TransferRecipe(object sender, RecipeAppliedEventArgs e)
+        {
+            homeform.RecipeForm_RecipeApplied(sender, e);
+        }
+
+        private void TransferAlarmData(object sender, DataTransferEventArgs e)
+        {
+            alarmtxt.Text = $"{e.alarmTime}  {e.alarm}";
         }
     }
 }
