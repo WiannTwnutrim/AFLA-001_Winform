@@ -12,7 +12,11 @@ namespace AFLA_001
         public string IOname { get; set; }
         //public string IOname_English { get; set; }
 
-        public bool PLCStatus { get; set; }
+        public bool PLCStatus { get; set; } = false;
+
+        public string PlcPonit { get; set; }
+
+        public string? Variable { get; set; }
 
     }
 }
