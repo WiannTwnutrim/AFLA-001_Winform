@@ -110,8 +110,8 @@ namespace AFLA_001
             textBox6 = new TextBox();
             sizetxt = new TextBox();
             panel1 = new Panel();
-            textBox8 = new TextBox();
             label23 = new Label();
+            textBox8 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)vaccumpic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)airpicture).BeginInit();
@@ -960,16 +960,6 @@ namespace AFLA_001
             panel1.Size = new Size(319, 391);
             panel1.TabIndex = 122;
             // 
-            // textBox8
-            // 
-            textBox8.Font = new Font("Microsoft JhengHei UI", 16F);
-            textBox8.Location = new Point(285, 113);
-            textBox8.Name = "textBox8";
-            textBox8.ReadOnly = true;
-            textBox8.Size = new Size(31, 35);
-            textBox8.TabIndex = 136;
-            textBox8.Text = "10";
-            // 
             // label23
             // 
             label23.AutoSize = true;
@@ -980,22 +970,21 @@ namespace AFLA_001
             label23.TabIndex = 137;
             label23.Text = "/";
             // 
+            // textBox8
+            // 
+            textBox8.Font = new Font("Microsoft JhengHei UI", 16F);
+            textBox8.Location = new Point(285, 113);
+            textBox8.Name = "textBox8";
+            textBox8.ReadOnly = true;
+            textBox8.Size = new Size(31, 35);
+            textBox8.TabIndex = 136;
+            textBox8.Text = "10";
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkSlateGray;
-            indicatorLightControl1 = new PathDrawing.IndicatorLightControl();
-            indicatorLightControl1.Name = "indicatorLightControl1";
-            indicatorLightControl1.DisplayName = "OIL液位1";
-            indicatorLightControl1.IONumber = "DI 2.09";
-            indicatorLightControl1.Font = new Font("Microsoft JhengHei UI", 10F);
-            indicatorLightControl1.ForeColor = Color.White;
-            indicatorLightControl1.Location = new Point(1050, 140);
-            indicatorLightControl1.Size = new Size(180, 56);
-            indicatorLightControl1.LightColor = Color.DimGray;
-            Controls.Add(indicatorLightControl1);
-            indicatorLightControl1.BringToFront();
             ClientSize = new Size(1267, 452);
             ControlBox = false;
             Controls.Add(textBox1);
@@ -1088,7 +1077,6 @@ namespace AFLA_001
         #endregion
 
         private PathDrawing.ColumnControl columnControl1;
-        private PathDrawing.IndicatorLightControl indicatorLightControl1;
         private Button button1;
         private Button button2;
         private Button buzzerbtn;

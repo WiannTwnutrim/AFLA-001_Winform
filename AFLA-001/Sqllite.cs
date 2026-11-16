@@ -535,7 +535,7 @@ namespace AFLA_001
         public void AddNoError()
         {
             DateTime now = DateTime.Now;
-            string date = now.ToString("yyyy/MM/dd");
+            string date = now.ToString("yyyy/MM/dd",System.Globalization.CultureInfo.InvariantCulture);
             string time = now.ToString("HH:mm:ss");
             string alarmEvent = "NoError";
             try

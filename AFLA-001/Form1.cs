@@ -1,236 +1,236 @@
 namespace AFLA_001
 {
-	public partial class Form1 : Form
-	{
-		//直接宣告變數避免在建構子內宣告為區域變數
-		private HomeForm homeform = new HomeForm();
-		private RecipeForm recipeForm = new RecipeForm();
-		private ManualForm manualForm = new ManualForm();
-		private AlarmForm alarmForm = new AlarmForm();
-		private HistoryForm historyForm = new HistoryForm();
-		private EventForm eventForm = new EventForm();
-		//private LogPage logPage;
-		private UserForm userform = new UserForm();
-		private IoForm ioForm = new IoForm();
-		private Sqllite _db = new Sqllite();
-		bool isEnglish = true;//原先是中文
-		//private List<IOModel> iolist = new List<IOModel>();
+    public partial class Form1 : Form
+    {
+        //直接宣告變數避免在建構子內宣告為區域變數
+        private HomeForm homeform = new HomeForm();
+        private RecipeForm recipeForm = new RecipeForm();
+        private ManualForm manualForm = new ManualForm();
+        private AlarmForm alarmForm = new AlarmForm();
+        private HistoryForm historyForm = new HistoryForm();
+        private EventForm eventForm = new EventForm();
+        //private LogPage logPage;
+        private UserForm userform = new UserForm();
+        private IoForm ioForm = new IoForm();
+        private Sqllite _db = new Sqllite();
+        bool isEnglish = true;//原先是中文
+                              //private List<IOModel> iolist = new List<IOModel>();
+        private int speed = 1;
 
-		public Form1()
-		{
-			InitializeComponent();
-			//+= 表示「訂閱事件」,當 userform 發出 LoginSucceeded 通知時，請執行右邊的方法
-			//userform.LoginSucceeded += (sender, e) => Homebtn_Click(Homebtn, e);
-			userform.LoginSucceeded += LoginSucceeded;
-			userform.LogoutSucceeded += LogoutSucceeded;
-			Userbtn_Click(Userbtn, EventArgs.Empty);
-			logintxt.Text = UserSession.LoginUser;
-			recipeForm.WriteRecipe += WriteRecipeSucceeded;
-			recipeForm.WriteRecipeData += TransferRecipe;//封面寫值訂閱:來源recipe->form1再轉交給home
-			alarmForm.transferData += TransferAlarmData;
-			alarmForm.loadAlarm();
-			Recipebtn.Tag = new LanguageManger("配方", "Recipe");
-			Manualbtn.Tag = new LanguageManger("手動", "Manual");
-			Userbtn.Tag = new LanguageManger("使用者", "User");
-			Languagebtn.Tag = new LanguageManger("中文", "Language");
-			Historybtn.Tag = new LanguageManger("歷史", Historybtn.Text);
-			Logbtn.Tag = new LanguageManger("紀錄", Logbtn.Text);
-			Iobtn.Tag = new LanguageManger("接點", Iobtn.Text);
-			Alarmbtn.Tag = new LanguageManger("警告", Alarmbtn.Text);
-			Eventbtn.Tag = new LanguageManger("事件", Eventbtn.Text);
-			Homebtn.Tag = new LanguageManger("首頁", Homebtn.Text);
-		}
+        public Form1()
+        {
+            InitializeComponent();
+            //+= 表示「訂閱事件」,當 userform 發出 LoginSucceeded 通知時，請執行右邊的方法
+            //userform.LoginSucceeded += (sender, e) => Homebtn_Click(Homebtn, e);
+            userform.LoginSucceeded += LoginSucceeded;
+            userform.LogoutSucceeded += LogoutSucceeded;
+            Userbtn_Click(Userbtn, EventArgs.Empty);
+            logintxt.Text = UserSession.LoginUser;
+            recipeForm.WriteRecipe += WriteRecipeSucceeded;
+            recipeForm.WriteRecipeData += TransferRecipe;//封面寫值訂閱:來源recipe->form1再轉交給home
+            alarmForm.transferData += TransferAlarmData;
+            alarmForm.loadAlarm();
+            Recipebtn.Tag = new LanguageManger("配方", "Recipe");
+            Manualbtn.Tag = new LanguageManger("手動", "Manual");
+            Userbtn.Tag = new LanguageManger("使用者", "User");
+            Languagebtn.Tag = new LanguageManger("中文", "Language");
+            Historybtn.Tag = new LanguageManger("歷史", Historybtn.Text);
+            Logbtn.Tag = new LanguageManger("紀錄", Logbtn.Text);
+            Iobtn.Tag = new LanguageManger("接點", Iobtn.Text);
+            Alarmbtn.Tag = new LanguageManger("警告", Alarmbtn.Text);
+            Eventbtn.Tag = new LanguageManger("事件", Eventbtn.Text);
+            Homebtn.Tag = new LanguageManger("首頁", Homebtn.Text);
+            alarmtxt.Left = alarmpanel.Width;
+            //alarmtxtl.Top = (alarmpanel.ClientSize.Height - alarmtxtl.Height) / 2;
+            ticker.Interval = 50;
+            ticker.Start();
+        }
 
-		private void LoginSucceeded(object sender, EventArgs e)
-		{
-			logintxt.Text = UserSession.LoginUser;
-			Homebtn_Click(Homebtn, e);
-		}
+        private void LoginSucceeded(object sender, EventArgs e)
+        {
+            logintxt.Text = UserSession.LoginUser;
+            Homebtn_Click(Homebtn, e);
+        }
 
-		private void LogoutSucceeded(object sender, EventArgs e)
-		{
-			logintxt.Text = UserSession.LoginUser;
-		}
+        private void LogoutSucceeded(object sender, EventArgs e)
+        {
+            logintxt.Text = UserSession.LoginUser;
+        }
 
-		private void WriteRecipeSucceeded(object sender, EventArgs e)
-		{
-			showrecipetxt.Text = UserSession.WritedRecipe;
-		}
-
-
-		private void Homebtn_Click(object sender, EventArgs e)
-		{
-			PageSwitchManger.ShowPage(MainPage, homeform);
-			PageSwitchManger.ActiveButton(Homebtn);
-		}
-		private void Recipebtn_Click(object sender, EventArgs e)
-		{
-			if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
-			{
-				Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Recipe頁面");
-			}
-			else
-			{
-				PageSwitchManger.ShowPage(MainPage, recipeForm);
-				PageSwitchManger.ActiveButton(Recipebtn);
-				Loghelper.Userlog(UserSession.LoginUser, "切換成Recipe頁面");
-			}
-
-		}
-		private void Manualbtn_Click(object sender, EventArgs e)
-		{
-			if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
-			{
-				Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Recipe頁面");
-			}
-			else
-			{
-				PageSwitchManger.ShowPage(MainPage, manualForm);
-				PageSwitchManger.ActiveButton(Manualbtn);
-				Loghelper.Userlog(UserSession.LoginUser, "切換成Manual頁面");
-			}
-
-		}
-		private void Alarmbtn_Click(object sender, EventArgs e)
-		{
-			if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
-			{
-				Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Alarm頁面");
-			}
-			else
-			{
-				PageSwitchManger.ShowPage(MainPage, alarmForm);
-				PageSwitchManger.ActiveButton(Alarmbtn);
-				Loghelper.Userlog(UserSession.LoginUser, "切換成Alarm頁面");
-			}
-
-		}
-		private void Historybtn_Click(object sender, EventArgs e)
-		{
-			if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
-			{
-				Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換History頁面");
-			}
-			else
-			{
-				PageSwitchManger.ShowPage(MainPage, historyForm);
-				PageSwitchManger.ActiveButton(Historybtn);
-				Loghelper.Userlog(UserSession.LoginUser, "切換成History頁面");
-			}
-		}
-		private void Eventbtn_Click(object sender, EventArgs e)
-		{
-			if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
-			{
-				Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Event頁面");
-			}
-			else
-			{
-				PageSwitchManger.ShowPage(MainPage, eventForm);
-				PageSwitchManger.ActiveButton(Eventbtn);
-				Loghelper.Userlog(UserSession.LoginUser, "切換成Event頁面");
-			}
-
-		}
-		private void Logbtn_Click(object sender, EventArgs e)
-		{
-			//PageSwitchManger.ShowPage(MainPage, logPage);
-			//PageSwitchManger.ActiveButton(Logbtn);
-		}
-		private void Userbtn_Click(object sender, EventArgs e)
-		{
-			PageSwitchManger.ShowPage(MainPage, userform);
-			PageSwitchManger.ActiveButton(Userbtn);
-			userform.ClearloginResult();
-			Loghelper.Userlog(UserSession.LoginUser, "切換成User頁面");
-		}
-		private void Iobtn_Click(object sender, EventArgs e)
-		{
-			if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
-			{
-				Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Io頁面");
-			}
-			else
-			{
-				PageSwitchManger.ShowPage(MainPage, ioForm);
-				PageSwitchManger.ActiveButton(Iobtn);
-				Loghelper.Userlog(UserSession.LoginUser, "切換成Io頁面");
-			}
-		}
+        private void WriteRecipeSucceeded(object sender, EventArgs e)
+        {
+            showrecipetxt.Text = UserSession.WritedRecipe;
+        }
 
 
-		private void Languagebtn_Click(object sender, EventArgs e)
-		{
-			isEnglish = !isEnglish;//互相切換
+        private void Homebtn_Click(object sender, EventArgs e)
+        {
+            PageSwitchManger.ShowPage(MainPage, homeform);
+            PageSwitchManger.ActiveButton(Homebtn);
+        }
+        private void Recipebtn_Click(object sender, EventArgs e)
+        {
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Recipe頁面");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, recipeForm);
+                PageSwitchManger.ActiveButton(Recipebtn);
+                Loghelper.Userlog(UserSession.LoginUser, "切換成Recipe頁面");
+            }
 
-			changeLanguage();
-		}
+        }
+        private void Manualbtn_Click(object sender, EventArgs e)
+        {
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Recipe頁面");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, manualForm);
+                PageSwitchManger.ActiveButton(Manualbtn);
+                Loghelper.Userlog(UserSession.LoginUser, "切換成Manual頁面");
+            }
 
-		public void SetButton(Button button)
-		{
+        }
+        private void Alarmbtn_Click(object sender, EventArgs e)
+        {
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Alarm頁面");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, alarmForm);
+                PageSwitchManger.ActiveButton(Alarmbtn);
+                Loghelper.Userlog(UserSession.LoginUser, "切換成Alarm頁面");
+            }
 
-			LanguageManger text = (LanguageManger)button.Tag;
+        }
+        private void Historybtn_Click(object sender, EventArgs e)
+        {
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換History頁面");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, historyForm);
+                PageSwitchManger.ActiveButton(Historybtn);
+                Loghelper.Userlog(UserSession.LoginUser, "切換成History頁面");
+            }
+        }
+        private void Eventbtn_Click(object sender, EventArgs e)
+        {
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Event頁面");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, eventForm);
+                PageSwitchManger.ActiveButton(Eventbtn);
+                Loghelper.Userlog(UserSession.LoginUser, "切換成Event頁面");
+            }
 
-			if (text == null)
-			{
-				return;
-			}
-			if (isEnglish)
-			{
-				button.Text = text.English;
-			}
-			else
-			{
-				button.Text = text.Taiwan;
-			}
+        }
+        private void Logbtn_Click(object sender, EventArgs e)
+        {
+            //PageSwitchManger.ShowPage(MainPage, logPage);
+            //PageSwitchManger.ActiveButton(Logbtn);
+        }
+        private void Userbtn_Click(object sender, EventArgs e)
+        {
+            PageSwitchManger.ShowPage(MainPage, userform);
+            PageSwitchManger.ActiveButton(Userbtn);
+            userform.ClearloginResult();
+            Loghelper.Userlog(UserSession.LoginUser, "切換成User頁面");
+        }
+        private void Iobtn_Click(object sender, EventArgs e)
+        {
+            if (!_db.CheckLevel(_db.CheckRole(UserSession.LoginUser)))
+            {
+                Loghelper.Userlog(UserSession.LoginUser, "權限不夠不能切換Io頁面");
+            }
+            else
+            {
+                PageSwitchManger.ShowPage(MainPage, ioForm);
+                PageSwitchManger.ActiveButton(Iobtn);
+                Loghelper.Userlog(UserSession.LoginUser, "切換成Io頁面");
+            }
+        }
 
-		}
-		public void changeLanguage()
-		{
-			SetButton(Historybtn);
-			SetButton(Userbtn);
-			SetButton(Recipebtn);
-			SetButton(Languagebtn);
-			SetButton(Alarmbtn);
-			SetButton(Homebtn);
-			SetButton(Iobtn);
-			SetButton(Logbtn);
-			SetButton(Eventbtn);
-			SetButton(Manualbtn);
-		}
 
-		private void nowtime_Tick(object sender, EventArgs e)
-		{
-			nowtxt.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
-		}
+        private void Languagebtn_Click(object sender, EventArgs e)
+        {
+            isEnglish = !isEnglish;//互相切換
 
-		private void TransferRecipe(object sender, RecipeAppliedEventArgs e)
-		{
-			homeform.RecipeForm_RecipeApplied(sender, e);
-		}
+            changeLanguage();
+        }
 
-		private void TransferAlarmData(object sender, DataTransferEventArgs e)
-		{
-			alarmtxt.Text = $"{e.alarmTime}  {e.alarm}";
-		}
+        public void SetButton(Button button)
+        {
 
-		private void Form1_Load(object sender, EventArgs e)
-		{
-			////當excel打開時無法使用
-			//try
-			//{
-			//	//AppContext.BaseDirectory:E\ALFA-Winform\AFLA-001\bin\Debug\net8.0-windows內:與exe同位置
-			//	//@"..\..\..\ (@是逐字字串讓反斜線 \ 不會被當成跳脫字元)
-			//	//往上三層在E:\AFLA-001_Winform\AFLA-001
-			//	string path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\IO_test.xlsx");
-			//	ExcelHelper excel = new ExcelHelper();
-			//	iolist =excel.LoadIO(path);
-			//	MessageBox.Show($"成功讀取{iolist.Count}筆");//目前成功讀取
-			//}
-			//catch(Exception ex)
-			//{
-			//	MessageBox.Show($"{ex.ToString()}");
-			//}
-		}
-	}
+            LanguageManger text = (LanguageManger)button.Tag;
+
+            if (text == null)
+            {
+                return;
+            }
+            if (isEnglish)
+            {
+                button.Text = text.English;
+            }
+            else
+            {
+                button.Text = text.Taiwan;
+            }
+
+        }
+        public void changeLanguage()
+        {
+            SetButton(Historybtn);
+            SetButton(Userbtn);
+            SetButton(Recipebtn);
+            SetButton(Languagebtn);
+            SetButton(Alarmbtn);
+            SetButton(Homebtn);
+            SetButton(Iobtn);
+            SetButton(Logbtn);
+            SetButton(Eventbtn);
+            SetButton(Manualbtn);
+        }
+
+        private void nowtime_Tick(object sender, EventArgs e)
+        {
+            nowtxt.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+        }
+
+        private void TransferRecipe(object sender, RecipeAppliedEventArgs e)
+        {
+            homeform.RecipeForm_RecipeApplied(sender, e);
+        }
+
+        private void TransferAlarmData(object sender, DataTransferEventArgs e)
+        {
+            alarmtxt.Text = $"{e.alarmTime}  {e.alarm}";
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ticker_Tick(object sender, EventArgs e)
+        {
+            alarmtxt.Left -= speed;
+            if (alarmtxt.Right < 0)
+            {
+                alarmtxt.Left = alarmpanel.Width;
+            }
+        }
+    }
 }
