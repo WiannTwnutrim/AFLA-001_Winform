@@ -1,4 +1,5 @@
-﻿using PathDrawing;
+﻿using DocumentFormat.OpenXml.EMMA;
+using PathDrawing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +15,9 @@ namespace AFLA_001
 	public partial class IoForm : Form
 	{
 		private List<IOModel> iolist = new List<IOModel>();
+        
 
-		
-		public IoForm()
+        public IoForm()
 		{
 			InitializeComponent();
 			Load += IoForm_Load;
@@ -51,15 +52,17 @@ namespace AFLA_001
 		}
 		public IndicatorLightControl SetIO(IOModel model)
 		{
-			IndicatorLightControl iocontrol = new IndicatorLightControl();
-			iocontrol.DisplayName = model.IOname ;
+            IndicatorLightControl iocontrol = new IndicatorLightControl();
+            iocontrol.DisplayName = model.IOname ;
 			iocontrol.IONumber = model.IOnumber;
 			iocontrol.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
 			iocontrol.Width = 260;
 			iocontrol.Height = 56;
 			iocontrol.Margin = new Padding(8);
 			iocontrol.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Bold);
-			return iocontrol;
+            iocontrol.Tag = model;
+            iocontrol.Click += IOControl_Click;
+            return iocontrol;
 		}
 		public void DisplayIo()
 		{
@@ -73,5 +76,30 @@ namespace AFLA_001
 					DoPanel.Controls.Add(item);
 			}
 		}
-	}
+        private void IOControl_Click(object? sender, EventArgs e)
+		{
+            if (sender is not IndicatorLightControl light)
+                return;
+
+            if (light.Tag is not IOModel model)
+                return;
+			if (string.IsNullOrEmpty(model.Variable))
+				return;
+
+            MessageBox.Show(model.Variable);
+            if (model.PLCStatus)
+			{
+				model.PLCStatus = false;
+            }
+			else
+			{
+				model.PLCStatus = true;
+
+            }
+            light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
+
+
+        }
+
+    }
 }

@@ -28,7 +28,7 @@ namespace AFLA_001
             data = _db.LoadAlarm();
 
             alarmData.DataSource = data;
-            alarmData.Columns["Alarm"].Width = 200;
+            //alarmData.Columns["Alarm"].Width = 200;
             try
             {
                 string? alarmevent = data.Rows.Count == 0 ? "" : Convert.ToString(data.Rows[0]["Alarm"]);
