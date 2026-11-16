@@ -10,7 +10,7 @@ namespace AFLA_001
     {
         public string IOnumber { get; set; }
         public string IOname { get; set; }
-        public string IOname_English { get; set; }
+        //public string IOname_English { get; set; }
 
         public bool PLCStatus { get; set; }
 

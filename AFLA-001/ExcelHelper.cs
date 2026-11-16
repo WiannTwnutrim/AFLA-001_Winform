@@ -14,11 +14,12 @@ namespace AFLA_001
             // 建立 List，存放讀取到的 IO 資料
             List<IOModel> ioList = new List<IOModel>();
 
+
             // 開啟 Excel
             using (XLWorkbook workbook = new XLWorkbook(filePath))
             {
-                //指定要讀取的工作表，名稱必須與 Excel 一致。
-                var worksheet = workbook.Worksheet("IO_test");
+                //指定要讀取的工作表，名稱必須與 Excel 一致(excel內分頁名稱)
+                var worksheet = workbook.Worksheet("IO表");
 
                 // 取得最後一個有資料的列號
                 int lastRow = worksheet.LastRowUsed().RowNumber();
@@ -37,7 +38,7 @@ namespace AFLA_001
                     {
                         IOnumber = ioNumber,
                         IOname = worksheet.Cell(row, 2).GetString(),
-                        IOname_English = worksheet.Cell(row, 3).GetString(),
+                        //IOname_English = worksheet.Cell(row, 3).GetString(),
                         PLCStatus = Convert.ToBoolean(worksheet.Cell(row, 4).GetValue<int>())
                     };
 
