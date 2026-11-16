@@ -43,6 +43,7 @@
             EventdataGridView.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = Color.Orange;
             EventdataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            EventdataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             EventdataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.AntiqueWhite;
@@ -52,18 +53,18 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             EventdataGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            EventdataGridView.Location = new Point(1, 53);
+            EventdataGridView.Location = new Point(1, 3);
             EventdataGridView.Name = "EventdataGridView";
             EventdataGridView.ReadOnly = true;
             EventdataGridView.RowHeadersVisible = false;
             dataGridViewCellStyle3.BackColor = Color.Bisque;
             EventdataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            EventdataGridView.Size = new Size(487, 320);
+            EventdataGridView.Size = new Size(1048, 407);
             EventdataGridView.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(1020, 120);
+            button1.Location = new Point(1103, 152);
             button1.Name = "button1";
             button1.Size = new Size(90, 35);
             button1.TabIndex = 4;
@@ -73,7 +74,7 @@
             // 
             // addeventbtn
             // 
-            addeventbtn.Location = new Point(1020, 53);
+            addeventbtn.Location = new Point(1103, 53);
             addeventbtn.Name = "addeventbtn";
             addeventbtn.Size = new Size(90, 35);
             addeventbtn.TabIndex = 5;
@@ -85,7 +86,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1235, 374);
+            BackColor = Color.DarkSlateGray;
+            ClientSize = new Size(1251, 413);
             Controls.Add(addeventbtn);
             Controls.Add(button1);
             Controls.Add(EventdataGridView);

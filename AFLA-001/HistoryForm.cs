@@ -26,6 +26,7 @@ namespace AFLA_001
             dt.Clear();
             dt = _db.LoadHistory();
             historydataGridView.DataSource = dt;
+            
         }
 
         private void stabtn_Click(object sender, EventArgs e)
@@ -33,15 +34,6 @@ namespace AFLA_001
             SaveStation("A", 45, "2:40");
         }
 
-        private void stbbtn_Click(object sender, EventArgs e)
-        {
-            SaveStation("B", 80, "7:10");
-        }
-
-        private void stcbtn_Click(object sender, EventArgs e)
-        {
-            SaveStation("C", 30, "2:10");
-        }
 
         private void SaveStation(string stationName, int temperature, string pickAt)
         {
@@ -77,6 +69,7 @@ namespace AFLA_001
             {
                 dt = _db.SearchData(startDate, endDate);
                 historydataGridView.DataSource = dt;
+                
             }
             catch(Exception ex)
             {

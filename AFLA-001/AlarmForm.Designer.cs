@@ -43,19 +43,20 @@
             alarmData.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = Color.Orange;
             alarmData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            alarmData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             alarmData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            alarmData.Location = new Point(2, 52);
+            alarmData.Location = new Point(3, 3);
             alarmData.Name = "alarmData";
             alarmData.ReadOnly = true;
             alarmData.RowHeadersVisible = false;
             dataGridViewCellStyle2.BackColor = Color.Bisque;
             alarmData.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            alarmData.Size = new Size(500, 360);
+            alarmData.Size = new Size(1048, 407);
             alarmData.TabIndex = 0;
             // 
             // alarmtestbtn
             // 
-            alarmtestbtn.Location = new Point(1093, 101);
+            alarmtestbtn.Location = new Point(1103, 101);
             alarmtestbtn.Name = "alarmtestbtn";
             alarmtestbtn.Size = new Size(90, 35);
             alarmtestbtn.TabIndex = 1;
@@ -65,7 +66,7 @@
             // 
             // alaemResetbtn
             // 
-            alaemResetbtn.Location = new Point(1093, 161);
+            alaemResetbtn.Location = new Point(1103, 161);
             alaemResetbtn.Name = "alaemResetbtn";
             alaemResetbtn.Size = new Size(90, 35);
             alaemResetbtn.TabIndex = 2;
@@ -75,7 +76,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(1093, 222);
+            button1.Location = new Point(1103, 222);
             button1.Name = "button1";
             button1.Size = new Size(90, 35);
             button1.TabIndex = 3;
@@ -87,6 +88,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.DarkSlateGray;
             ClientSize = new Size(1251, 413);
             Controls.Add(button1);
             Controls.Add(alaemResetbtn);

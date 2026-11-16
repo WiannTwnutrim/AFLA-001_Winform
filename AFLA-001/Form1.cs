@@ -15,7 +15,7 @@ namespace AFLA_001
         private Sqllite _db = new Sqllite();
         bool isEnglish = true;//原先是中文
                               //private List<IOModel> iolist = new List<IOModel>();
-        private int speed = 1;
+        private int speed = 2;
 
         public Form1()
         {
@@ -30,6 +30,8 @@ namespace AFLA_001
             recipeForm.WriteRecipeData += TransferRecipe;//封面寫值訂閱:來源recipe->form1再轉交給home
             alarmForm.transferData += TransferAlarmData;
             alarmForm.loadAlarm();
+            eventForm.transferevent += TransferEventData;
+            eventForm.LoadEvent();
             Recipebtn.Tag = new LanguageManger("配方", "Recipe");
             Manualbtn.Tag = new LanguageManger("手動", "Manual");
             Userbtn.Tag = new LanguageManger("使用者", "User");
@@ -41,6 +43,7 @@ namespace AFLA_001
             Eventbtn.Tag = new LanguageManger("事件", Eventbtn.Text);
             Homebtn.Tag = new LanguageManger("首頁", Homebtn.Text);
             alarmtxt.Left = alarmpanel.Width;
+            eventtxt.Left = eventpanel.Width;
             //alarmtxtl.Top = (alarmpanel.ClientSize.Height - alarmtxtl.Height) / 2;
             ticker.Interval = 50;
             ticker.Start();
@@ -218,7 +221,10 @@ namespace AFLA_001
         {
             alarmtxt.Text = $"{e.alarmTime}  {e.alarm}";
         }
-
+        private void TransferEventData(object sender, DataTransferEventArgs e)
+        {
+            eventtxt.Text = $"{e.eventtime}  {e.eventitem}";
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -230,6 +236,11 @@ namespace AFLA_001
             if (alarmtxt.Right < 0)
             {
                 alarmtxt.Left = alarmpanel.Width;
+            }
+            eventtxt.Left -= speed;
+            if (eventtxt.Right < 0)
+            {
+                eventtxt.Left = eventpanel.Width;
             }
         }
     }

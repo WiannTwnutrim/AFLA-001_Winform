@@ -43,6 +43,8 @@ namespace AFLA_001
             Eventbtn = new Button();
             Alarmbtn = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
+            eventpanel = new Panel();
+            eventtxt = new Label();
             equipmentstatus = new TextBox();
             nowtxt = new TextBox();
             logintxt = new TextBox();
@@ -58,6 +60,7 @@ namespace AFLA_001
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            eventpanel.SuspendLayout();
             alarmpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -233,9 +236,10 @@ namespace AFLA_001
             tableLayoutPanel2.BackColor = Color.LightCyan;
             tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
             tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34.4827576F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 65.51724F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 290F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.27181F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.7281952F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 283F));
+            tableLayoutPanel2.Controls.Add(eventpanel, 1, 1);
             tableLayoutPanel2.Controls.Add(equipmentstatus, 0, 1);
             tableLayoutPanel2.Controls.Add(nowtxt, 0, 0);
             tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
@@ -249,6 +253,22 @@ namespace AFLA_001
             tableLayoutPanel2.Size = new Size(1084, 111);
             tableLayoutPanel2.TabIndex = 3;
             // 
+            // eventpanel
+            // 
+            eventpanel.Controls.Add(eventtxt);
+            eventpanel.Location = new Point(286, 62);
+            eventpanel.Name = "eventpanel";
+            eventpanel.Size = new Size(508, 45);
+            eventpanel.TabIndex = 9;
+            // 
+            // eventtxt
+            // 
+            eventtxt.Font = new Font("Microsoft JhengHei UI", 20F);
+            eventtxt.Location = new Point(3, 5);
+            eventtxt.Name = "eventtxt";
+            eventtxt.Size = new Size(502, 40);
+            eventtxt.TabIndex = 5;
+            // 
             // equipmentstatus
             // 
             equipmentstatus.BackColor = Color.LightCyan;
@@ -258,7 +278,7 @@ namespace AFLA_001
             equipmentstatus.Location = new Point(4, 62);
             equipmentstatus.Name = "equipmentstatus";
             equipmentstatus.ReadOnly = true;
-            equipmentstatus.Size = new Size(266, 34);
+            equipmentstatus.Size = new Size(275, 34);
             equipmentstatus.TabIndex = 4;
             equipmentstatus.Text = "Not Ready";
             // 
@@ -272,7 +292,7 @@ namespace AFLA_001
             nowtxt.Margin = new Padding(6, 3, 3, 3);
             nowtxt.Name = "nowtxt";
             nowtxt.ReadOnly = true;
-            nowtxt.Size = new Size(263, 34);
+            nowtxt.Size = new Size(272, 34);
             nowtxt.TabIndex = 2;
             // 
             // logintxt
@@ -281,10 +301,10 @@ namespace AFLA_001
             logintxt.BorderStyle = BorderStyle.None;
             logintxt.Dock = DockStyle.Fill;
             logintxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            logintxt.Location = new Point(795, 4);
+            logintxt.Location = new Point(802, 4);
             logintxt.Name = "logintxt";
             logintxt.ReadOnly = true;
-            logintxt.Size = new Size(285, 34);
+            logintxt.Size = new Size(278, 34);
             logintxt.TabIndex = 0;
             // 
             // showrecipetxt
@@ -293,19 +313,19 @@ namespace AFLA_001
             showrecipetxt.BorderStyle = BorderStyle.None;
             showrecipetxt.Dock = DockStyle.Fill;
             showrecipetxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            showrecipetxt.Location = new Point(795, 62);
+            showrecipetxt.Location = new Point(802, 62);
             showrecipetxt.Name = "showrecipetxt";
             showrecipetxt.ReadOnly = true;
-            showrecipetxt.Size = new Size(285, 34);
+            showrecipetxt.Size = new Size(278, 34);
             showrecipetxt.TabIndex = 1;
             // 
             // alarmpanel
             // 
             alarmpanel.Controls.Add(alarmtxt);
             alarmpanel.Dock = DockStyle.Fill;
-            alarmpanel.Location = new Point(277, 4);
+            alarmpanel.Location = new Point(286, 4);
             alarmpanel.Name = "alarmpanel";
-            alarmpanel.Size = new Size(511, 51);
+            alarmpanel.Size = new Size(509, 51);
             alarmpanel.TabIndex = 0;
             // 
             // alarmtxt
@@ -361,6 +381,7 @@ namespace AFLA_001
             // 
             // ticker
             // 
+            ticker.Interval = 20;
             ticker.Tick += ticker_Tick;
             // 
             // Form1
@@ -384,6 +405,7 @@ namespace AFLA_001
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
+            eventpanel.ResumeLayout(false);
             alarmpanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
@@ -416,5 +438,7 @@ namespace AFLA_001
         private Label alarmtxt;
         private Panel alarmpanel;
         private System.Windows.Forms.Timer ticker;
+        private Label eventtxt;
+        private Panel eventpanel;
     }
 }
