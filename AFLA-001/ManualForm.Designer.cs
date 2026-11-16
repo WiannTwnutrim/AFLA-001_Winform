@@ -62,7 +62,7 @@
             // button7
             // 
             button7.Font = new Font("Microsoft JhengHei UI", 14F);
-            button7.Location = new Point(3, 793);
+            button7.Location = new Point(3, 802);
             button7.Name = "button7";
             button7.Size = new Size(171, 41);
             button7.TabIndex = 6;
@@ -72,7 +72,7 @@
             // button6
             // 
             button6.Font = new Font("Microsoft JhengHei UI", 14F);
-            button6.Location = new Point(3, 746);
+            button6.Location = new Point(3, 755);
             button6.Name = "button6";
             button6.Size = new Size(171, 41);
             button6.TabIndex = 5;
@@ -82,7 +82,7 @@
             // button5
             // 
             button5.Font = new Font("Microsoft JhengHei UI", 14F);
-            button5.Location = new Point(3, 699);
+            button5.Location = new Point(3, 708);
             button5.Name = "button5";
             button5.Size = new Size(171, 41);
             button5.TabIndex = 4;
@@ -92,7 +92,7 @@
             // button4
             // 
             button4.Font = new Font("Microsoft JhengHei UI", 14F);
-            button4.Location = new Point(3, 652);
+            button4.Location = new Point(3, 661);
             button4.Name = "button4";
             button4.Size = new Size(171, 41);
             button4.TabIndex = 3;
@@ -102,7 +102,7 @@
             // Resetbtn
             // 
             Resetbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            Resetbtn.Location = new Point(3, 323);
+            Resetbtn.Location = new Point(3, 332);
             Resetbtn.Name = "Resetbtn";
             Resetbtn.Size = new Size(171, 41);
             Resetbtn.TabIndex = 2;
@@ -113,7 +113,7 @@
             // Checkbtn
             // 
             Checkbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            Checkbtn.Location = new Point(3, 276);
+            Checkbtn.Location = new Point(3, 285);
             Checkbtn.Name = "Checkbtn";
             Checkbtn.Size = new Size(171, 41);
             Checkbtn.TabIndex = 1;
@@ -126,7 +126,7 @@
             toolbtn.Font = new Font("Microsoft JhengHei UI", 14F);
             toolbtn.Location = new Point(3, 3);
             toolbtn.Name = "toolbtn";
-            toolbtn.Size = new Size(171, 32);
+            toolbtn.Size = new Size(171, 41);
             toolbtn.TabIndex = 0;
             toolbtn.Text = "TOOL";
             toolbtn.UseVisualStyleBackColor = true;
@@ -138,8 +138,9 @@
             manualdata.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = Color.Orange;
             manualdata.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            manualdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             manualdata.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            manualdata.Location = new Point(3, 69);
+            manualdata.Location = new Point(3, 51);
             manualdata.Name = "manualdata";
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
@@ -152,7 +153,7 @@
             manualdata.RowHeadersVisible = false;
             dataGridViewCellStyle3.BackColor = Color.Bisque;
             manualdata.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            manualdata.Size = new Size(823, 342);
+            manualdata.Size = new Size(1059, 360);
             manualdata.TabIndex = 1;
             manualdata.CellBeginEdit += manualdata_CellBeginEdit;
             // 
@@ -178,7 +179,7 @@
             flowLayoutPanel1.Controls.Add(button6);
             flowLayoutPanel1.Controls.Add(button7);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(1049, 3);
+            flowLayoutPanel1.Location = new Point(1068, 3);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(200, 408);
             flowLayoutPanel1.TabIndex = 7;
@@ -187,7 +188,7 @@
             // glueTestbtn
             // 
             glueTestbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            glueTestbtn.Location = new Point(3, 41);
+            glueTestbtn.Location = new Point(3, 50);
             glueTestbtn.Name = "glueTestbtn";
             glueTestbtn.Size = new Size(171, 41);
             glueTestbtn.TabIndex = 10;
@@ -198,7 +199,7 @@
             // oiltestbtn
             // 
             oiltestbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            oiltestbtn.Location = new Point(3, 88);
+            oiltestbtn.Location = new Point(3, 97);
             oiltestbtn.Name = "oiltestbtn";
             oiltestbtn.Size = new Size(171, 41);
             oiltestbtn.TabIndex = 9;
@@ -209,7 +210,7 @@
             // ipatestbtn
             // 
             ipatestbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            ipatestbtn.Location = new Point(3, 135);
+            ipatestbtn.Location = new Point(3, 144);
             ipatestbtn.Name = "ipatestbtn";
             ipatestbtn.Size = new Size(171, 41);
             ipatestbtn.TabIndex = 8;
@@ -220,7 +221,7 @@
             // vaccumoffbtn
             // 
             vaccumoffbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            vaccumoffbtn.Location = new Point(3, 182);
+            vaccumoffbtn.Location = new Point(3, 191);
             vaccumoffbtn.Name = "vaccumoffbtn";
             vaccumoffbtn.Size = new Size(171, 41);
             vaccumoffbtn.TabIndex = 7;
@@ -231,7 +232,7 @@
             // vaccumonbtm
             // 
             vaccumonbtm.Font = new Font("Microsoft JhengHei UI", 14F);
-            vaccumonbtm.Location = new Point(3, 229);
+            vaccumonbtm.Location = new Point(3, 238);
             vaccumonbtm.Name = "vaccumonbtm";
             vaccumonbtm.Size = new Size(171, 41);
             vaccumonbtm.TabIndex = 6;
@@ -242,7 +243,7 @@
             // powerbtn
             // 
             powerbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            powerbtn.Location = new Point(3, 370);
+            powerbtn.Location = new Point(3, 379);
             powerbtn.Name = "powerbtn";
             powerbtn.Size = new Size(171, 41);
             powerbtn.TabIndex = 8;
@@ -253,7 +254,7 @@
             // homebtn
             // 
             homebtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            homebtn.Location = new Point(3, 417);
+            homebtn.Location = new Point(3, 426);
             homebtn.Name = "homebtn";
             homebtn.Size = new Size(171, 41);
             homebtn.TabIndex = 12;
@@ -264,7 +265,7 @@
             // Stopbtn
             // 
             Stopbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            Stopbtn.Location = new Point(3, 464);
+            Stopbtn.Location = new Point(3, 473);
             Stopbtn.Name = "Stopbtn";
             Stopbtn.Size = new Size(171, 41);
             Stopbtn.TabIndex = 13;
@@ -275,7 +276,7 @@
             // jogbtn
             // 
             jogbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            jogbtn.Location = new Point(3, 511);
+            jogbtn.Location = new Point(3, 520);
             jogbtn.Name = "jogbtn";
             jogbtn.Size = new Size(171, 41);
             jogbtn.TabIndex = 14;
@@ -286,7 +287,7 @@
             // spinbtn
             // 
             spinbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            spinbtn.Location = new Point(3, 558);
+            spinbtn.Location = new Point(3, 567);
             spinbtn.Name = "spinbtn";
             spinbtn.Size = new Size(171, 41);
             spinbtn.TabIndex = 15;
@@ -297,7 +298,7 @@
             // CUPbtn
             // 
             CUPbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            CUPbtn.Location = new Point(3, 605);
+            CUPbtn.Location = new Point(3, 614);
             CUPbtn.Name = "CUPbtn";
             CUPbtn.Size = new Size(171, 41);
             CUPbtn.TabIndex = 9;
@@ -308,7 +309,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 15F);
-            label1.Location = new Point(480, 35);
+            label1.Location = new Point(484, 15);
             label1.Name = "label1";
             label1.Size = new Size(84, 25);
             label1.TabIndex = 8;
@@ -317,7 +318,7 @@
             // cuplifttxt
             // 
             cuplifttxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            cuplifttxt.Location = new Point(583, 32);
+            cuplifttxt.Location = new Point(587, 12);
             cuplifttxt.Name = "cuplifttxt";
             cuplifttxt.ReadOnly = true;
             cuplifttxt.Size = new Size(100, 33);
@@ -326,7 +327,7 @@
             // Chuckrpmtxt
             // 
             Chuckrpmtxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            Chuckrpmtxt.Location = new Point(269, 29);
+            Chuckrpmtxt.Location = new Point(273, 12);
             Chuckrpmtxt.Name = "Chuckrpmtxt";
             Chuckrpmtxt.ReadOnly = true;
             Chuckrpmtxt.Size = new Size(100, 33);
@@ -336,7 +337,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 15F);
-            label2.Location = new Point(139, 32);
+            label2.Location = new Point(143, 15);
             label2.Name = "label2";
             label2.Size = new Size(124, 25);
             label2.TabIndex = 10;
@@ -346,6 +347,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.DarkSlateGray;
             ClientSize = new Size(1251, 413);
             Controls.Add(Chuckrpmtxt);
             Controls.Add(label2);

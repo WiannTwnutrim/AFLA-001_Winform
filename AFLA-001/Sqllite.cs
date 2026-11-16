@@ -535,7 +535,7 @@ namespace AFLA_001
         public void AddNoError()
         {
             DateTime now = DateTime.Now;
-            string date = now.ToString("yyyy/MM/dd");
+            string date = now.ToString("yyyy/MM/dd",System.Globalization.CultureInfo.InvariantCulture);
             string time = now.ToString("HH:mm:ss");
             string alarmEvent = "NoError";
             try
@@ -645,10 +645,8 @@ namespace AFLA_001
                 {
                     conn.Open();
                     string sql = @"Select ProductId AS 產品編號, 
-                        Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
-                        Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
-                        Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
-                        From StationHistory Order BY  ProductId DESC";
+                        Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間           
+                         From StationHistory Order BY  ProductId DESC";
 
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
@@ -676,23 +674,17 @@ namespace AFLA_001
         /// < param name="pickAt">站點時間</param>
         /// <param name = "Temperature" > 溫度 </ param >
         public bool AddHistoryStation(int productId, string stationName, string recipeName, int temperature, string pickAt)
-        {
-            if (stationName != "A" && stationName != "B" && stationName != "C")
-            {
-                Loghelper.Error($"無效的站點名稱：{stationName}");
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(recipeName))
-            {
-                Loghelper.Error($"新增 {stationName} 站歷史失敗，配方名稱為空。");
-                return false;
-            }
+        {                       
             DateTime now = DateTime.Now;
             //避免轉換日期格式失敗System.Globalization.CultureInfo.InvariantCulture
             string date = now.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
             string time = now.ToString("HH:mm:ss");
+            if(string.IsNullOrEmpty(recipeName))
+            {
+                MessageBox.Show("沒有配方不能新增");
+                return false;
 
+            }
             try
             {
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
@@ -706,15 +698,9 @@ namespace AFLA_001
                         )
                         VALUES (
                             @productId, @date, @time, @stationName,
-                            @recipeName, @temperature, @pickAt
-                        )
-                        ON CONFLICT (ProductId) DO UPDATE SET                            
-                            Time_{stationName} = excluded.Time_{stationName},
-                            Station_{stationName} = excluded.Station_{stationName},
-                            Recipe_{stationName} = excluded.Recipe_{stationName},
-                            Temperature_{stationName} = excluded.Temperature_{stationName},
-                            PickedAt_{stationName} = excluded.PickedAt_{stationName}";
-
+                            @recipeName, @temperature, @pickAt)";
+                        
+                            
                     using (SqliteCommand command = new SqliteCommand(updatesql, conn))
                     {
                         command.Parameters.AddWithValue("@date", date);
@@ -722,7 +708,7 @@ namespace AFLA_001
                         command.Parameters.AddWithValue("@productId", productId);
                         command.Parameters.AddWithValue("@stationName", stationName);
                         command.Parameters.AddWithValue("@temperature", temperature);
-                        command.Parameters.AddWithValue("@pickAt", (object)pickAt ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@pickAt",pickAt);
                         command.Parameters.AddWithValue("@recipeName", recipeName);
                         if (command.ExecuteNonQuery() == 1)
                         {
@@ -753,10 +739,8 @@ namespace AFLA_001
         {
             DataTable dt = new DataTable();
             string sql = @"Select ProductId AS 產品編號, 
-                        Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間,  
-                        Time_B 時間,Station_B 站點,Recipe_B 配方,Temperature_B 溫度,PickedAt_B 站點時間,
-                        Time_C 時間,Station_C 站點,Recipe_C 配方,Temperature_C 溫度,PickedAt_C 站點時間 
-                        From StationHistory  Where Date_A  BETWEEN @startdate AND @enddate Order BY  Date_A DESC";
+                        Date_A AS 日期,Time_A 時間,Station_A 站點,Recipe_A 配方,Temperature_A 溫度,PickedAt_A 站點時間
+                         From StationHistory  Where Date_A  BETWEEN @startdate AND @enddate Order BY  Date_A DESC";
             try
             {
                 using (SqliteConnection conn = new SqliteConnection(connectionString))

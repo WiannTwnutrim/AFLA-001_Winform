@@ -10,5 +10,9 @@ namespace AFLA_001
     {
         public string? alarm { get; set; }
         public string? alarmTime { get; set; }
+
+        public string? eventitem { get; set; }
+
+        public string? eventtime { get; set; }
     }
 }
