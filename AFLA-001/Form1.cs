@@ -21,6 +21,7 @@ namespace AFLA_001
         private DataTable EventDt = new DataTable();
         private DataTable AlarmDt = new DataTable();
         private int eventIndex, alarmIndex = 0;
+        
         public Form1()
         {
             InitializeComponent();
@@ -49,6 +50,7 @@ namespace AFLA_001
             //alarmtxtl.Top = (alarmpanel.ClientSize.Height - alarmtxtl.Height) / 2;
             ticker.Interval = 10;
             ticker.Start();
+           
         }
 
         private void LoginSucceeded(object sender, EventArgs e)
