@@ -612,7 +612,7 @@ namespace AFLA_001
             // ipatank
             // 
             ipatank.Font = new Font("Copperplate Gothic Bold", 10F);
-            ipatank.LiquidColor = Color.Aqua;
+            ipatank.LiquidColor = Color.Blue;
             ipatank.Location = new Point(934, 21);
             ipatank.Name = "ipatank";
             ipatank.Size = new Size(148, 107);
@@ -743,6 +743,7 @@ namespace AFLA_001
             columnControl1.InnerColor = Color.Sienna;
             columnControl1.Location = new Point(981, 134);
             columnControl1.Name = "columnControl1";
+            columnControl1.OuterColor = Color.Blue;
             columnControl1.Size = new Size(43, 61);
             columnControl1.TabIndex = 0;
             // 
@@ -759,7 +760,7 @@ namespace AFLA_001
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Microsoft JhengHei UI", 10F);
-            label12.ForeColor = Color.SkyBlue;
+            label12.ForeColor = Color.Blue;
             label12.Location = new Point(1039, 131);
             label12.Name = "label12";
             label12.Size = new Size(30, 18);

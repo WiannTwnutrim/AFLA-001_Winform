@@ -589,10 +589,11 @@ namespace AFLA_001
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
-
+                //sql執行失敗
+                Loghelper.Error(ex.ToString());
+                return new DataTable();//查詢失敗一律視為沒有資料
             }
         }
 

@@ -331,9 +331,9 @@ namespace AFLA_001
             // alarmtxt
             // 
             alarmtxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            alarmtxt.Location = new Point(0, 0);
+            alarmtxt.Location = new Point(3, 2);
             alarmtxt.Name = "alarmtxt";
-            alarmtxt.Size = new Size(508, 51);
+            alarmtxt.Size = new Size(502, 40);
             alarmtxt.TabIndex = 0;
             // 
             // nowtime
