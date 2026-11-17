@@ -48,6 +48,7 @@
             dataGridViewCellStyle1.BackColor = Color.Orange;
             historydataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             historydataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            historydataGridView.BackgroundColor = Color.DarkSlateGray;
             historydataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             historydataGridView.Location = new Point(4, 4);
             historydataGridView.Name = "historydataGridView";

@@ -44,6 +44,7 @@
             dataGridViewCellStyle1.BackColor = Color.Orange;
             alarmData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             alarmData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            alarmData.BackgroundColor = Color.DarkSlateGray;
             alarmData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             alarmData.Location = new Point(3, 3);
             alarmData.Name = "alarmData";

@@ -16,24 +16,22 @@ namespace AFLA_001
     public partial class AlarmForm : Form
     {
         private Sqllite _db = new Sqllite();
-        public event EventHandler<DataTransferEventArgs> transferData;
         public AlarmForm()
         {
             InitializeComponent();
+            loadAlarm();
 
         }
-        DataTable data = new DataTable();
+        //DataTable data = new DataTable();
         public void loadAlarm()
         {
-            data = _db.LoadAlarm();
-
-            alarmData.DataSource = data;
+            
             //alarmData.Columns["Alarm"].Width = 200;
             try
             {
-                string? alarmevent = data.Rows.Count == 0 ? "" : Convert.ToString(data.Rows[0]["Alarm"]);
-                string? alarmtime = data.Rows.Count == 0 ? "" : Convert.ToString(data.Rows[0]["TriggerTime"]);
-                transferData?.Invoke(this, new DataTransferEventArgs { alarm = alarmevent , alarmTime =alarmtime});
+                DataTable data = ReadAlarm();
+
+                alarmData.DataSource = data;
             }
             catch (Exception ex)
             {
@@ -41,7 +39,11 @@ namespace AFLA_001
             }
 
         }
-
+        public DataTable ReadAlarm()
+        {
+            DataTable data = _db.LoadAlarm();
+            return data;
+        }
         private void alarmtestbtn_Click(object sender, EventArgs e)
         {
             try

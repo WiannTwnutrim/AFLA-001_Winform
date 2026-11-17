@@ -44,6 +44,7 @@
             dataGridViewCellStyle1.BackColor = Color.Orange;
             EventdataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             EventdataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            EventdataGridView.BackgroundColor = Color.DarkSlateGray;
             EventdataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.AntiqueWhite;

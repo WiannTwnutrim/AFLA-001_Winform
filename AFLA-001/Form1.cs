@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace AFLA_001
 {
     public partial class Form1 : Form
@@ -14,9 +16,12 @@ namespace AFLA_001
         private IoForm ioForm = new IoForm();
         private Sqllite _db = new Sqllite();
         bool isEnglish = true;//原先是中文
-                              //private List<IOModel> iolist = new List<IOModel>();
-        private int speed = 2;
 
+        private int speed = 2;
+        private DataTable EventDt = new DataTable();
+        private DataTable AlarmDt = new DataTable();
+        private int eventIndex, alarmIndex = 0;
+        
         public Form1()
         {
             InitializeComponent();
@@ -28,10 +33,8 @@ namespace AFLA_001
             logintxt.Text = UserSession.LoginUser;
             recipeForm.WriteRecipe += WriteRecipeSucceeded;
             recipeForm.WriteRecipeData += TransferRecipe;//封面寫值訂閱:來源recipe->form1再轉交給home
-            alarmForm.transferData += TransferAlarmData;
-            alarmForm.loadAlarm();
-            eventForm.transferevent += TransferEventData;
-            eventForm.LoadEvent();
+            SetEventData();
+            SetAlarmData();
             Recipebtn.Tag = new LanguageManger("配方", "Recipe");
             Manualbtn.Tag = new LanguageManger("手動", "Manual");
             Userbtn.Tag = new LanguageManger("使用者", "User");
@@ -45,8 +48,9 @@ namespace AFLA_001
             alarmtxt.Left = alarmpanel.Width;
             eventtxt.Left = eventpanel.Width;
             //alarmtxtl.Top = (alarmpanel.ClientSize.Height - alarmtxtl.Height) / 2;
-            ticker.Interval = 50;
+            ticker.Interval = 10;
             ticker.Start();
+           
         }
 
         private void LoginSucceeded(object sender, EventArgs e)
@@ -54,18 +58,14 @@ namespace AFLA_001
             logintxt.Text = UserSession.LoginUser;
             Homebtn_Click(Homebtn, e);
         }
-
         private void LogoutSucceeded(object sender, EventArgs e)
         {
             logintxt.Text = UserSession.LoginUser;
         }
-
         private void WriteRecipeSucceeded(object sender, EventArgs e)
         {
             showrecipetxt.Text = UserSession.WritedRecipe;
         }
-
-
         private void Homebtn_Click(object sender, EventArgs e)
         {
             PageSwitchManger.ShowPage(MainPage, homeform);
@@ -165,8 +165,6 @@ namespace AFLA_001
                 Loghelper.Userlog(UserSession.LoginUser, "切換成Io頁面");
             }
         }
-
-
         private void Languagebtn_Click(object sender, EventArgs e)
         {
             isEnglish = !isEnglish;//互相切換
@@ -217,13 +215,61 @@ namespace AFLA_001
             homeform.RecipeForm_RecipeApplied(sender, e);
         }
 
-        private void TransferAlarmData(object sender, DataTransferEventArgs e)
+        private void SetEventData()
         {
-            alarmtxt.Text = $"{e.alarmTime}  {e.alarm}";
+            DataTable dt = eventForm.ReadEvent();
+            EventDt = dt.Clone();//複製原先結構
+
+            //Math.Min兩者取最小(取三筆或table最小列數量)
+            for (int i = 0; i < Math.Min(3, dt.Rows.Count); i++)
+            {
+                //再把最新三筆放進去
+                EventDt.ImportRow(dt.Rows[i]);
+            }
+            eventIndex = 0;
+            ShowEvent();
         }
-        private void TransferEventData(object sender, DataTransferEventArgs e)
+        private void ShowEvent()
         {
-            eventtxt.Text = $"{e.eventtime}  {e.eventitem}";
+            if (EventDt.Rows.Count == 0)
+            {
+                eventtxt.Text = "";
+            }
+            else
+            {
+                DataRow row = EventDt.Rows[eventIndex];
+                eventtxt.Text = $"{row["TriggerTime"]} {row["Event"]}";
+            }
+            eventtxt.Left = eventpanel.Width;//指定左邊界起點為外部panel的寬度
+        }
+
+        private void ShowAlarm()
+        {
+            if (AlarmDt.Rows.Count == 0)
+            {
+                alarmtxt.Text = "";
+            }
+            else
+            {
+                DataRow row = AlarmDt.Rows[alarmIndex];
+                alarmtxt.Text = $"{row["TriggerTime"]} {row["Alarm"]}";
+            }
+            alarmtxt.Left = alarmpanel.Width;
+        }
+
+        private void SetAlarmData()
+        {
+            DataTable dt = alarmForm.ReadAlarm();
+            AlarmDt = dt.Clone();//複製原先結構
+
+            //Math.Min兩者取最小(取三筆或table最小列數量)
+            for (int i = 0; i < Math.Min(3, dt.Rows.Count); i++)
+            {
+                //再把最新三筆放進去
+                AlarmDt.ImportRow(dt.Rows[i]);
+            }
+            alarmIndex = 0;
+            ShowAlarm();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -235,12 +281,33 @@ namespace AFLA_001
             alarmtxt.Left -= speed;
             if (alarmtxt.Right < 0)
             {
-                alarmtxt.Left = alarmpanel.Width;
+                alarmIndex++;//輪播完跑下一筆
+
+                if (alarmIndex >= AlarmDt.Rows.Count)
+                {
+                    // 本輪全部播完，重新取得最新三筆
+                    SetAlarmData();
+                }
+                else
+                {
+                    ShowAlarm();
+                }
             }
             eventtxt.Left -= speed;
+            //label.Right是 Label 右邊界相對於父容器左邊界的座標,也就是label跑完消失在父容器的位置
             if (eventtxt.Right < 0)
             {
-                eventtxt.Left = eventpanel.Width;
+                eventIndex++;
+
+                if (eventIndex >= EventDt.Rows.Count)
+                {
+                    // 本輪全部播完，重新取得最新三筆
+                    SetEventData();
+                }
+                else
+                {
+                    ShowEvent();
+                }
             }
         }
     }
