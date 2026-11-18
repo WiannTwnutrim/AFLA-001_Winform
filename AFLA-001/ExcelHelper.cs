@@ -45,7 +45,7 @@ namespace AFLA_001
                             out int index))
                     {
                         throw new FormatException($"IO 綁定格式錯誤：{plcpoint}");
-                        
+
                     }
 
                     // 建立 IOModel 物件
@@ -57,7 +57,7 @@ namespace AFLA_001
                             IOname = worksheet.Cell(row, 2).GetString(),
                             PlcPonit = plcpoint,
                             //IOname_English = worksheet.Cell(row, 3).GetString(),
-                            PLCStatus = IOState.DI[index]
+                            Index = index //取出索引的值
                         };
                         ioList.Add(DI);
                     }
@@ -70,17 +70,12 @@ namespace AFLA_001
                             PlcPonit = plcpoint,
                             //IOname_English = worksheet.Cell(row, 3).GetString(),
                             Variable = worksheet.Cell(row, 5).GetString(),
-                            PLCStatus = IOState.DO[index]
+                            Index = index
                         };
                         ioList.Add(DO);
                     }
-
-
-
-
                 }
             }
-
             return ioList;
         }
     }

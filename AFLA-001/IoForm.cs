@@ -12,20 +12,25 @@ using System.Windows.Forms;
 
 namespace AFLA_001
 {
-	public partial class IoForm : Form
-	{
-		private List<IOModel> iolist = new List<IOModel>();
-        
+    public partial class IoForm : Form
+    {
+        private List<IOModel> iolist = new List<IOModel>();
+        private AdsService ads = new AdsService();
+
 
         public IoForm()
-		{
-			InitializeComponent();
-            IoLoad();
+        {
+            InitializeComponent();
 
+            ads.Connection();
+            ads.Read();
+            IoLoad();
+            iotimer.Tick += iotimer_Tick;
+            iotimer.Start();
         }
 
-		private void IoLoad()
-		{
+        private void IoLoad()
+        {
             try
             {
                 //AppContext.BaseDirectory:E\ALFA-Winform\AFLA-001\bin\Debug\net8.0-windows內:與exe同位置
@@ -50,50 +55,67 @@ namespace AFLA_001
                 MessageBox.Show($"{ex.ToString()}");
             }
         }
-		public IndicatorLightControl SetIO(IOModel model)
-		{
+        public void UpdateIO(IndicatorLightControl light)
+        {
+            if (light.Tag is not IOModel model) return;
+
+            if (model.PlcPonit.StartsWith("DI["))
+            {
+                model.PLCStatus = ads.DI[model.Index];
+            }
+            else if (model.PlcPonit.StartsWith("DO["))
+            {
+                model.PLCStatus = ads.DO[model.Index];
+            }
+            light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
+        }
+
+        public IndicatorLightControl SetIO(IOModel model)
+        {
             IndicatorLightControl iocontrol = new IndicatorLightControl();
-            iocontrol.DisplayName = model.IOname ;
-			iocontrol.IONumber = model.IOnumber;
-			iocontrol.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
-			iocontrol.Width = 260;
-			iocontrol.Height = 56;
-			iocontrol.Margin = new Padding(8);
-			iocontrol.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Bold);
+
+            iocontrol.DisplayName = model.IOname;
+            iocontrol.IONumber = model.IOnumber;
+
+            iocontrol.Width = 260;
+            iocontrol.Height = 56;
+            iocontrol.Margin = new Padding(8);
+            iocontrol.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Bold);
             iocontrol.Tag = model;
+            UpdateIO(iocontrol);
             iocontrol.Click += IOControl_Click;
             return iocontrol;
-		}
-		public void DisplayIo()
-		{
-			foreach (IOModel io in iolist)
-			{
-				IndicatorLightControl item = SetIO(io);
-				
-				if (io.IOnumber.StartsWith("DI"))
-					DiPanel.Controls.Add(item);
-				else if (io.IOnumber.StartsWith("DO"))
-					DoPanel.Controls.Add(item);
-			}
-		}
+        }
+        public void DisplayIo()
+        {
+            foreach (IOModel io in iolist)
+            {
+                IndicatorLightControl item = SetIO(io);
+
+                if (io.IOnumber.StartsWith("DI"))
+                    DiPanel.Controls.Add(item);
+                else if (io.IOnumber.StartsWith("DO"))
+                    DoPanel.Controls.Add(item);
+            }
+        }
         private void IOControl_Click(object? sender, EventArgs e)
-		{
+        {
             if (sender is not IndicatorLightControl light)
                 return;
 
             if (light.Tag is not IOModel model)
                 return;
-			if (string.IsNullOrEmpty(model.Variable))
-				return;
+            if (string.IsNullOrEmpty(model.Variable))
+                return;
 
             MessageBox.Show(model.Variable);
             if (model.PLCStatus)
-			{
-				model.PLCStatus = false;
+            {
+                ads.Write(model.Index, false);
             }
-			else
-			{
-				model.PLCStatus = true;
+            else
+            {
+                ads.Write(model.Index, true);
 
             }
             light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
@@ -101,5 +123,22 @@ namespace AFLA_001
 
         }
 
+        private void iotimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                ads.Read();
+                foreach (var light in DiPanel.Controls.OfType<IndicatorLightControl>())
+                    UpdateIO(light);
+                foreach (var light in DoPanel.Controls.OfType<IndicatorLightControl>())
+                    UpdateIO(light);
+            }
+            catch(Exception ex)
+            {
+                Loghelper.Error($"PLC 讀取失敗：{ex.Message}"); 
+            }
+            
+
+        }
     }
 }
