@@ -317,7 +317,7 @@ namespace AFLA_001
             // 
             // pipeoil11
             // 
-            pipeoil11.FlowColor = Color.Orange;
+            pipeoil11.FlowColor = Color.Yellow;
             pipeoil11.Location = new Point(944, 188);
             pipeoil11.Name = "pipeoil11";
             pipeoil11.PipeWidth = 20F;
@@ -328,7 +328,7 @@ namespace AFLA_001
             // 
             // pipeoil12
             // 
-            pipeoil12.FlowColor = Color.Orange;
+            pipeoil12.FlowColor = Color.Yellow;
             pipeoil12.Location = new Point(871, 188);
             pipeoil12.Name = "pipeoil12";
             pipeoil12.PipeWidth = 20F;
@@ -339,7 +339,7 @@ namespace AFLA_001
             // 
             // pipeoil15
             // 
-            pipeoil15.FlowColor = Color.Orange;
+            pipeoil15.FlowColor = Color.Yellow;
             pipeoil15.Location = new Point(848, 361);
             pipeoil15.Name = "pipeoil15";
             pipeoil15.PipeWidth = 20F;
@@ -350,7 +350,7 @@ namespace AFLA_001
             // 
             // pipeoil14
             // 
-            pipeoil14.FlowColor = Color.Orange;
+            pipeoil14.FlowColor = Color.Yellow;
             pipeoil14.Location = new Point(890, 222);
             pipeoil14.Name = "pipeoil14";
             pipeoil14.PipeWidth = 20F;
@@ -382,7 +382,7 @@ namespace AFLA_001
             // 
             // pipeoil16
             // 
-            pipeoil16.FlowColor = Color.Orange;
+            pipeoil16.FlowColor = Color.Yellow;
             pipeoil16.Location = new Point(741, 348);
             pipeoil16.Name = "pipeoil16";
             pipeoil16.PipeWidth = 20F;
@@ -412,7 +412,7 @@ namespace AFLA_001
             // 
             // pipeipa1
             // 
-            pipeipa1.FlowColor = Color.Blue;
+            pipeipa1.FlowColor = Color.Aqua;
             pipeipa1.Location = new Point(950, -6);
             pipeipa1.Name = "pipeipa1";
             pipeipa1.PipeWidth = 20F;
@@ -423,7 +423,7 @@ namespace AFLA_001
             // 
             // pipeipa2
             // 
-            pipeipa2.FlowColor = Color.Blue;
+            pipeipa2.FlowColor = Color.Aqua;
             pipeipa2.Location = new Point(567, -10);
             pipeipa2.Name = "pipeipa2";
             pipeipa2.PipeWidth = 20F;
@@ -434,7 +434,7 @@ namespace AFLA_001
             // 
             // pipeglue1
             // 
-            pipeglue1.FlowColor = Color.DarkBlue;
+            pipeglue1.FlowColor = Color.Orange;
             pipeglue1.Location = new Point(449, -6);
             pipeglue1.Name = "pipeglue1";
             pipeglue1.PipeWidth = 20F;
@@ -591,7 +591,7 @@ namespace AFLA_001
             // 
             // pipeControl1
             // 
-            pipeControl1.FlowColor = Color.Orange;
+            pipeControl1.FlowColor = Color.Yellow;
             pipeControl1.Location = new Point(779, 361);
             pipeControl1.Name = "pipeControl1";
             pipeControl1.PipeWidth = 20F;
@@ -612,7 +612,7 @@ namespace AFLA_001
             // ipatank
             // 
             ipatank.Font = new Font("Copperplate Gothic Bold", 10F);
-            ipatank.LiquidColor = Color.Blue;
+            ipatank.LiquidColor = Color.Aqua;
             ipatank.Location = new Point(934, 21);
             ipatank.Name = "ipatank";
             ipatank.Size = new Size(148, 107);
@@ -620,7 +620,7 @@ namespace AFLA_001
             // 
             // pipeipa3
             // 
-            pipeipa3.FlowColor = Color.Blue;
+            pipeipa3.FlowColor = Color.Aqua;
             pipeipa3.Location = new Point(804, -5);
             pipeipa3.Name = "pipeipa3";
             pipeipa3.PipeWidth = 20F;
@@ -743,7 +743,7 @@ namespace AFLA_001
             columnControl1.InnerColor = Color.Sienna;
             columnControl1.Location = new Point(981, 134);
             columnControl1.Name = "columnControl1";
-            columnControl1.OuterColor = Color.Blue;
+            columnControl1.OuterColor = Color.Aqua;
             columnControl1.Size = new Size(43, 61);
             columnControl1.TabIndex = 0;
             // 
@@ -760,7 +760,7 @@ namespace AFLA_001
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Microsoft JhengHei UI", 10F);
-            label12.ForeColor = Color.Blue;
+            label12.ForeColor = Color.Aqua;
             label12.Location = new Point(1039, 131);
             label12.Name = "label12";
             label12.Size = new Size(30, 18);

@@ -84,7 +84,7 @@ namespace AFLA_001
             if (glueval.ForeColor == Color.LimeGreen)
             {
                 gluepic.Image = Properties.Resources.glueout1;
-                pipeglue2.FlowColor = Color.DarkBlue;
+                pipeglue2.FlowColor = Color.Orange;
             }
             else
             {
@@ -113,7 +113,7 @@ namespace AFLA_001
             ToggleValve(ipavalve);
             if (ipavalve.ForeColor == Color.LimeGreen)
             {
-                pipeipa4.FlowColor = Color.Blue;
+                pipeipa4.FlowColor = Color.SkyBlue;
             }
             else
             {
@@ -172,7 +172,7 @@ namespace AFLA_001
             oilpupic.Visible = oilval1.ForeColor == Color.LimeGreen;
             if (oilval1.ForeColor == Color.LimeGreen)
             {
-                pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Orange;
+                pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Yellow;
             }
             else
             {
