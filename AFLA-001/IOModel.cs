@@ -18,5 +18,7 @@ namespace AFLA_001
 
         public string? Variable { get; set; }
 
+        public int Index { get; set; }
+
     }
 }

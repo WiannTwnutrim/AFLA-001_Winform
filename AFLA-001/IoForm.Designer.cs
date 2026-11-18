@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             iotabControl = new TabControl();
             tabPage1 = new TabPage();
             DiPanel = new FlowLayoutPanel();
             tabPage2 = new TabPage();
             DoPanel = new FlowLayoutPanel();
+            iotimer = new System.Windows.Forms.Timer(components);
             iotabControl.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -88,6 +90,11 @@
             DoPanel.Size = new Size(1238, 378);
             DoPanel.TabIndex = 0;
             // 
+            // iotimer
+            // 
+            iotimer.Interval = 200;
+            iotimer.Tick += iotimer_Tick;
+            // 
             // IoForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -111,5 +118,6 @@
 		private TabPage tabPage2;
 		private FlowLayoutPanel DiPanel;
 		private FlowLayoutPanel DoPanel;
-	}
+        private System.Windows.Forms.Timer iotimer;
+    }
 }
