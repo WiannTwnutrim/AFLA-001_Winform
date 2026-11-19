@@ -18,7 +18,6 @@ namespace AFLA_001
             // Keep the independent metal arms above their connecting pipes.
             arm1Control1.BringToFront();
             arm2Control1.BringToFront();
-
             // 啟用雙緩衝，減少首頁重繪時的閃爍。
             DoubleBuffered = true;
         }
@@ -207,7 +206,7 @@ namespace AFLA_001
                 pic.Visible = false;
             }
         }
-        public void RecipeForm_RecipeApplied(object? sender,RecipeAppliedEventArgs e)
+        public void RecipeForm_RecipeApplied(object? sender, RecipeAppliedEventArgs e)
         {
             sizetxt.Text = e.Size;
             rpmtxt.Text = e.Rpm.ToString();
@@ -215,6 +214,27 @@ namespace AFLA_001
             bsoiltxt.Text = e.Bsoil.ToString();
             timetxt.Text = e.Time.ToString();
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AdsService.ReadAction();
+            const int resetMask = 1 << 8;
+            if (button2.BackColor ==Color.AliceBlue)
+            {
+                button2.BackColor = Color.Red;
+                AdsService.readHmi = (ushort)(AdsService.readHmi | resetMask);
+                AdsService.WriteAction();
+            }
+            else
+            {
+                button2.BackColor = Color.AliceBlue;
+                AdsService.readHmi = (ushort)(AdsService.readHmi & ~resetMask);
+                AdsService.WriteAction();
+            }
+           
+
+                       
         }
     }
 }

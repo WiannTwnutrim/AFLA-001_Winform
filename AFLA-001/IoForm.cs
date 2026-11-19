@@ -15,15 +15,13 @@ namespace AFLA_001
     public partial class IoForm : Form
     {
         private List<IOModel> iolist = new List<IOModel>();
-        private AdsService ads = new AdsService();
 
 
         public IoForm()
         {
             InitializeComponent();
 
-            ads.Connection();
-            ads.Read();
+            AdsService.Read();
             IoLoad();
             iotimer.Tick += iotimer_Tick;
             iotimer.Start();
@@ -62,11 +60,11 @@ namespace AFLA_001
 
             if (model.PlcPonit.StartsWith("DI["))
             {
-                model.PLCStatus = ads.DI[model.Index];
+                model.PLCStatus = AdsService.DI[model.Index];
             }
             else if (model.PlcPonit.StartsWith("DO["))
             {
-                model.PLCStatus = ads.DO[model.Index];
+                model.PLCStatus = AdsService.DO[model.Index];
             }
             light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
         }
@@ -112,11 +110,11 @@ namespace AFLA_001
             MessageBox.Show(model.Variable);
             if (model.PLCStatus)
             {
-                ads.Write(model.Index, false);
+                AdsService.Write(model.Index, false);
             }
             else
             {
-                ads.Write(model.Index, true);
+                AdsService.Write(model.Index, true);
 
             }
             light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
@@ -128,7 +126,7 @@ namespace AFLA_001
         {
             try
             {
-                ads.Read();
+                AdsService.Read();
                 foreach (var light in DiPanel.Controls.OfType<IndicatorLightControl>())
                     UpdateIO(light);
                 foreach (var light in DoPanel.Controls.OfType<IndicatorLightControl>())
