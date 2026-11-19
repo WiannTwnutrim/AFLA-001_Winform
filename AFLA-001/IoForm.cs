@@ -15,15 +15,13 @@ namespace AFLA_001
     public partial class IoForm : Form
     {
         private List<IOModel> iolist = new List<IOModel>();
-        private AdsService ads = new AdsService();
 
 
         public IoForm()
         {
             InitializeComponent();
 
-            ads.Connection();
-            ads.Read();
+            AdsService.Read();
             IoLoad();
             iotimer.Tick += iotimer_Tick;
             iotimer.Start();
@@ -36,7 +34,7 @@ namespace AFLA_001
                 //AppContext.BaseDirectory:E\ALFA-Winform\AFLA-001\bin\Debug\net8.0-windows內:與exe同位置
                 //@"..\..\..\ (@是逐字字串讓反斜線 \ 不會被當成跳脫字元)
                 //往上三層在E:\AFLA-001_Winform\AFLA-001
-                string path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\IO_test.xlsx");
+                string path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\IO_test.csv");
                 ExcelHelper excel = new ExcelHelper();
                 iolist = excel.LoadIO(path);
                 //MessageBox.Show($"成功讀取{iolist.Count}筆");//目前成功讀取
@@ -52,7 +50,8 @@ namespace AFLA_001
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.ToString()}");
+                Loghelper.Error(ex.ToString());
+                //MessageBox.Show($"{ex.ToString()}");
             }
         }
         public void UpdateIO(IndicatorLightControl light)
@@ -61,11 +60,11 @@ namespace AFLA_001
 
             if (model.PlcPonit.StartsWith("DI["))
             {
-                model.PLCStatus = ads.DI[model.Index];
+                model.PLCStatus = AdsService.DI[model.Index];
             }
             else if (model.PlcPonit.StartsWith("DO["))
             {
-                model.PLCStatus = ads.DO[model.Index];
+                model.PLCStatus = AdsService.DO[model.Index];
             }
             light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
         }
@@ -111,11 +110,11 @@ namespace AFLA_001
             MessageBox.Show(model.Variable);
             if (model.PLCStatus)
             {
-                ads.Write(model.Index, false);
+                AdsService.Write(model.Index, false);
             }
             else
             {
-                ads.Write(model.Index, true);
+                AdsService.Write(model.Index, true);
 
             }
             light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
@@ -127,7 +126,7 @@ namespace AFLA_001
         {
             try
             {
-                ads.Read();
+                AdsService.Read();
                 foreach (var light in DiPanel.Controls.OfType<IndicatorLightControl>())
                     UpdateIO(light);
                 foreach (var light in DoPanel.Controls.OfType<IndicatorLightControl>())

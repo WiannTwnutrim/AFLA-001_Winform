@@ -137,13 +137,15 @@ namespace AFLA_001
             // 
             // button2
             // 
+            button2.BackColor = Color.AliceBlue;
             button2.Font = new Font("Microsoft JhengHei UI", 14F);
             button2.Location = new Point(1110, 77);
             button2.Name = "button2";
             button2.Size = new Size(156, 35);
             button2.TabIndex = 6;
             button2.Text = "PROCESS";
-            button2.UseVisualStyleBackColor = true;
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // buzzerbtn
             // 
@@ -256,6 +258,7 @@ namespace AFLA_001
             // levelTankControl1
             // 
             levelTankControl1.Font = new Font("Copperplate Gothic Bold", 10F);
+            levelTankControl1.LiquidColor = Color.Yellow;
             levelTankControl1.Location = new Point(962, 218);
             levelTankControl1.Name = "levelTankControl1";
             levelTankControl1.Size = new Size(98, 107);
