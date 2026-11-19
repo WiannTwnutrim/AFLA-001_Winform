@@ -1,0 +1,61 @@
+﻿IO 編號,IO 定義內容:中文,IO 定義內容:英文,PLC讀取綁定,DO寫入變數
+DI 1.01,START按鈕,START Button,DI[0],
+DI 1.02,STOP按鈕,STOP Button ,DI[1],
+DI 1.03,RESET按鈕,RESET Button ,DI[2],
+DI 1.04,急停按鈕,Emergency Stop Button,DI[3],
+DI 1.05,電源狀態(以TIMER觸發),Power Status (Timer Triggered),DI[4],
+DI 1.06,安全門關門狀態(LP1),Safety Door Closed Status (LP1),DI[5],
+DI 1.07,安全門關門狀態(LP2),Safety Door Closed Status (LP2),DI[6],
+DI 1.08,安全門關門狀態(維修門),Safety Door Closed Status (Maintenance Door),DI[7],
+DI 1.09,安全門關門狀態(Chamber1),Safety Door Closed Status (Chamber1),DI[8],
+DI 1.10,安全門關門狀態(供膠區1),Safety Door Closed Status (Dispense Area1),DI[9],
+DI 1.11,安全門關門狀態(Chamber2),Safety Door Closed Status (Chamber2),DI[10],
+DI 1.12,安全門關門狀態(供膠區2),Safety Door Closed Status (Dispense Area2),DI[11],
+DI 1.13,安全門上鎖狀態(LP1),Safety Door Locked Status (LP1),DI[12],
+DI 1.14,安全門上鎖狀態(LP2),Safety Door Locked Status (LP2),DI[13],
+DI 1.15,安全門上鎖狀態(維修門),Safety Door Locked Status (Maintenance Door),DI[14],
+DI 1.16,安全門上鎖狀態(Chamber1),Safety Door Locked Status (Chamber1),DI[15],
+DI 2.01,安全門上鎖狀態(供膠區1),Safety Door Locked Status (Dispense Area1),DI[16],
+DI 2.02,安全門上鎖狀態(Chamber2),Safety Door Locked Status (Chamber2),DI[17],
+DI 2.03,安全門上鎖狀態(供膠區2),Safety Door Locked Status (Dispense Area2),DI[18],
+DI 2.04,HEPA 風扇異常,HEPA Fan Fault,DI[19],
+DI 2.05,靜電消除器異常,Ionizer Fault,DI[20],
+DI 2.06,系統CDA正壓壓力到達訊號,System CDA Positive Pressure Reached Signal,DI[21],
+DI 2.07,系統VAC負壓壓力到達訊號,System VAC Negative Pressure Reached Signal,DI[22],
+DI 2.08,系統N2壓力到達訊號,System N2 Pressure Reached Signal,DI[23],
+DO 11.01,切換到白努力,Switch to Bernoulli,DO[0],DO_11_01
+DO 11.02,chamber A Vaccum off,chamber A Vaccum off,DO[1],DO_11_02
+DO 11.03,chamber B Vaccum off,chamber B Vaccum off,DO[2],DO_11_03
+DO 11.04,音樂鈴(異常),Buzzer (Fault),DO[3],DO_11_04
+DO 11.05,音樂鈴(生產完成),Buzzer (Production Complete),DO[4],DO_11_05
+DO 11.06,四色燈-紅,Stack Light - Red,DO[5],DO_11_06
+DO 11.07,四色燈-黃,Stack Light - Yellow,DO[6],DO_11_07
+DO 11.08,四色燈-綠,Stack Light - Green,DO[7],DO_11_08
+DO 11.09,四色燈-藍,Stack Light - Blue,DO[8],DO_11_09
+DO 11.10,安全門上鎖(LP1),Safety Door Lock (LP1),DO[9],DO_11_10
+DO 11.11,安全門上鎖(LP2),Safety Door Lock (LP2),DO[10],DO_11_11
+DO 11.12,安全門上鎖(維修門),Safety Door Lock (Maintenance Door),DO[11],DO_11_12
+DO 11.13,安全門上鎖(Chamber1),Safety Door Lock (Chamber1),DO[12],DO_11_13
+DO 11.14,安全門上鎖(供膠區1),Safety Door Lock (Dispense Area1),DO[13],DO_11_14
+DO 11.15,安全門上鎖(Chamber2),Safety Door Lock (Chamber2),DO[14],DO_11_15
+DO 11.16,安全門上鎖(供膠區2),Safety Door Lock (Dispense Area2),DO[15],DO_11_16
+DO 12.01,HEPA 風扇啟動,HEPA Fan Start,DO[16],DO_12_01
+DO 12.02,靜電消除器電源開,Ionizer Power ON,DO[17],DO_12_02
+DO 12.03,Buffer Tank1 待補液訊號,Buffer Tank 1 Refill Request Signal,DO[18],DO_12_03
+DO 12.04,BufferTank1_進氣閥開啟,Buffer Tank 1 Air Inlet Valve Open,DO[19],DO_12_04
+DO 12.05,ProcessTank1_進氣閥開啟,Process Tank 1 Air Inlet Valve Open,DO[20],DO_12_05
+DO 12.06,BufferTank1_流體閥開啟,Buffer Tank 1 Fluid Valve Open,DO[21],DO_12_06
+DO 12.07,ProcessTank1_流體閥開啟,Process Tank 1 Fluid Valve Open,DO[22],DO_12_07
+DO 12.08,Buffer Tank2 待補液訊號,Buffer Tank 2 Refill Request Signal,DO[23],DO_12_08
+DO 12.09,BufferTank2_進氣閥開啟,Buffer Tank 2 Air Inlet Valve Open,DO[24],DO_12_09
+DO 12.10,ProcessTank2_進氣閥開啟,Process Tank 2 Air Inlet Valve Open,DO[25],DO_12_10
+DO 12.11,BufferTank2_流體閥開啟,Buffer Tank 2 Fluid Valve Open,DO[26],DO_12_11
+DO 12.12,ProcessTank2_流體閥開啟,Process Tank 2 Fluid Valve Open,DO[27],DO_12_12
+DO 12.13,Tank1 N2 供氣,Tank 1 N2 Supply ON,DO[28],DO_12_13
+DO 12.14,Tank2 N2 供氣,Tank 2 N2 Supply ON,DO[29],DO_12_14
+DO 12.15,中心校正平台真空建立,Center Alignment Stage Vacuum ON,DO[30],DO_12_15
+DO 12.16,讀取WaferID觸發,Wafer ID Read Trigger,DO[31],DO_12_16
+DO 13.01,Champer1閘門開啟,Chamber 1 Gate Open,DO[32],DO_13_01
+DO 13.02,Champer2閘門開啟,Chamber 2 Gate Open,DO[33],DO_13_02
+DO 13.03,Champer1平台真空開啟,Chamber 1 Stage Vacuum ON,DO[34],DO_13_03
+DO 13.04,Champer1平台真空關閉,Chamber 1 Stage Vacuum Off,DO[35],DO_13_04

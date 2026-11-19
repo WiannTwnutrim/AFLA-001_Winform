@@ -36,7 +36,7 @@ namespace AFLA_001
                 //AppContext.BaseDirectory:E\ALFA-Winform\AFLA-001\bin\Debug\net8.0-windows內:與exe同位置
                 //@"..\..\..\ (@是逐字字串讓反斜線 \ 不會被當成跳脫字元)
                 //往上三層在E:\AFLA-001_Winform\AFLA-001
-                string path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\IO_test.xlsx");
+                string path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\IO_test.csv");
                 ExcelHelper excel = new ExcelHelper();
                 iolist = excel.LoadIO(path);
                 //MessageBox.Show($"成功讀取{iolist.Count}筆");//目前成功讀取
@@ -52,7 +52,8 @@ namespace AFLA_001
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.ToString()}");
+                Loghelper.Error(ex.ToString());
+                //MessageBox.Show($"{ex.ToString()}");
             }
         }
         public void UpdateIO(IndicatorLightControl light)
