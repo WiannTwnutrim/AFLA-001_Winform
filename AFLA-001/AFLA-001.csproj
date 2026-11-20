@@ -32,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ActionCommands.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="ALFA001.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

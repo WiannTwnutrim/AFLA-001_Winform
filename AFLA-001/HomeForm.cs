@@ -1,4 +1,4 @@
-using PathDrawing;
+﻿using PathDrawing;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -8,11 +8,16 @@ namespace AFLA_001
 {
     public partial class HomeForm : Form
     {
+        // PROCESS 按鈕對應功能 CSV 的 Index 142。
+        internal const int ProcessActionIndex = 142;
+
         private CheckForm form = new CheckForm();
 
         public HomeForm()
         {
             InitializeComponent();
+            // 把功能索引放入 Tag，供點擊事件取用。
+            button2.Tag = ProcessActionIndex;
             //BringToFront移到最上層
             levelTankControl1.BringToFront();
             // Keep the independent metal arms above their connecting pipes.
@@ -216,27 +221,21 @@ namespace AFLA_001
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object? sender, EventArgs e)
         {
-            AdsService.ReadAction();
-            const int resetMask = 1 << 8;
-            if (button2.BackColor ==Color.AliceBlue)
-            {
-                button2.BackColor = Color.Red;
-                AdsService.readHmi = (ushort)(AdsService.readHmi | resetMask);
-                AdsService.WriteAction();
-            }
-            else
-            {
-                button2.BackColor = Color.AliceBlue;
-                AdsService.readHmi = (ushort)(AdsService.readHmi & ~resetMask);
-                AdsService.WriteAction();
-            }
-           
+            if (sender is not Button button || button.Tag is not int index)
+                return;
 
-                       
+            try
+            {
+                // 用 Tag 的索引找命令點位，每次都寫入 TRUE。
+                AdsService.WriteAction(index);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "ADS 寫入失敗",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
-
-
