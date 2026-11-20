@@ -21,7 +21,7 @@ namespace AFLA_001
         {
             InitializeComponent();
 
-            AdsService.Read();
+            //AdsService.Read();
             IoLoad();
             iotimer.Tick += iotimer_Tick;
             iotimer.Start();

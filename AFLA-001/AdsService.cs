@@ -1,94 +1,179 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
 using TwinCAT.Ads;
 
 namespace AFLA_001
 {
-    // 修改：只保留基本步驟：連線 → 建立 Handle → 讀寫 → 結束時釋放。
+    // 管理 PLC 連線、點位 handle 及 ADS 讀寫。
     public static class AdsService
     {
-        private static AdsClient ads = new AdsClient();
-        private static string adsId = "199.4.42.250.1.1";
-        private static int portId = 851;
-        private static uint diHandle, doHandle;
-        private static uint toHmi6Handle;
+        // 以 AMS Net ID 和 ADS 埠指定目標 PLC Runtime。
+        private const string AdsId = "199.4.42.250.1.1";
+        private const int PortId = 851;
+        // WR 的 PLC 宣告為 ARRAY[0..1650] OF INT，共 1651 筆。
+        private const int WrLength = 1651;
+        // 以 CSV 的 Index 對應命令點位的 handle。
+        private static readonly Dictionary<int, uint> writeHandles = new();
+        private static AdsClient? ads;
+        // DI、DO 和 WR 各使用一個整組陣列的 handle。
+        private static uint diHandle, doHandle, wrHandle;
+
+        // 保存最近一次讀回的 DI、DO 值，長度需符合 PLC 宣告。
         public static bool[] DI { get; private set; } = new bool[24];
         public static bool[] DO { get; private set; } = new bool[36];
 
-        public static ushort readHmi;
-
-        // 不要每次讀寫都重新連線、建立 Handle。
-        public static void Connection()
+        // 啟動時載入命令設定並建立本次連線所需的 handle。
+        public static void Connection(string? commandCsvPath = null)
         {
-            ads.Connect(adsId, portId);
-            //取得plc識別碼
-            diHandle = ads.CreateVariableHandle("GVL_IO.DI");
-            doHandle = ads.CreateVariableHandle("GVL_IO.DOO");
-            toHmi6Handle = ads.CreateVariableHandle("GVL.toHMI[6]");
-            //forHmi6Handle = ads.CreateVariableHandle("GVL.forHMI[6]");
+            if (ads != null)
+                throw new InvalidOperationException("ADS 已初始化。");
+
+            // 先驗證 CSV，再連線 PLC。
+            var commands = commandCsvPath == null ? null : LoadCommands(commandCsvPath);
+            var client = new AdsClient();
+            try
+            {
+                client.Connect(AdsId, PortId);
+                diHandle = client.CreateVariableHandle("GVL_IO.DI");
+                doHandle = client.CreateVariableHandle("GVL_IO.DOO");
+                wrHandle = client.CreateVariableHandle("GVL.WR");
+
+                if (commands != null)
+                {
+                    foreach (var command in commands)
+                    {
+                        // 以「PC寫入」欄位建立單點 handle，供後續用 Index 查找。
+                        uint handle = client.CreateVariableHandle(command.Value);
+                        writeHandles.Add(command.Key, handle);
+                    }
+                }
+
+                ads = client;
+            }
+            // 初始化中途失敗時，清理已建立的 handle 和連線。
+            catch
+            {
+                Release(client);
+                throw;
+            }
         }
 
+        // 整組讀取 WR。PLC INT 對應 C# short
+        public static short[] ReadAction()
+        {
+            return (short[])GetClient().ReadAny(
+                wrHandle, typeof(short[]), new[] { WrLength });
+        }
+
+        //讀回.1的陣列
+        public static bool[] ReadMotionStates()
+        {
+            short[] wr = ReadAction(); // ADS 只讀一次，取得整組 WR
+            var states = new bool[wr.Length];
+
+            const int motionBit = 1 << 1; // PLC 的 .1
+
+            for (int index = 0; index < wr.Length; index++)
+            {
+                states[index] = (wr[index] & motionBit) != 0;
+            }
+
+            return states;
+        }
+        // 依 Index 找到「PC寫入」點位，每次按下都送出 TRUE。
+        public static void WriteAction(int index)
+        {
+            if (!writeHandles.TryGetValue(index, out uint handle))
+                throw new ArgumentOutOfRangeException(nameof(index), index, "找不到 CSV 命令索引。");
+
+            GetClient().WriteAny(handle, true);
+        }
+
+        // PC寫入是命令點位。PC讀保留 WR 狀態對應供查閱，狀態由 ReadMotionStates 讀取。
+        private static Dictionary<int, string> LoadCommands(string path)
+        {
+            using var parser = new TextFieldParser(path);
+            parser.SetDelimiters(",");
+
+            string[]? header = parser.ReadFields();
+            if (header == null || !header.SequenceEqual(
+                    new[] { "Index", "PC寫入", "PC讀" }, StringComparer.OrdinalIgnoreCase))
+            {
+                throw new FormatException("功能 CSV 欄位須依序為 Index,PC寫入,PC讀。");
+            }
+
+            var commands = new Dictionary<int, string>();
+            while (!parser.EndOfData)
+            {
+                long line = parser.LineNumber;
+                string[]? fields = parser.ReadFields();
+                if (fields == null || fields.Length != 3 ||
+                    !int.TryParse(fields[0], out int index) || index < 0 ||
+                    string.IsNullOrWhiteSpace(fields[1]))
+                {
+                    throw new FormatException($"功能 CSV 第 {line} 列的索引或命令點位無效。");
+                }
+
+                if (!commands.TryAdd(index, fields[1]))
+                    throw new FormatException($"功能 CSV 第 {line} 列的 Index {index} 重複。");
+            }
+
+            return commands;
+        }
+
+
+        // 讀回 DI、DO 陣列供 I/O 畫面使用。
         public static void Read()
         {
-            // 用陣列本身的長度讀取，避免宣告長度與讀取長度不同。
-            DI = (bool[])ads.ReadAny(diHandle, typeof(bool[]), new int[] { DI.Length });
-            DO = (bool[])ads.ReadAny(doHandle, typeof(bool[]), new int[] { DO.Length });
+            var client = GetClient();
+            DI = (bool[])client.ReadAny(diHandle, typeof(bool[]), new[] { DI.Length });
+            DO = (bool[])client.ReadAny(doHandle, typeof(bool[]), new[] { DO.Length });
         }
 
-        // 修改：指定要改的輸出，例如 Write(0, true)，索引從 0 開始。
+        // 先讀整組 DO，修改指定元素後再整組寫回。
         public static void Write(int index, bool value)
         {
             if (index < 0 || index >= DO.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            DO = (bool[])ads.ReadAny(doHandle, typeof(bool[]), new int[] { DO.Length });
-            DO[index] = value;
-            ads.WriteAny(doHandle, DO);
-            // 這裡是整組寫回；若 PLC 也會改同一組 DO，需另設單點寫入。
+            var client = GetClient();
+            var outputs = (bool[])client.ReadAny(doHandle, typeof(bool[]), new[] { DO.Length });
+            outputs[index] = value;
+            client.WriteAny(doHandle, outputs);
+            DO = outputs;
         }
 
-        public static void ReadAction()
-        {
-            readHmi = (ushort)ads.ReadAny(toHmi6Handle, typeof(ushort));
-
-            bool reset = (readHmi & (1 << 0)) != 0; // GVL.toHMI[6].0
-            bool buzzerOff = (readHmi & (1 << 1)) != 0; // GVL.toHMI[6].1
-            bool doorBypass = (readHmi & (1 << 2)) != 0; // GVL.toHMI[6].2
-            bool stop = (readHmi & (1 << 3)) != 0; // GVL.toHMI[6].3
-            bool Start = (readHmi & (1 << 4)) != 0; // GVL.toHMI[6].4
-            bool ManMov = (readHmi & (1 << 5)) != 0; // GVL.toHMI[6].5
-            bool AutoMov = (readHmi & (1 << 6)) != 0; // GVL.toHMI[6].6
-            bool InitMov = (readHmi & (1 << 7)) != 0; // GVL.toHMI[6].7
-            bool ProcessMov = (readHmi & (1 << 8)) != 0; // GVL.toHMI[6].8
-            bool VacuumOnMov = (readHmi & (1 << 9)) != 0; // GVL.toHMI[6].9
-            bool VacuumOffMov = (readHmi & (1 << 10)) != 0; // GVL.toHMI[6].10
-            bool InjectionIPAMon = (readHmi & (1 << 11)) != 0; // GVL.toHMI[6].11
-            bool InjectionOILMon = (readHmi & (1 << 12)) != 0; // GVL.toHMI[6].12
-            bool InjectionGlueMon = (readHmi & (1 << 13)) != 0; // GVL.toHMI[6].13
-            bool BackOILMon = (readHmi & (1 << 14)) != 0; // GVL.toHMI[6].14
-            bool BackAIRMon = (readHmi & (1 << 15)) != 0; // GVL.toHMI[6].15
-        }
-
-        public static void WriteAction()
-        {
-            ads.WriteAny(toHmi6Handle, readHmi);
-        }
-
-        // 程式結束時呼叫一次，不要在 Read、Write 裡釋放 Client。
+        // 程式結束時釋放本次連線的 ADS 資源。
         public static void Shutdown()
+        {
+            if (ads is AdsClient client)
+            {
+                ads = null;
+                Release(client);
+            }
+        }
+
+        // 讀寫前確認 ADS 已完成初始化。
+        private static AdsClient GetClient()
+        {
+            return ads ?? throw new InvalidOperationException("請先初始化 ADS 連線。");
+        }
+
+        // 釋放已建立的 handle，清除本機對應並關閉 ADS client。
+        private static void Release(AdsClient client)
         {
             try
             {
-                // TryDelete：PLC 已斷線時，也繼續嘗試清理另一個 Handle。
-                if (diHandle != 0) ads.TryDeleteVariableHandle(diHandle);
-                if (doHandle != 0) ads.TryDeleteVariableHandle(doHandle);
-                if (toHmi6Handle != 0) ads.TryDeleteVariableHandle(toHmi6Handle);
+                foreach (uint handle in writeHandles.Values)
+                    client.TryDeleteVariableHandle(handle);
+                if (wrHandle != 0) client.TryDeleteVariableHandle(wrHandle);
+                if (doHandle != 0) client.TryDeleteVariableHandle(doHandle);
+                if (diHandle != 0) client.TryDeleteVariableHandle(diHandle);
             }
             finally
             {
-                diHandle = 0;
-                doHandle = 0;
-                toHmi6Handle = 0;
-                ads.Dispose();
+                writeHandles.Clear();
+                diHandle = doHandle = wrHandle = 0;
+                client.Dispose();
             }
         }
     }
