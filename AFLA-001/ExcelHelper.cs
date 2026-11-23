@@ -12,7 +12,91 @@ namespace AFLA_001
 {
     public class ExcelHelper
     {
-        public List<IOModel> LoadIO(string filePath)
+        public List<Motion> LoadActionCommands(string path)
+        {
+            using var parser = new TextFieldParser(path);
+            parser.SetDelimiters(",");
+
+            string[]? header = parser.ReadFields();
+            if (header == null || !header.SequenceEqual(
+                    new[] { "Index", "PC寫入", "PC讀" }, StringComparer.OrdinalIgnoreCase))
+            {
+                throw new FormatException("功能 CSV 欄位須依序為 Index,PC寫入,PC讀。");
+            }
+
+            var motions = new List<Motion>();
+            var indexes = new HashSet<int>();
+            while (!parser.EndOfData)
+            {
+                long line = parser.LineNumber;
+                string[]? fields = parser.ReadFields();
+                if (fields == null || fields.Length != 3 ||
+                    !int.TryParse(fields[0], out int index) || index < 0 ||
+                    string.IsNullOrWhiteSpace(fields[1]))
+                {
+                    throw new FormatException($"功能 CSV 第 {line} 列的索引或命令點位無效。");
+                }
+
+                if (!indexes.Add(index))
+                    throw new FormatException($"功能 CSV 第 {line} 列的 Index {index} 重複。");
+
+                motions.Add(new Motion
+                {
+                    Index = index,
+                    Writelabel = fields[1].Trim(),
+                    Readlabel = fields[2].Trim()
+                });
+            }
+
+            return motions;
+        }
+
+        /// <summary>
+        /// ec讀取csv
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="FormatException"></exception>
+		public List<ECclass> LoadEC(string path)
+		{
+			using var parser = new TextFieldParser(path);
+			parser.SetDelimiters(",");
+
+			string[]? header = parser.ReadFields();
+			if (header == null || !header.SequenceEqual(
+					new[] { "Index", "PC寫入", "PC讀取" }, StringComparer.OrdinalIgnoreCase))
+			{
+				throw new FormatException("功能 CSV 欄位須依序為 Index,PC寫入,PC讀取。");
+			}
+
+			var ec = new List<ECclass>();
+			var indexes = new HashSet<int>();
+			while (!parser.EndOfData)
+			{
+				long line = parser.LineNumber;
+				string[]? fields = parser.ReadFields();
+				if (fields == null || fields.Length != 3 ||
+					!int.TryParse(fields[0], out int index) || index < 0 ||
+					string.IsNullOrWhiteSpace(fields[1]))
+				{
+					throw new FormatException($"功能 CSV 第 {line} 列的索引或命令點位無效。");
+				}
+
+				if (!indexes.Add(index))
+					throw new FormatException($"功能 CSV 第 {line} 列的 Index {index} 重複。");
+
+				ec.Add(new ECclass
+				{
+					Index = index,
+					WriteEC = fields[1].Trim(),
+					ReadEC = fields[2].Trim()
+				});
+			}
+
+			return ec;
+		}
+
+		public List<IOModel> LoadIO(string filePath)
         {
             // 建立 List，存放讀取到的 IO 資料
             List<IOModel> ioList = new List<IOModel>();

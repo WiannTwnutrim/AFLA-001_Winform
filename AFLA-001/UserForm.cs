@@ -24,7 +24,23 @@ namespace AFLA_001
         public UserForm()
         {
             InitializeComponent();
-            LoadAccount();
+            Load += UserForm_Load;
+        }
+
+        private async void UserForm_Load(object? sender, EventArgs e)
+        {
+            loginbtn.Enabled = false;
+            try
+            {
+                List<string> accounts = await Task.Run(_db.GetAccount);
+                if (!IsDisposed)
+                    accountcombo.DataSource = accounts;
+            }
+            finally
+            {
+                if (!IsDisposed)
+                    loginbtn.Enabled = true;
+            }
         }
 
         public void LoadAccount()

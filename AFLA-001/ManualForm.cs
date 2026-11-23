@@ -1,208 +1,122 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using Microsoft.VisualBasic.FileIO;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace AFLA_001
 {
     public partial class ManualForm : Form
     {
-        // 從 bin\Debug 或 bin\Release 下的目標框架目錄往上三層，回到專案根目錄。
-        private readonly string manualDataPath = Path.GetFullPath(
-            // 以執行檔目錄為起點，往上三層再接上 CSV 檔名。
-            Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "manual for winform.csv"));
+        private static readonly string ManualDataPath =
+            Path.Combine(AppContext.BaseDirectory, "manual for winform.csv");
+
+        private readonly Dictionary<int, (ECclass Point, DataRow Row, string CsvValue)> rowsByIndex = new();
+        private double[]? ecValues;
+        private bool editingValue;
+
         public ManualForm()
         {
-
             InitializeComponent();
-            // 表單首次載入時讀取 CSV。
-            manualdata.DataBindingComplete += Manualdata_DataBindingComplete;
             Load += ManualForm_Load;
-            
-
-            // 隱藏新增列，讓操作員編輯現有資料。
             manualdata.AllowUserToAddRows = false;
-            
-
         }
-        
 
         private void ManualForm_Load(object? sender, EventArgs e)
         {
-            // 直接讀取專案根目錄的 CSV，與儲存功能共用同一路徑。
             try
             {
-                //TextFieldParser 是 .NET 用來讀取和解析文字資料檔的類別
-                // 使用 CSV 剖析器處理引號與欄位內的逗號。
-                // 開啟 CSV，離開區塊時自動關閉檔案。
-                using var parser = new TextFieldParser(manualDataPath);
-                // 依逗號拆分欄位(csv檔各欄位會以,區分)
+                using var parser = new TextFieldParser(ManualDataPath);
                 parser.SetDelimiters(",");
-                // 允許欄位以雙引號包住逗號與換行。
                 parser.HasFieldsEnclosedInQuotes = true;
-                // 保留欄位前後的空白(不做清除)
-                parser.TrimWhiteSpace = false;
 
-                // 第一列是欄名，後續各列是資料。
                 var table = new DataTable();
-                // 會讀取下一筆 CSV 資料，並把拆好的欄位回傳成字串陣列 string[]
-                //假設有a,b,c欄位,讀到c後就結束了(ReadFields(從目前的讀取位置讀一行,當沒有,這行就結束了))
-                string[] headers = parser.ReadFields()
-                    // 空檔缺少欄名時停止載入。
-                    ?? throw new InvalidDataException("CSV 缺少欄名。");
-
-
-                foreach (string header in headers)
-                    // 建立一個字串欄位。
+                foreach (string header in parser.ReadFields() ?? throw new InvalidDataException("CSV 缺少欄名。"))
                     table.Columns.Add(header);
 
-                // 逐筆讀到 CSV 結尾
+                foreach (string column in new[] { "Index", "PC 寫變數", "Value", "Min", "Max" })
+                {
+                    if (!table.Columns.Contains(column))
+                        throw new InvalidDataException($"CSV 缺少 {column} 欄位。");
+                }
+
                 while (!parser.EndOfData)
                 {
-                    // 記錄行號，供格式錯誤時顯示。
                     long lineNumber = parser.LineNumber;
-                    // 再讀整行
                     string[] fields = parser.ReadFields()!;
-                    // 確認資料欄位數與欄名數相同。
                     if (fields.Length != table.Columns.Count)
-                        // 欄位數錯誤時停止載入，並指出行號。
                         throw new InvalidDataException($"CSV 第 {lineNumber} 行的欄位數不符。");
 
-                    // 將這筆資料加入資料表(把整筆資料加在表格下方)
-                    table.Rows.Add(fields);
+                    DataRow row = table.Rows.Add(fields);
+                    string csvValue = (string)row["Value"];
+                    if (string.IsNullOrWhiteSpace(csvValue))
+                    {
+                        csvValue = "0";
+                        row["Value"] = csvValue;
+                    }
+
+                    string indexText = ((string)row["Index"]).Trim();
+                    if (indexText.Length == 0)
+                        continue;
+
+                    if (!int.TryParse(indexText, out int index) || (uint)index >= AdsService.EcLength)
+                        throw new InvalidDataException($"CSV 第 {lineNumber} 行的 EC Index 無效。");
+
+                    var point = new ECclass
+                    {
+                        Index = index,
+                        WriteEC = ((string)row["PC 寫變數"]).Trim(),
+                        ReadEC = table.Columns.Contains("PC讀") ? ((string)row["PC讀"]).Trim() : ""
+                    };
+                    if (!rowsByIndex.TryAdd(point.Index, (point, row, csvValue)))
+                        throw new InvalidDataException($"CSV 第 {lineNumber} 行的 EC Index 重複。");
                 }
 
-                // 解析成功後綁定資料表，由表格自動產生欄位。
                 manualdata.DataSource = table;
                 manualdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                if (manualdata.Columns["Difinition"] is DataGridViewColumn definition)
+                    definition.Width = 200;
 
-                
-
-                loadUpData();//載入後讀取上方的值
-
-                // 欄位建立後先全部設為唯讀，只允許 Value 欄進入編輯事件。
                 foreach (DataGridViewColumn column in manualdata.Columns)
-                {
-                    column.ReadOnly = true;
-                }
-                manualdata.Columns["Value"].ReadOnly = false;
+                    column.ReadOnly = column.Name != "Value";
 
+                ApplyValues();
             }
-            // 依例外篩選條件處理預期的檔案或資料錯誤。
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException
-                // 載入時也處理 CSV 格式錯誤與重複欄名。
-                or MalformedLineException or DuplicateNameException)
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or
+                MalformedLineException or DuplicateNameException)
             {
-                // 顯示讀檔失敗的路徑與原因。
-                MessageBox.Show(this, $"無法載入手動資料。\n{manualDataPath}\n{ex.Message}",
+                rowsByIndex.Clear();
+                MessageBox.Show(this, $"無法載入手動資料。\n{ManualDataPath}\n{ex.Message}",
                     "載入失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void Manualdata_DataBindingComplete(object? sender, DataGridViewBindingCompleteEventArgs e)
+        internal void RefreshEcValues(double[]? values)
         {
-            // 自動產生欄位並完成繫結後，再套用固定欄寬。
-            if (manualdata.Columns["Difinition"] is DataGridViewColumn column)
-            {
-                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                column.Width = 200; // 調整此數值即可改變 Difinition 欄寬（像素）。
-            }
+            ecValues = values;
+            ApplyValues();
         }
 
-        /// <summary>
-        /// 載入上方資訊
-        /// </summary>
+        private void ApplyValues()
+        {
+            if (editingValue || manualdata.DataSource == null)
+                return;
+
+            // 沒有 PLC 快照時使用載入 CSV 時保存的原始值（空白已轉成 0）。
+            foreach (var (point, row, csvValue) in rowsByIndex.Values)
+            {
+                string value = ecValues == null
+                    ? csvValue
+                    : ecValues[point.Index].ToString(CultureInfo.CurrentCulture);
+                if ((string)row["Value"] != value)
+                    row["Value"] = value;
+            }
+
+            loadUpData();
+        }
+
         public void loadUpData()
         {
-            string ChuckRpm = manualdata.Rows[17].Cells["Value"].Value.ToString();
-            Chuckrpmtxt.Text = ChuckRpm;
-
-            string CupLift = manualdata.Rows[11].Cells["Value"].Value.ToString();
-            cuplifttxt.Text = CupLift;
-        }
-   
-        
-        private bool SaveManualData()
-        {
-            // 確認有資料表可存，並提交目前儲存格的編輯。
-            //EndEdit:結束目前這一格的編輯，提交剛輸入的值(如果輸入到一半游標在格子內就儲存,則會回傳fasle)
-            if (manualdata.DataSource is not DataTable table || !manualdata.EndEdit())
-                // 前一步條件不成立時結束存檔。
-                return false;
-
-            //BindingContext 是 WinForms 用來查找「資料繫結管理員」的地方。這個管理員會追蹤表格目前在哪一列，以及那一列正在進行的編輯
-            // 提交目前那一列的編輯，讓最後修改的儲存格也能寫入(程式在找不到 BindingContext 或管理員時，跳過這個呼叫)
-            BindingContext?[table]?.EndCurrentEdit();
-
-            // 先寫同一目錄的暫存檔，寫完才取代原 CSV
-            // ToString("N")把它轉成 32 個十六進位字元的字串
-            //Guid.NewGuid()會產生一個新的 GUID（全域唯一識別碼）。這裡用它讓每次儲存產生的暫存檔有不同的名字
-            //簡單來說用 GUID 產生唯一檔名(tmp檔)，把暫存檔放在 CSV 同一目錄(路徑/檔名.csv+.新識識別碼.tmp)
-            string temporaryPath = manualDataPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-            try
-            {
-                // StreamWriter 是 C# 提供的文字寫入工具以 UTF-8 寫檔，離開區塊時關閉寫入器(using)
-                using (var writer = new StreamWriter(temporaryPath, false, new UTF8Encoding(true)))
-                {
-                    // 先把欄名以逗號串接並寫入第一列(.Cast<DataColumn>() 是取得兩個欄位物件)
-                    //假設欄位為a,b則為 "a","b"
-                    writer.WriteLine(string.Join(",", table.Columns.Cast<DataColumn>()
-                        // 逐一轉義欄名，以保留逗號或引號。
-                        .Select(column => QuoteCsvField(column.ColumnName))));
-
-                    // 依資料表的列順序逐筆寫入
-                    foreach (DataRow row in table.Rows)
-                    {
-                        // 將目前這筆資料寫成一列
-                        //row.ItemArray 會取出這一列的所有欄位值，依照資料表的欄位順序放進一個陣列
-                        //假設欄位值為c,d則為 "c","d"
-                        writer.WriteLine(string.Join(",", row.ItemArray
-                            // 將欄位轉成文字並轉義，空值以空字串寫出(""是空字串)
-                            .Select(value => QuoteCsvField(Convert.ToString(value) ?? ""))));
-                    }
-                }
-
-                // 完整寫入並關閉暫存檔後，再取代原 CSV
-                File.Move(temporaryPath, manualDataPath, overwrite: true);
-                loadUpData();
-                return true;
-            }
-            // 依例外篩選條件處理預期的檔案或資料錯誤
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-            {
-                Loghelper.Error($"無法儲存手動資料。\n{manualDataPath}\n{ex.Message}");
-                return false;
-            }
-            // 不論儲存成功或失敗，都嘗試清理暫存檔
-            finally
-            {
-                try
-                {
-                    // 清除可能殘留的暫存檔
-                    File.Delete(temporaryPath);
-                }
-                // 依例外篩選條件處理預期的檔案或資料錯誤
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-                {
-                    // 清除暫存檔失敗時，保留前面顯示的儲存結果
-                }
-            }
-        }
-        /// <summary>
-        /// 欄位一律用雙引號包住，欄位內的雙引號則寫成兩個
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private static string QuoteCsvField(string value)
-        {
-            //Replace找第一個參數換成第二個,沒有則維持原樣
-            return "\"" + value.Replace("\"", "\"\"") + "\"";
+            Chuckrpmtxt.Text = rowsByIndex.TryGetValue(170, out var chuck) ? (string)chuck.Row["Value"] : "";
+            cuplifttxt.Text = rowsByIndex.TryGetValue(163, out var cupLift) ? (string)cupLift.Row["Value"] : "";
         }
 
         private void toolbtn_Click(object sender, EventArgs e)
@@ -229,40 +143,53 @@ namespace AFLA_001
 
         }
 
-        private void manualdata_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        private async void manualdata_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            // 取消儲存格直接編輯，統一由輸入視窗檢驗數值。
             e.Cancel = true;
-            if (manualdata.Columns[e.ColumnIndex].Name != "Value")
+            if (editingValue || manualdata.Columns[e.ColumnIndex].Name != "Value" ||
+                manualdata.Rows[e.RowIndex].DataBoundItem is not DataRowView rowView ||
+                !int.TryParse((string)rowView["Index"], out int index) ||
+                !rowsByIndex.TryGetValue(index, out var entry))
+            {
+                return;
+            }
+
+            DataRow row = entry.Row;
+            string symbol = entry.Point.WriteEC;
+            if (string.IsNullOrWhiteSpace(symbol))
                 return;
 
-            int rowIndex = e.RowIndex;
-            // 取得畫面該列實際綁定的資料，排序後也能更新正確的資料列。
-            DataRowView rowView = (DataRowView)manualdata.Rows[rowIndex].DataBoundItem;
-            // 保留舊值，寫入 CSV 失敗時用來還原。
-            object oldValue = rowView["Value"];
+            int max = int.TryParse((string)row["Max"], out int upperLimit) ? upperLimit : int.MaxValue;
+            int min = int.TryParse((string)row["Min"], out int lowerLimit) ? lowerLimit : int.MinValue;
 
-            int max = Convert.ToInt32(manualdata.Rows[rowIndex].Cells["Max"].Value);
-            int min = Convert.ToInt32(manualdata.Rows[rowIndex].Cells["Min"].Value);
-            using ManualValueForm form = new ManualValueForm(max, min);
-            // 只有輸入通過驗證並確認，才更新資料來源；關閉視窗不修改資料。
-            if (form.ShowDialog(this) == DialogResult.OK)
+            editingValue = true;
+            try
             {
-                // CSV 載入時使用字串欄位，將輸入結果轉成字串並提交該列編輯。
-                rowView["Value"] = form._intput.ToString();
-                rowView.EndEdit();
+                // 等表格完成取消編輯，再開啟輸入視窗。
+                await Task.Yield();
+                if (IsDisposed)
+                    return;
 
-                // 資料來源更新後才存檔；失敗則還原，避免畫面與 CSV 不一致。
-                if (!SaveManualData())
+                using var form = new ManualValueForm(max, min);
+                if (form.ShowDialog(this) == DialogResult.OK)
                 {
-                    rowView["Value"] = oldValue;
-                    rowView.EndEdit();
-                    MessageBox.Show(this, "儲存失敗，已恢復原值。", "儲存失敗",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    int value = form._intput;
+                    await Task.Run(() => AdsService.WriteManualValue(entry.Point, value));
                 }
             }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"無法寫入 Manual Index {index}（{symbol}）：{ex.Message}");
+                if (!IsDisposed)
+                    MessageBox.Show(this, $"無法寫入 PLC 變數 {symbol}。\n{ex.Message}",
+                        "寫入失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                editingValue = false;
+                if (!IsDisposed)
+                    ApplyValues();
+            }
         }
-
-       
     }
 }

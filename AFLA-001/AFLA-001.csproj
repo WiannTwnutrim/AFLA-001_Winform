@@ -35,6 +35,10 @@
     <None Update="ActionCommands.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="manual for winform.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
     <None Update="ALFA001.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

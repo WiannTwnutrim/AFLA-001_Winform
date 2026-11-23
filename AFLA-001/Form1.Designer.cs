@@ -43,14 +43,12 @@ namespace AFLA_001
             Eventbtn = new Button();
             Alarmbtn = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
-            eventpanel = new Panel();
-            eventtxt = new Label();
+            eventpanel = new TickerPanel();
             equipmentstatus = new TextBox();
             nowtxt = new TextBox();
             logintxt = new TextBox();
             showrecipetxt = new TextBox();
-            alarmpanel = new Panel();
-            alarmtxt = new Label();
+            alarmpanel = new TickerPanel();
             nowtime = new System.Windows.Forms.Timer(components);
             pictureBox1 = new PictureBox();
             greenlight = new Label();
@@ -60,8 +58,6 @@ namespace AFLA_001
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
-            eventpanel.SuspendLayout();
-            alarmpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -255,19 +251,11 @@ namespace AFLA_001
             // 
             // eventpanel
             // 
-            eventpanel.Controls.Add(eventtxt);
+            eventpanel.Font = new Font("Microsoft JhengHei UI", 20F);
             eventpanel.Location = new Point(286, 62);
             eventpanel.Name = "eventpanel";
             eventpanel.Size = new Size(508, 45);
             eventpanel.TabIndex = 9;
-            // 
-            // eventtxt
-            // 
-            eventtxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            eventtxt.Location = new Point(3, 5);
-            eventtxt.Name = "eventtxt";
-            eventtxt.Size = new Size(502, 40);
-            eventtxt.TabIndex = 5;
             // 
             // equipmentstatus
             // 
@@ -321,20 +309,12 @@ namespace AFLA_001
             // 
             // alarmpanel
             // 
-            alarmpanel.Controls.Add(alarmtxt);
+            alarmpanel.Font = new Font("Microsoft JhengHei UI", 20F);
             alarmpanel.Dock = DockStyle.Fill;
             alarmpanel.Location = new Point(286, 4);
             alarmpanel.Name = "alarmpanel";
             alarmpanel.Size = new Size(509, 51);
             alarmpanel.TabIndex = 0;
-            // 
-            // alarmtxt
-            // 
-            alarmtxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            alarmtxt.Location = new Point(3, 2);
-            alarmtxt.Name = "alarmtxt";
-            alarmtxt.Size = new Size(502, 40);
-            alarmtxt.TabIndex = 0;
             // 
             // nowtime
             // 
@@ -381,7 +361,7 @@ namespace AFLA_001
             // 
             // ticker
             // 
-            ticker.Interval = 20;
+            ticker.Interval = 33;
             ticker.Tick += ticker_Tick;
             // 
             // Form1
@@ -405,8 +385,6 @@ namespace AFLA_001
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
-            eventpanel.ResumeLayout(false);
-            alarmpanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
@@ -435,10 +413,8 @@ namespace AFLA_001
         private Label greenlight;
         private Label orangelight;
         private Label redlight;
-        private Label alarmtxt;
-        private Panel alarmpanel;
+        private TickerPanel alarmpanel;
         private System.Windows.Forms.Timer ticker;
-        private Label eventtxt;
-        private Panel eventpanel;
+        private TickerPanel eventpanel;
     }
 }

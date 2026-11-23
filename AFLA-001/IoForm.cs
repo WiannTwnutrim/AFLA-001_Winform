@@ -14,6 +14,9 @@ namespace AFLA_001
 {
     public partial class IoForm : Form
     {
+        private bool reading;
+        private bool readFailed;
+        private bool writing;
         private List<IOModel> iolist = new List<IOModel>();
 
 
@@ -24,7 +27,7 @@ namespace AFLA_001
             //AdsService.Read();
             IoLoad();
             iotimer.Tick += iotimer_Tick;
-            iotimer.Start();
+            VisibleChanged += (_, _) => iotimer.Enabled = Visible;
         }
 
         private void IoLoad()
@@ -97,7 +100,7 @@ namespace AFLA_001
                     DoPanel.Controls.Add(item);
             }
         }
-        private void IOControl_Click(object? sender, EventArgs e)
+        private async void IOControl_Click(object? sender, EventArgs e)
         {
             if (sender is not IndicatorLightControl light)
                 return;
@@ -107,37 +110,57 @@ namespace AFLA_001
             if (string.IsNullOrEmpty(model.Variable))
                 return;
 
-            MessageBox.Show(model.Variable);
-            if (model.PLCStatus)
-            {
-                AdsService.Write(model.Index, false);
-            }
-            else
-            {
-                AdsService.Write(model.Index, true);
+            if (writing)
+                return;
 
-            }
-            light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
-
-
-        }
-
-        private void iotimer_Tick(object sender, EventArgs e)
-        {
+            writing = true;
             try
             {
-                AdsService.Read();
+                MessageBox.Show(this, model.Variable);
+                int index = model.Index;
+                bool value = !model.PLCStatus;
+                await Task.Run(() => AdsService.Write(index, value));
+                if (!IsDisposed)
+                    UpdateIO(light);
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+            }
+            finally
+            {
+                writing = false;
+            }
+        }
+
+        private async void iotimer_Tick(object sender, EventArgs e)
+        {
+            if (!Visible || reading || writing)
+                return;
+
+            reading = true;
+            try
+            {
+                await Task.Run(AdsService.Read);
+                readFailed = false;
+                if (!Visible || IsDisposed)
+                    return;
+
                 foreach (var light in DiPanel.Controls.OfType<IndicatorLightControl>())
                     UpdateIO(light);
                 foreach (var light in DoPanel.Controls.OfType<IndicatorLightControl>())
                     UpdateIO(light);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Loghelper.Error($"PLC 讀取失敗：{ex.Message}"); 
+                if (!readFailed)
+                    Loghelper.Error(ex.ToString());
+                readFailed = true;
             }
-            
-
+            finally
+            {
+                reading = false;
+            }
         }
     }
 }

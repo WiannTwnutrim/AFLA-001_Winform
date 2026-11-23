@@ -220,22 +220,28 @@ namespace AFLA_001
             timetxt.Text = e.Time.ToString();
 
         }
-
-        private void button2_Click(object? sender, EventArgs e)
+        /// <summary>
+        /// processbtn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void button2_Click(object? sender, EventArgs e)
         {
-            if (sender is not Button button || button.Tag is not int index)
-                return;
+            //if (sender is not Button button || button.Tag is not int index)
+            //    return;
+
 
             try
             {
-                // 用 Tag 的索引找命令點位，每次都寫入 TRUE。
-                AdsService.WriteAction(index);
+                int index = Convert.ToInt16((sender as Button).Tag);
+                // 用 Tag 的index找點位，每次都寫入 TRUE。
+                await Task.Run(() => AdsService.WriteAction(index));
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "ADS 寫入失敗",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Loghelper.Error($"ADS 寫入失敗:{ex.ToString()}");
             }
+       
         }
     }
 }

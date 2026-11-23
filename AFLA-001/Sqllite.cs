@@ -432,7 +432,7 @@ namespace AFLA_001
         /// 載入alarm表
         /// </summary>
         /// <returns></returns>
-        public DataTable LoadAlarm()
+        public DataTable LoadAlarm(int limit = -1)
         {
             DataTable dataTable = new DataTable();
             try
@@ -441,9 +441,10 @@ namespace AFLA_001
                 {
                     conn.Open();
                     string sql = "Select TriggerDate,TriggerTime,Alarm || '' AS Alarm From Alarm " +
-                        "Order By TriggerDate DESC,TriggerTime DESC ";
+                        "Order By TriggerDate DESC,TriggerTime DESC LIMIT $limit ";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
+                        command.Parameters.AddWithValue("$limit", limit);
                         using (SqliteDataReader reader = command.ExecuteReader())
                         {
                             dataTable.Load(reader);
@@ -568,18 +569,19 @@ namespace AFLA_001
         /// 載入事件
         /// </summary>
         /// <returns></returns>
-        public DataTable LoadEvent()
+        public DataTable LoadEvent(int limit = -1)
         {
             DataTable dt = new DataTable();
             try
             {
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
-                    string sql = "Select * From Event Order By TriggerDate DESC,TriggerTime DESC";
+                    string sql = "Select * From Event Order By TriggerDate DESC,TriggerTime DESC LIMIT $limit";
                     conn.Open();
 
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
+                        command.Parameters.AddWithValue("$limit", limit);
 
                         using (SqliteDataReader reader = command.ExecuteReader())
                         {

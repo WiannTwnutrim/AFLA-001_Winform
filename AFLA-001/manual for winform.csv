@@ -1,29 +1,52 @@
-﻿"ID","Module","Difinition","UNIT","Min","Max","Value"
-"1","TOOL","Setting :Hepa Life Time","Hour","10","100","20"
-"2","TOOL","Alarm : Initial Time-out","Sec","10","100","90"
-"3","TOOL","Alarm : Vacuum On/Off Time-out","Sec","10","100","0"
-"4","TOOL","Alarm : Process Time-out","Sec","10","100","0"
-"5","TOOL","Setting : Glue Purge Interval Time","Min","10","100","0"
-"6","TOOL","Setting : Glue Purge Total Time","Sec","10","100","0"
-"7","TOOL","Setting : Arm2 test time","Sec","10","100","0"
-"8","TOOL","Setting : Arm1 test time","Sec","10","100","0"
-"9","TOOL","Setting :Arm1 IPA SuckBack Time","Sec","10","100","0"
-"10","TOOL","Setting :Arm1 OIL SuckBack Time","Sec","10","100","0"
-"11","CUP Lift","Alarm : Motion Time-out","Sec","10","100","40"
-"12","CUP Lift","Setting : Standby Position","mm","10","100","40"
-"13","CUP Lift","Setting : Process Position","mm","10","100","0"
-"14","CUP Lift","Setting : Jog speed","mm/sec","10","100","0"
-"15","CUP Lift","Setting : Normal speed","mm/sec","10","100","0"
-"16","Chuck Rotate","Alarm : Motion Time-out","Sec","10","100","0"
-"17","Chuck Rotate","Setting : Jog speed","RPM","10","100","0"
-"18","Chuck Rotate","Setting : Normal speed","RPM","10","100","70"
-"19","Arm1 Lift","Alarm : Motion Time-out","Sec","10","100","0"
-"20","Arm1 Lift","Setting : Standby Position","mm","10","100","0"
-"21","Arm1 Lift","Setting : Process Position","mm","10","100","0"
-"22","Arm1 Lift","Setting : Jog speed","mm/sec","10","100","0"
-"23","Arm1 Lift","Setting : Normal speed","mm/sec","10","100","0"
-"24","Arm1 Rotate","Alarm : Motion Time-out","Sec","10","100","0"
-"25","Arm1 Rotate","Setting : Inside Max Position","degree","50","100","0"
-"26","Arm1 Rotate","Setting : Inside Min Position","degree","50","100","0"
-"27","Arm1 Rotate","Setting : Standby Position","degree","50","100","0"
-"28","Arm1 Rotate","Setting : IPA Center Position","degree","50","100","0"
+﻿ID,Module,Difinition,UNIT,Min,Max,Value,Index,PC 寫變數,PC讀
+1,TOOL,Setting :Hepa Life Time,Hour,1,100000,20,4,IO_Mapping.HepaLifeTime,GVL.EC[4]
+2,TOOL,Alarm : Initial Time-out,Sec,10,100,90,0,MAIN.rInitialTime,GVL.EC[0]
+3,TOOL,Alarm : Vacuum On/Off Time-out,Sec,1,120,0,137,ChamberA_Module.rVacuumTime,GVL.EC[137]
+4,TOOL,Alarm : Process Time-out,Sec,1,120,0,139,ChamberA_Module.rProcessTime,GVL.EC[139]
+5,TOOL,Setting : Glue Purge Interval Time,Min,10,6000,0,145,ChamberA_Arm1CDU.rRinseIntervalTime,GVL.EC[145]
+6,TOOL,Setting : Glue Purge Total Time,Sec,10,100,0,,,GVL.EC[]
+7,TOOL,Setting : Arm2 test time,Sec,1,120,0,148,ChamberA_Arm1CDU.rGlueTime,GVL.EC[148]
+8,TOOL,Setting : Arm1 test time,Sec,1,120,0,149,ChamberA_Arm1Rotate.rTestTime,GVL.EC[149]
+9,TOOL,Setting :Arm1 IPA SuckBack Time,Sec,10,100,0,158,ChamberA_Arm1CDU.rSuckBackTimeA,GVL.EC[158]
+10,TOOL,Setting :Arm1 OIL SuckBack Time,Sec,10,100,0,159,ChamberA_Arm1CDU.rSuckBackTimeB,GVL.EC[159]
+11,CUP Lift,Alarm : Motion Time-out,Sec,1,120,40,160,ChamberA_ChuckLift.rAxisMotion,GVL.EC[160]
+12,CUP Lift,Setting : Standby Position,mm,,,,163,ChamberA_ChuckLift.rProcessPosition,GVL.EC[163]
+13,CUP Lift,Setting : Process Position,mm,,,0,164,ChamberA_ChuckLift.rProcessPosition,GVL.EC[164]
+14,CUP Lift,Setting : Jog speed,mm/sec,0,100,0,165,ChamberA_ChuckLift.rJogSpeed,GVL.EC[165]
+15,CUP Lift,Setting : Normal speed,mm/sec,0,100,0,166,ChamberA_ChuckLift.rNormoralVelocity,GVL.EC[166]
+16,Chuck Rotate,Alarm : Motion Time-out,Sec,1,120,0,167,ChamberA_ChuckRotate.rAxisMotion,GVL.EC[167]
+17,Chuck Rotate,Setting : Jog speed,RPM,0,500,0,169,ChamberA_ChuckRotate.rJogSpeed,GVL.EC[169]
+18,Chuck Rotate,Setting : Normal speed,RPM,0,500,70,170,ChamberA_ChuckRotate.rNormoralVelocity,GVL.EC[170]
+19,Arm1 Lift,Alarm : Motion Time-out,Sec,1,120,0,171,ChamberA_Arm1Lift.rAxisMotion,GVL.EC[171]
+20,Arm1 Lift,Setting : Standby Position,mm,10,100,0,,,GVL.EC[]
+21,Arm1 Lift,Setting : Process Position,mm,10,100,0,,,GVL.EC[]
+22,Arm1 Lift,Setting : Jog speed,mm/sec,0,100,0,175,ChamberA_Arm1Lift.rJogSpeed,GVL.EC[175]
+23,Arm1 Lift,Setting : Normal speed,mm/sec,0,100,0,176,ChamberA_Arm1Lift.rNormoralVelocity,GVL.EC[176]
+24,Arm1 Rotate,Alarm : Motion Time-out,Sec,1,120,0,181,ChamberA_Arm1Rotate.rAxisMotion,GVL.EC[181]
+25,Arm1 Rotate,Setting : Inside Max Position,degree,50,100,0,182,ChamberA_Arm1Rotate.rMaxPosition,GVL.EC[182]
+26,Arm1 Rotate,Setting : Inside Min Position,degree,50,100,0,183,ChamberA_Arm1Rotate.rMinPosition,GVL.EC[183]
+27,Arm1 Rotate,Setting : Standby Position,degree,50,100,0,184,ChamberA_Arm1Rotate.rStandbyPosition,GVL.EC[184]
+28,Arm1 Rotate,Setting : IPA Center Position,degree,50,100,0,185,ChamberA_Arm1Rotate.rACenter,GVL.EC[185]
+29,Arm1 Rotate,"Setting : IPA 12""edge Position",degree,0,360,,186,ChamberA_Arm1Rotate.rA12Edge,GVL.EC[186]
+30,Arm1 Rotate,"Setting : IPA 8""edge Position",degree,0,360,,187,ChamberA_Arm1Rotate.rA8Edge,GVL.EC[187]
+31,Arm1 Rotate,Setting : OIL Center Position,degree,0,360,,188,ChamberA_Arm1Rotate.rBCenter,GVL.EC[188]
+32,Arm1 Rotate,"Setting : OIL 12""edge Position",degree,0,360,,189,ChamberA_Arm1Rotate.rB12Edge,GVL.EC[189]
+33,Arm1 Rotate,"Setting : OIL 8""edge Position",degree,0,360,,190,ChamberA_Arm1Rotate.rB8Edge,GVL.EC[190]
+34,Arm1 Rotate,Setting : Jog speed,mm/sec,0,500,,191,ChamberA_Arm1Rotate.rJogSpeed,GVL.EC[191]
+35,Arm1 Rotate,Setting : Normal speed,mm/sec,0,500,,192,ChamberA_Arm1Rotate.rNormoralVelocity,GVL.EC[192]
+36,Arm2 Lift,Alarm : Motion Time-out,Sec,1,120,,198,ChamberA_Arm2Lift.rAxisMotion,GVL.EC[198]
+37,Arm2 Lift,Setting : Standby Position,mm,,,,,,GVL.EC[]
+38,Arm2 Lift,Setting : Process Position,mm,,,,,,GVL.EC[]
+39,Arm2 Lift,Setting : Jog speed,mm/sec,0,100,,202,ChamberA_Arm2Lift.rJogSpeed,GVL.EC[202]
+40,Arm2 Lift,Setting : Normal speed,mm/sec,0,100,,203,ChamberA_Arm2Lift.rNormoralVelocity,GVL.EC[203]
+41,Arm2 Rotate,Alarm : Motion Time-out,Sec,1,120,,208,ChamberA_Arm2Rotate.rAxisMotion,GVL.EC[208]
+42,Arm2 Rotate,Setting : Inside Max Position,degree,0,360,,209,ChamberA_Arm2Rotate.rMaxPosition,GVL.EC[209]
+43,Arm2 Rotate,Setting : Inside Min Position,degree,0,360,,210,ChamberA_Arm2Rotate.rMinPosition,GVL.EC[210]
+44,Arm2 Rotate,Setting : Standby Position,degree,0,360,,211,ChamberA_Arm2Rotate.rStandbyPosition,GVL.EC[211]
+45,Arm2 Rotate,Setting : Center Position,degree,0,360,,212,ChamberA_Arm2Rotate.rACenter,GVL.EC[212]
+46,Arm2 Rotate,"Setting : 12"" edge Position",degree,0,360,,213,ChamberA_Arm2Rotate.rA12Edge,GVL.EC[213]
+47,Arm2 Rotate,"Setting : 8"" edge Position",degree,0,360,,214,ChamberA_Arm2Rotate.rA8Edge,GVL.EC[214]
+48,Arm2 Rotate,Setting : Jog speed,mm/sec,0,500,,218,ChamberA_Arm2Rotate.rJogSpeed,GVL.EC[218]
+49,Arm2 Rotate,Setting : Normal speed,mm/sec,0,500,,219,ChamberA_Arm2Rotate.rNormoralVelocity,GVL.EC[219]
+50,DOOR,Setting : Door ByPass,unit,0,1,,3,IO_Mapping.rDoorByPass,GVL.EC[3]
+51,FACILITY,Setting : Exhausted ByPass,unit,,,,,,GVL.EC[]
