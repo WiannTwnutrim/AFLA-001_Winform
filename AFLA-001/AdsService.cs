@@ -42,16 +42,20 @@ namespace AFLA_001
         }
 
         // 建立 ADS 連線，讀取所需的 handle 在首次使用時建立。
-        public static void Connection()
+        public static bool Connection()
         {
             lock (clientLock)
             {
                 if (ads != null)
-                    throw new InvalidOperationException("ADS 已初始化。");
+                {
+                    Loghelper.Error("ADS 已初始化。");
+                    return false;
+                }
 
-                var client = new AdsClient();
+                AdsClient? client = null;
                 try
                 {
+                    client = new AdsClient();
                     string? netId = Environment.GetEnvironmentVariable("PLC_AMS_NET_ID");
                     int port = int.TryParse(Environment.GetEnvironmentVariable("PLC_ADS_PORT"), out int configuredPort)
                         ? configuredPort : DefaultPort;
@@ -60,12 +64,24 @@ namespace AFLA_001
                     else
                         client.Connect(netId, port);
                     ads = client;
+                    return true;
                 }
                 // 初始化中途失敗時，清理已建立的 handle 和連線。
-                catch
+                catch (Exception ex)
                 {
-                    Release(client);
-                    throw;
+                    Loghelper.Error($"無法連線 PLC ADS：{ex.Message}");
+                    if (client != null)
+                    {
+                        try
+                        {
+                            Release(client);
+                        }
+                        catch (Exception cleanupError)
+                        {
+                            Loghelper.Error($"無法釋放 ADS 資源：{cleanupError.Message}");
+                        }
+                    }
+                    return false;
                 }
             }
         }
@@ -74,13 +90,16 @@ namespace AFLA_001
         /// 整組讀取 WR。PLC INT 對應 C# short
         /// </summary>
         /// <returns></returns>
-        public static short[] ReadAction()
+        public static short[]? ReadAction(string label)
         {
             lock (clientLock)
             {
-                var client = GetClient();
+                var client = ads;
+                if (client == null)
+                    return null;
+
                 if (wrHandle == 0)
-                    wrHandle = client.CreateVariableHandle("GVL.WR");
+                    wrHandle = client.CreateVariableHandle(label);
 
                 return (short[])client.ReadAny(
                     wrHandle, typeof(short[]), new[] { WrLength });
@@ -143,7 +162,10 @@ namespace AFLA_001
         /// </summary>
         private static void RefreshWr()
         {
-            short[] wr = ReadAction();  // 每輪只向 PLC 讀一次
+            short[]? wr = ReadAction("GVL.WR");  // 每輪只向 PLC 讀一次
+            if (wr == null)
+                return;
+
             bool[] states = ReadMotionStates(wr);
 
             //把值存到AdsService 的欄位
@@ -158,16 +180,32 @@ namespace AFLA_001
         /// 依 Index 找到「PC寫入」點位，每次按下都送出 TRUE。
         /// </summary>
         /// <param name="index"></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void WriteAction(int index)
         {
             lock (clientLock)
             {
                 if (!actionWriteLabels.TryGetValue(index, out string? writeLabel))
-                    throw new ArgumentOutOfRangeException(nameof(index), index, "找不到 CSV 命令索引。");
+                {
+                    Loghelper.Error($"找不到 CSV 命令索引：{index}");
+                    return;
+                }
+
+                var client = ads;
+                if (client == null)
+                {
+                    Loghelper.Error($"無法寫入動作點位 {index}：請先初始化 ADS 連線。");
+                    return;
+                }
 
                 //WriteValue:用名稱指定目標,原先使用WriteAny(handle, true) 是用 handle 指定目標
-                GetClient().WriteValue(writeLabel, true);
+                try
+                {
+                    client.WriteValue(writeLabel, true);
+                }
+                catch (Exception ex)
+                {
+                    Loghelper.Error($"ADS 寫入失敗：{ex.ToString()}");
+                }
             }
         }
 
@@ -203,11 +241,17 @@ namespace AFLA_001
         /// 透過 ecHandle 一次讀取整組 GVL.EC。PLC 的 LREAL 對應 C# double。
         /// </summary>
         /// <returns>本次讀取的陣列快照，供 Manual 按 CSV Index 顯示。</returns>
-        public static double[] ReadEc()
+        public static double[]? ReadEc()
         {
             lock (clientLock)
             {
-                var client = GetClient();
+                var client = ads;
+                if (client == null)
+                {
+                    Loghelper.Error("無法讀取 PLC EC：請先初始化 ADS 連線。");
+                    return null;
+                }
+
                 if (ecHandle == 0)
                     ecHandle = client.CreateVariableHandle("GVL.EC");
 
@@ -222,17 +266,27 @@ namespace AFLA_001
         {
             lock (clientLock)
             {
+                var client = ads;
+                if (client == null)
+                {
+                    Loghelper.Error($"無法寫入 Manual 點位 {point.WriteEC}：請先初始化 ADS 連線。");
+                    return;
+                }
+
                 // 使用符號型別封送數值，EC 的 LREAL 型別只適用於讀取陣列。
-                GetClient().WriteValue(point.WriteEC, (object)value);
+                client.WriteValue(point.WriteEC, (object)value);
             }
         }
 
         // 讀回 DI、DO 陣列供 I/O 畫面使用。
-        public static void Read()
+        public static bool Read()
         {
             lock (clientLock)
             {
-                var client = GetClient();
+                var client = ads;
+                if (client == null)
+                    return false;
+
                 if (diHandle == 0)
                     diHandle = client.CreateVariableHandle("GVL_IO.DI");
                 if (doHandle == 0)
@@ -240,18 +294,28 @@ namespace AFLA_001
 
                 DI = (bool[])client.ReadAny(diHandle, typeof(bool[]), new[] { DI.Length });
                 DO = (bool[])client.ReadAny(doHandle, typeof(bool[]), new[] { DO.Length });
+                return true;
             }
         }
 
         // 先讀整組 DO，修改指定元素後再整組寫回。
-        public static void Write(int index, bool value)
+        public static bool Write(int index, bool value)
         {
             lock (clientLock)
             {
                 if (index < 0 || index >= DO.Length)
-                    throw new ArgumentOutOfRangeException(nameof(index));
+                {
+                    Loghelper.Error($"DO 索引超出範圍：{index}");
+                    return false;
+                }
 
-                var client = GetClient();
+                var client = ads;
+                if (client == null)
+                {
+                    Loghelper.Error("無法寫入 DO：請先初始化 ADS 連線。");
+                    return false;
+                }
+
                 if (doHandle == 0)
                     doHandle = client.CreateVariableHandle("GVL_IO.DOO");
 
@@ -259,6 +323,7 @@ namespace AFLA_001
                 outputs[index] = value;
                 client.WriteAny(doHandle, outputs);
                 DO = outputs;
+                return true;
             }
         }
 
@@ -273,12 +338,6 @@ namespace AFLA_001
                     Release(client);
                 }
             }
-        }
-
-        // 讀寫前確認 ADS 已完成初始化。
-        private static AdsClient GetClient()
-        {
-            return ads ?? throw new InvalidOperationException("請先初始化 ADS 連線。");
         }
 
         // 釋放已建立的 handle 並關閉 ADS client。

@@ -36,7 +36,10 @@ namespace PathDrawing
         public void DrawFlowPipe(Graphics graphics, Color flowColor, float pipeWidth, params Point[] points)
         {
             if (!float.IsFinite(pipeWidth) || pipeWidth < 1f || pipeWidth > 512f)
-                throw new ArgumentOutOfRangeException(nameof(pipeWidth));
+            {
+                System.Diagnostics.Trace.TraceWarning("pipeWidth 必須介於 1 與 512。");
+                return;
+            }
             float ratio = pipeWidth / 12f;
             // 至少需要兩個座標才能形成管段。
             if (points.Length < 2)

@@ -1,104 +1,129 @@
-﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AFLA_001
 {
     public class ExcelHelper
     {
-        public List<Motion> LoadActionCommands(string path)
+        public bool TryLoadActionCommands(string path, out List<Motion> result, out string error)
         {
-            using var parser = new TextFieldParser(path);
-            parser.SetDelimiters(",");
-
-            string[]? header = parser.ReadFields();
-            if (header == null || !header.SequenceEqual(
-                    new[] { "Index", "PC寫入", "PC讀" }, StringComparer.OrdinalIgnoreCase))
+            result = new List<Motion>();
+            error = string.Empty;
+            try
             {
-                throw new FormatException("功能 CSV 欄位須依序為 Index,PC寫入,PC讀。");
-            }
+                using var parser = new TextFieldParser(path);
+                parser.SetDelimiters(",");
 
-            var motions = new List<Motion>();
-            var indexes = new HashSet<int>();
-            while (!parser.EndOfData)
-            {
-                long line = parser.LineNumber;
-                string[]? fields = parser.ReadFields();
-                if (fields == null || fields.Length != 3 ||
-                    !int.TryParse(fields[0], out int index) || index < 0 ||
-                    string.IsNullOrWhiteSpace(fields[1]))
+                string[]? header = parser.ReadFields();
+                if (header == null || !header.SequenceEqual(
+                        new[] { "Index", "PC寫入", "PC讀" }, StringComparer.OrdinalIgnoreCase))
                 {
-                    throw new FormatException($"功能 CSV 第 {line} 列的索引或命令點位無效。");
+                    error = "功能 CSV 欄位須依序為 Index,PC寫入,PC讀。";
+                    return false;
                 }
 
-                if (!indexes.Add(index))
-                    throw new FormatException($"功能 CSV 第 {line} 列的 Index {index} 重複。");
-
-                motions.Add(new Motion
+                var motions = new List<Motion>();
+                var indexes = new HashSet<int>();
+                while (!parser.EndOfData)
                 {
-                    Index = index,
-                    Writelabel = fields[1].Trim(),
-                    Readlabel = fields[2].Trim()
-                });
-            }
+                    long line = parser.LineNumber;
+                    string[]? fields = parser.ReadFields();
+                    if (fields == null || fields.Length != 3 ||
+                        !int.TryParse(fields[0], out int index) || index < 0 ||
+                        string.IsNullOrWhiteSpace(fields[1]))
+                    {
+                        error = $"功能 CSV 第 {line} 列的索引或命令點位無效。";
+                        return false;
+                    }
 
-            return motions;
+                    if (!indexes.Add(index))
+                    {
+                        error = $"功能 CSV 第 {line} 列的 Index {index} 重複。";
+                        return false;
+                    }
+
+                    motions.Add(new Motion
+                    {
+                        Index = index,
+                        Writelabel = fields[1].Trim(),
+                        Readlabel = fields[2].Trim()
+                    });
+                }
+
+                result = motions;
+                return true;
+            }
+            catch (Exception ex) when (IsCsvReadError(ex))
+            {
+                result.Clear();
+                error = ex.Message;
+                return false;
+            }
         }
 
-        /// <summary>
-        /// ec讀取csv
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        /// <exception cref="FormatException"></exception>
-		public List<ECclass> LoadEC(string path)
-		{
-			using var parser = new TextFieldParser(path);
-			parser.SetDelimiters(",");
-
-			string[]? header = parser.ReadFields();
-			if (header == null || !header.SequenceEqual(
-					new[] { "Index", "PC寫入", "PC讀取" }, StringComparer.OrdinalIgnoreCase))
-			{
-				throw new FormatException("功能 CSV 欄位須依序為 Index,PC寫入,PC讀取。");
-			}
-
-			var ec = new List<ECclass>();
-			var indexes = new HashSet<int>();
-			while (!parser.EndOfData)
-			{
-				long line = parser.LineNumber;
-				string[]? fields = parser.ReadFields();
-				if (fields == null || fields.Length != 3 ||
-					!int.TryParse(fields[0], out int index) || index < 0 ||
-					string.IsNullOrWhiteSpace(fields[1]))
-				{
-					throw new FormatException($"功能 CSV 第 {line} 列的索引或命令點位無效。");
-				}
-
-				if (!indexes.Add(index))
-					throw new FormatException($"功能 CSV 第 {line} 列的 Index {index} 重複。");
-
-				ec.Add(new ECclass
-				{
-					Index = index,
-					WriteEC = fields[1].Trim(),
-					ReadEC = fields[2].Trim()
-				});
-			}
-
-			return ec;
-		}
-
-		public List<IOModel> LoadIO(string filePath)
+        public bool TryLoadEC(string path, out List<ECclass> result, out string error)
         {
-            // 建立 List，存放讀取到的 IO 資料
+            result = new List<ECclass>();
+            error = string.Empty;
+            try
+            {
+                using var parser = new TextFieldParser(path);
+                parser.SetDelimiters(",");
+
+                string[]? header = parser.ReadFields();
+                if (header == null || !header.SequenceEqual(
+                        new[] { "Index", "PC寫入", "PC讀取" }, StringComparer.OrdinalIgnoreCase))
+                {
+                    error = "功能 CSV 欄位須依序為 Index,PC寫入,PC讀取。";
+                    return false;
+                }
+
+                var ec = new List<ECclass>();
+                var indexes = new HashSet<int>();
+                while (!parser.EndOfData)
+                {
+                    long line = parser.LineNumber;
+                    string[]? fields = parser.ReadFields();
+                    if (fields == null || fields.Length != 3 ||
+                        !int.TryParse(fields[0], out int index) || index < 0 ||
+                        string.IsNullOrWhiteSpace(fields[1]))
+                    {
+                        error = $"功能 CSV 第 {line} 列的索引或命令點位無效。";
+                        return false;
+                    }
+
+                    if (!indexes.Add(index))
+                    {
+                        error = $"功能 CSV 第 {line} 列的 Index {index} 重複。";
+                        return false;
+                    }
+
+                    ec.Add(new ECclass
+                    {
+                        Index = index,
+                        WriteEC = fields[1].Trim(),
+                        ReadEC = fields[2].Trim()
+                    });
+                }
+
+                result = ec;
+                return true;
+            }
+            catch (Exception ex) when (IsCsvReadError(ex))
+            {
+                result.Clear();
+                error = ex.Message;
+                return false;
+            }
+        }
+
+        public bool TryLoadIO(string filePath, out List<IOModel> result, out string error)
+        {
+            result = new List<IOModel>();
+            error = string.Empty;
             List<IOModel> ioList = new List<IOModel>();
             try
             {
@@ -108,13 +133,14 @@ namespace AFLA_001
 
                 while (!parser.EndOfData)//只要沒有更多資料可讀取
                 {
+                    long line = parser.LineNumber;
                     var field = parser.ReadFields();
                     if (field == null || field.Length < 4) continue;//如果是空白或是不滿4列(di只有四列)跳過
                     string ionumber = field[0].Trim();
                     if (string.IsNullOrEmpty(ionumber)) continue;
                     string ioname = field[1].Trim();
                     string plcpoint = field[3].Trim();// plcpoint 例如 "DI[0]"、"DI[10]" 或 "DO[35]"
-                    
+
 
                     int start = plcpoint.IndexOf('[');
                     int end = plcpoint.IndexOf(']');
@@ -125,7 +151,8 @@ namespace AFLA_001
                             plcpoint.Substring(start + 1, end - start - 1),
                             out int index))
                     {
-                        throw new FormatException($"IO 綁定格式錯誤：{plcpoint}");
+                        error = $"IO CSV 第 {line} 列的綁定格式錯誤：{plcpoint}";
+                        return false;
 
                     }
 
@@ -144,6 +171,12 @@ namespace AFLA_001
                     }
                     else if (plcpoint.StartsWith("DO"))
                     {
+                        if (field.Length < 5)
+                        {
+                            error = $"IO CSV 第 {line} 列缺少 DO 變數欄位。";
+                            return false;
+                        }
+
                         string dovariabe = field[4].Trim();
                         if (string.IsNullOrEmpty(dovariabe)) continue;
                         IOModel DO = new IOModel
@@ -158,18 +191,21 @@ namespace AFLA_001
                         ioList.Add(DO);
                     }                    
                 }
-                return ioList;
+                result = ioList;
+                return true;
             }
-            catch(Exception ex)
+            catch (Exception ex) when (IsCsvReadError(ex))
             {
-                throw new FormatException(ex.ToString());
+                result.Clear();
+                error = ex.Message;
+                return false;
             }
+        }
+
+        private static bool IsCsvReadError(Exception ex)
+        {
+            return ex is IOException or UnauthorizedAccessException or MalformedLineException
+                or ArgumentException or NotSupportedException;
         }
     }
 }
-
-
-
-
-
-

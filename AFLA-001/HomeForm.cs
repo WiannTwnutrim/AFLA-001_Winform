@@ -246,13 +246,15 @@ namespace AFLA_001
         /// <param name="e"></param>
         private async void button2_Click(object? sender, EventArgs e)
         {
-            //if (sender is not Button button || button.Tag is not int index)
-            //    return;
 
+            buttonSet(sender as Button);
+        }
 
+        private async void buttonSet(Button? button)
+        {
             try
             {
-                int index = Convert.ToInt16((sender as Button).Tag);
+                int index = Convert.ToInt16(button.Tag);
                 // 用 Tag 的index找點位，每次都寫入 TRUE。
                 await Task.Run(() => AdsService.WriteAction(index));
             }
@@ -260,7 +262,6 @@ namespace AFLA_001
             {
                 Loghelper.Error($"ADS 寫入失敗:{ex.ToString()}");
             }
-       
         }
     }
 }

@@ -12,12 +12,14 @@
             {
                 try
                 {
-                    var motions = new ExcelHelper().LoadActionCommands(commandCsvPath);
-                    AdsService.ConfigureActionWrites(motions);
+                    if (new ExcelHelper().TryLoadActionCommands(commandCsvPath, out var motions, out var error))
+                        AdsService.ConfigureActionWrites(motions);
+                    else
+                        Loghelper.Error($"無法載入動作點位：{error}");
                 }
                 catch (Exception ex)
                 {
-                    Loghelper.Error($"無法載入動作點位：{ex.Message}");
+                    Loghelper.Error($"無法載入動作點位：{ex.ToString()}");
                 }
             }
 
@@ -26,19 +28,7 @@
             Task? wrPolling = null;
             form.Shown += async (_, _) =>
             {
-                Task<bool> connection = Task.Run(() =>
-                {
-                    try
-                    {
-                        AdsService.Connection();
-                        return true;
-                    }
-                    catch (Exception ex)
-                    {
-                        Loghelper.Error($"無法連線 PLC ADS：{ex.Message}");
-                        return false;
-                    }
-                });
+                Task<bool> connection = Task.Run(AdsService.Connection);
 
                 wrPolling = Task.Run(async () =>
                 {

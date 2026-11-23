@@ -39,7 +39,13 @@ namespace AFLA_001
                 //往上三層在E:\AFLA-001_Winform\AFLA-001
                 string path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\IO_test.csv");
                 ExcelHelper excel = new ExcelHelper();
-                iolist = excel.LoadIO(path);
+                if (!excel.TryLoadIO(path, out var loadedIo, out var error))
+                {
+                    Loghelper.Error($"無法載入 IO 點位：{error}");
+                    return;
+                }
+
+                iolist = loadedIo;
                 //MessageBox.Show($"成功讀取{iolist.Count}筆");//目前成功讀取
                 try
                 {
@@ -119,8 +125,7 @@ namespace AFLA_001
                 MessageBox.Show(this, model.Variable);
                 int index = model.Index;
                 bool value = !model.PLCStatus;
-                await Task.Run(() => AdsService.Write(index, value));
-                if (!IsDisposed)
+                if (await Task.Run(() => AdsService.Write(index, value)) && !IsDisposed)
                     UpdateIO(light);
             }
             catch (Exception ex)
@@ -141,7 +146,14 @@ namespace AFLA_001
             reading = true;
             try
             {
-                await Task.Run(AdsService.Read);
+                if (!await Task.Run(AdsService.Read))
+                {
+                    if (!readFailed)
+                        Loghelper.Error("無法讀取 IO：請先初始化 ADS 連線。");
+                    readFailed = true;
+                    return;
+                }
+
                 readFailed = false;
                 if (!Visible || IsDisposed)
                     return;

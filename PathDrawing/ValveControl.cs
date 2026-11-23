@@ -34,7 +34,10 @@ public class ValveControl : Control
         set
         {
             if (!Enum.IsDefined(typeof(Orientation), value))
-                throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(Orientation));
+            {
+                System.Diagnostics.Trace.TraceWarning("Orientation 無效。");
+                return;
+            }
             if (orientation == value) return;
             orientation = value;
             UpdateValveRegion();
