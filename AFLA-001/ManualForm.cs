@@ -21,6 +21,7 @@ namespace AFLA_001
             InitializeComponent();
             Load += ManualForm_Load;
             manualdata.AllowUserToAddRows = false;
+            loadUpData();
         }
 
         private void ManualForm_Load(object? sender, EventArgs e)
@@ -157,7 +158,7 @@ namespace AFLA_001
                 ApplyValues();
             }
             // when 是例外篩選條件。這裡處理檔案讀取、權限、CSV 格式和欄名重複等例外。
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 // 將例外類型、訊息與呼叫堆疊寫進錯誤紀錄，方便追查問題。
                 LogManualLoadError(ex.ToString());
@@ -203,28 +204,42 @@ namespace AFLA_001
                     row["Value"] = value;
             }
 
-            loadUpData();
+
         }
 
+        /// <summary>
+        /// 讀取上方6格,假設沒有plc連線就顯示100
+        /// </summary>
         public void loadUpData()
         {
-            if (manualdata.DataSource is DataTable table)
+            var wr = AdsService.LatestWr;//ReadAction讀取整組wr的short[]
+
+            var wrIndexfortextbox = new Dictionary<TextBox, int>
             {
-                Chuckrpmtxt.Text = FindValue(table, 170);
-                cuplifttxt.Text = FindValue(table, 163);
+                [Arm1Rotatetxt] = 880,
+                [Arm1Lifttxt] = 870,
+                [Arm2Rotatetxt] = 900,
+                [Arm2Lifttxt] = 890,
+                [Chuckrpmtxt] = 921,
+                [cuplifttxt] = 920,
+            };
+
+            foreach (var entry in wrIndexfortextbox)
+            {
+                TextBox textbox = entry.Key;
+                int index = entry.Value;
+                textbox.Text = wr != null && wr.Length > 750
+            ? wr[index].ToString(CultureInfo.CurrentCulture)
+                                 : "100";
+
             }
+
+
+
+
         }
 
-        private static string FindValue(DataTable table, int index)
-        {
-            foreach (DataRow row in table.Rows)
-            {
-                if (int.TryParse((string)row["Index"], out int rowIndex) && rowIndex == index)
-                    return (string)row["Value"];
-            }
 
-            return "";
-        }
 
         private void toolbtn_Click(object sender, EventArgs e)
         {

@@ -15,9 +15,8 @@ namespace AFLA_001
         // 動作命令的 Index 對應 PLC 寫入點位名稱，設定在 ADS 重連時保留。
         private static Dictionary<int, string> actionWriteLabels = new();
         private static AdsClient? ads;
-        private static uint diHandle, doHandle, wrHandle;
         // 整組 GVL.EC 共用一個 handle，其有效期與目前的 ADS 連線相同。
-        private static uint ecHandle;
+        private static uint diHandle, doHandle, wrHandle, ecHandle;
 
         // 保存最近一次讀回的 DI、DO 值，長度需符合 PLC 宣告。
         public static bool[] DI { get; private set; } = new bool[24];
