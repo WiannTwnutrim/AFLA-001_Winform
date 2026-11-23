@@ -37,7 +37,10 @@ public class ArmControl : Control
         set
         {
             if (!Enum.IsDefined(value))
-                throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(ArmShape));
+            {
+                System.Diagnostics.Trace.TraceWarning("ArmShape 無效。");
+                return;
+            }
             if (shape == value) return;
             shape = value;
             UpdateArmRegion();
@@ -63,7 +66,10 @@ public class ArmControl : Control
         set
         {
             if (!float.IsFinite(value) || value < -180f || value > 180f)
-                throw new ArgumentOutOfRangeException(nameof(value), "Angle 必須介於 -180 與 180。");
+            {
+                System.Diagnostics.Trace.TraceWarning("Angle 必須介於 -180 與 180。");
+                return;
+            }
             if (angle == value) return;
             angle = value;
             UpdateArmRegion();

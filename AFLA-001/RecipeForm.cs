@@ -25,8 +25,9 @@ namespace AFLA_001
         }
         public void LoadRecipe()
         {
-            List<string> recipe = _db.GetRecipe();
-            recipecombo.DataSource = recipe;
+            List<string>? recipe = _db.GetRecipe();
+            if (recipe != null)
+                recipecombo.DataSource = recipe;
         }
 
 
@@ -41,7 +42,13 @@ namespace AFLA_001
                     Loghelper.Userlog(UserSession.LoginUser, "按下load recipe,載入配方但未選擇配方");
                     return; // 結束此次按鈕事件，避免使用空白名稱查詢。
                 }
-                DataTable dt = _db.LoadRecipeData(recipecombo.Text) ?? throw new InvalidOperationException("無法讀取配方資料。"); // 依所選配方名稱查詢 SQLite，取得步驟資料
+                DataTable? dt = _db.LoadRecipeData(recipecombo.Text);
+                if (dt == null)
+                {
+                    Loghelper.Error($"無法讀取配方資料：{recipecombo.Text}");
+                    MessageBox.Show("配方讀取失敗，無法取得配方資料。");
+                    return;
+                }
                 if (dt.Rows.Count > 0)//如果有資料
                 {
                     sizeCombo.Text = (dt.Rows[0]["Size"]).ToString();//取得size欄位第一筆資料

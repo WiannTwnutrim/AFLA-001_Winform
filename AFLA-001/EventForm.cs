@@ -54,8 +54,8 @@ namespace AFLA_001
 		{
 			try
 			{
-				_db.AddEvent("Arm1Rotate:Axis StandBy motion");
-				LoadEvent();
+				if (_db.AddEvent("Arm1Rotate:Axis StandBy motion"))
+					LoadEvent();
 			}
 			catch (Exception ex) 
 			{

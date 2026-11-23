@@ -28,7 +28,10 @@ public class LevelTankControl : Control
         set
         {
             if (!float.IsFinite(value) || value < 0 || value > 100)
-                throw new ArgumentOutOfRangeException(nameof(value), "Level 必須介於 0 與 100。");
+            {
+                System.Diagnostics.Trace.TraceWarning("Level 必須介於 0 與 100。");
+                return;
+            }
             if (level == value) return;
             level = value;
             Invalidate();

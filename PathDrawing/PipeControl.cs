@@ -46,7 +46,10 @@ public class PipeControl : Control
         set
         {
             if (!float.IsFinite(value) || value < 1f || value > 512f)
-                throw new ArgumentOutOfRangeException(nameof(value), "PipeWidth 必須介於1與512。");
+            {
+                System.Diagnostics.Trace.TraceWarning("PipeWidth 必須介於 1 與 512。");
+                return;
+            }
             if (pipeWidth == value) return;
             pipeWidth = value;
             UpdatePipeRegion();
@@ -62,7 +65,10 @@ public class PipeControl : Control
         set
         {
             if (!Enum.IsDefined(value))
-                throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(PipeShape));
+            {
+                System.Diagnostics.Trace.TraceWarning("PipeShape 無效。");
+                return;
+            }
             if (shape == value) return;
             shape = value;
             UpdatePipeRegion();
@@ -78,7 +84,10 @@ public class PipeControl : Control
         set
         {
             if (value < 0 || value > 100)
-                throw new ArgumentOutOfRangeException(nameof(value), "BendX 必須介於 0 與 100。");
+            {
+                System.Diagnostics.Trace.TraceWarning("BendX 必須介於 0 與 100。");
+                return;
+            }
             if (bendX == value) return;
             bendX = value;
             UpdatePipeRegion();
@@ -94,7 +103,10 @@ public class PipeControl : Control
         set
         {
             if (value < 0 || value > 100)
-                throw new ArgumentOutOfRangeException(nameof(value), "BendY 必須介於 0 與 100。");
+            {
+                System.Diagnostics.Trace.TraceWarning("BendY 必須介於 0 與 100。");
+                return;
+            }
             if (bendY == value) return;
             bendY = value;
             UpdatePipeRegion();

@@ -29,11 +29,11 @@ namespace AFLA_001
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            button1 = new Button();
+            initialbtn = new Button();
             button2 = new Button();
             buzzerbtn = new Button();
-            button4 = new Button();
-            button5 = new Button();
+            hepabtn = new Button();
+            stopbtn = new Button();
             vaccumoffbtn = new Button();
             vaccumonbtn = new Button();
             vaccumpic = new PictureBox();
@@ -112,6 +112,8 @@ namespace AFLA_001
             panel1 = new Panel();
             label23 = new Label();
             textBox8 = new TextBox();
+            resetbtn = new Button();
+            homebtnpanel = new Panel();
             ((System.ComponentModel.ISupportInitialize)vaccumpic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)airpicture).BeginInit();
@@ -123,23 +125,24 @@ namespace AFLA_001
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gluepic).BeginInit();
             panel1.SuspendLayout();
+            homebtnpanel.SuspendLayout();
             SuspendLayout();
             // 
-            // button1
+            // initialbtn
             // 
-            button1.Font = new Font("Microsoft JhengHei UI", 14F);
-            button1.Location = new Point(1110, 21);
-            button1.Name = "button1";
-            button1.Size = new Size(156, 35);
-            button1.TabIndex = 5;
-            button1.Text = "INITIAL";
-            button1.UseVisualStyleBackColor = true;
+            initialbtn.Font = new Font("Microsoft JhengHei UI", 14F);
+            initialbtn.Location = new Point(13, 23);
+            initialbtn.Name = "initialbtn";
+            initialbtn.Size = new Size(156, 35);
+            initialbtn.TabIndex = 5;
+            initialbtn.Text = "INITIAL";
+            initialbtn.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
             button2.BackColor = Color.AliceBlue;
             button2.Font = new Font("Microsoft JhengHei UI", 14F);
-            button2.Location = new Point(1110, 77);
+            button2.Location = new Point(13, 79);
             button2.Name = "button2";
             button2.Size = new Size(156, 35);
             button2.TabIndex = 6;
@@ -151,7 +154,7 @@ namespace AFLA_001
             // 
             buzzerbtn.BackColor = Color.AliceBlue;
             buzzerbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            buzzerbtn.Location = new Point(1110, 136);
+            buzzerbtn.Location = new Point(13, 135);
             buzzerbtn.Name = "buzzerbtn";
             buzzerbtn.Size = new Size(156, 35);
             buzzerbtn.TabIndex = 7;
@@ -159,31 +162,31 @@ namespace AFLA_001
             buzzerbtn.UseVisualStyleBackColor = false;
             buzzerbtn.Click += buzzerbtn_Click;
             // 
-            // button4
+            // hepabtn
             // 
-            button4.Font = new Font("Microsoft JhengHei UI", 14F);
-            button4.Location = new Point(1110, 252);
-            button4.Name = "button4";
-            button4.Size = new Size(156, 35);
-            button4.TabIndex = 9;
-            button4.Text = "HEPA";
-            button4.UseVisualStyleBackColor = true;
+            hepabtn.Font = new Font("Microsoft JhengHei UI", 14F);
+            hepabtn.Location = new Point(13, 294);
+            hepabtn.Name = "hepabtn";
+            hepabtn.Size = new Size(156, 35);
+            hepabtn.TabIndex = 9;
+            hepabtn.Text = "HEPA";
+            hepabtn.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // stopbtn
             // 
-            button5.Font = new Font("Microsoft JhengHei UI", 14F);
-            button5.Location = new Point(1110, 193);
-            button5.Name = "button5";
-            button5.Size = new Size(156, 35);
-            button5.TabIndex = 8;
-            button5.Text = "STOP";
-            button5.UseVisualStyleBackColor = true;
+            stopbtn.Font = new Font("Microsoft JhengHei UI", 14F);
+            stopbtn.Location = new Point(13, 242);
+            stopbtn.Name = "stopbtn";
+            stopbtn.Size = new Size(156, 35);
+            stopbtn.TabIndex = 8;
+            stopbtn.Text = "STOP";
+            stopbtn.UseVisualStyleBackColor = true;
             // 
             // vaccumoffbtn
             // 
             vaccumoffbtn.BackColor = Color.AliceBlue;
             vaccumoffbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            vaccumoffbtn.Location = new Point(1110, 366);
+            vaccumoffbtn.Location = new Point(12, 397);
             vaccumoffbtn.Name = "vaccumoffbtn";
             vaccumoffbtn.Size = new Size(156, 35);
             vaccumoffbtn.TabIndex = 11;
@@ -195,7 +198,7 @@ namespace AFLA_001
             // 
             vaccumonbtn.BackColor = Color.AliceBlue;
             vaccumonbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            vaccumonbtn.Location = new Point(1110, 307);
+            vaccumonbtn.Location = new Point(13, 347);
             vaccumonbtn.Name = "vaccumonbtn";
             vaccumonbtn.Size = new Size(156, 35);
             vaccumonbtn.TabIndex = 10;
@@ -984,6 +987,31 @@ namespace AFLA_001
             textBox8.TabIndex = 136;
             textBox8.Text = "10";
             // 
+            // resetbtn
+            // 
+            resetbtn.Font = new Font("Microsoft JhengHei UI", 14F);
+            resetbtn.Location = new Point(13, 189);
+            resetbtn.Name = "resetbtn";
+            resetbtn.Size = new Size(156, 35);
+            resetbtn.TabIndex = 125;
+            resetbtn.Text = "RESET";
+            resetbtn.UseVisualStyleBackColor = true;
+            // 
+            // homebtnpanel
+            // 
+            homebtnpanel.Controls.Add(initialbtn);
+            homebtnpanel.Controls.Add(resetbtn);
+            homebtnpanel.Controls.Add(button2);
+            homebtnpanel.Controls.Add(buzzerbtn);
+            homebtnpanel.Controls.Add(stopbtn);
+            homebtnpanel.Controls.Add(hepabtn);
+            homebtnpanel.Controls.Add(vaccumonbtn);
+            homebtnpanel.Controls.Add(vaccumoffbtn);
+            homebtnpanel.Location = new Point(1084, 9);
+            homebtnpanel.Name = "homebtnpanel";
+            homebtnpanel.Size = new Size(179, 440);
+            homebtnpanel.TabIndex = 126;
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -991,6 +1019,7 @@ namespace AFLA_001
             BackColor = Color.DarkSlateGray;
             ClientSize = new Size(1267, 452);
             ControlBox = false;
+            Controls.Add(homebtnpanel);
             Controls.Add(textBox1);
             Controls.Add(label16);
             Controls.Add(panel1);
@@ -1043,13 +1072,6 @@ namespace AFLA_001
             Controls.Add(showair);
             Controls.Add(airpicture);
             Controls.Add(label1);
-            Controls.Add(vaccumoffbtn);
-            Controls.Add(vaccumonbtn);
-            Controls.Add(button4);
-            Controls.Add(button5);
-            Controls.Add(buzzerbtn);
-            Controls.Add(button2);
-            Controls.Add(button1);
             Controls.Add(airpipe2);
             Controls.Add(pipeipa3);
             Controls.Add(pipeipa1);
@@ -1074,6 +1096,7 @@ namespace AFLA_001
             ((System.ComponentModel.ISupportInitialize)gluepic).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            homebtnpanel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1081,11 +1104,11 @@ namespace AFLA_001
         #endregion
 
         private PathDrawing.ColumnControl columnControl1;
-        private Button button1;
+        private Button initialbtn;
         private Button button2;
         private Button buzzerbtn;
-        private Button button4;
-        private Button button5;
+        private Button hepabtn;
+        private Button stopbtn;
         private Button vaccumoffbtn;
         private Button vaccumonbtn;
         private PictureBox vaccumpic;
@@ -1163,6 +1186,8 @@ namespace AFLA_001
         private Panel panel1;
         private TextBox textBox8;
         private Label label23;
+        private Button resetbtn;
+        private Panel homebtnpanel;
     }
 }
 

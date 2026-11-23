@@ -18,6 +18,13 @@ namespace AFLA_001
             InitializeComponent();
             // 把功能索引放入 Tag，供點擊事件取用。
             button2.Tag = ProcessActionIndex;
+
+            Color idleColor = button2.BackColor;
+            var motionTimer = new System.Windows.Forms.Timer { Interval = 100 };
+            motionTimer.Tick += (_, _) => UpdateProcessMotion(idleColor);
+            VisibleChanged += (_, _) => motionTimer.Enabled = Visible;
+            Disposed += (_, _) => motionTimer.Dispose();
+            motionTimer.Enabled = Visible;
             //BringToFront移到最上層
             levelTankControl1.BringToFront();
             // Keep the independent metal arms above their connecting pipes.
@@ -25,6 +32,18 @@ namespace AFLA_001
             arm2Control1.BringToFront();
             // 啟用雙緩衝，減少首頁重繪時的閃爍。
             DoubleBuffered = true;
+        }
+
+        private void UpdateProcessMotion(Color idleColor)
+        {
+            bool[]? states = AdsService.LatestMotionStates;
+            if (states is null || button2.Tag is not int index ||
+                index < 0 || index >= states.Length)
+            {
+                return;
+            }
+
+            button2.BackColor = states[index] ? Color.LimeGreen : idleColor;
         }
 
         /// <summary>
@@ -227,13 +246,15 @@ namespace AFLA_001
         /// <param name="e"></param>
         private async void button2_Click(object? sender, EventArgs e)
         {
-            //if (sender is not Button button || button.Tag is not int index)
-            //    return;
 
+            buttonSet(sender as Button);
+        }
 
+        private async void buttonSet(Button? button)
+        {
             try
             {
-                int index = Convert.ToInt16((sender as Button).Tag);
+                int index = Convert.ToInt16(button.Tag);
                 // 用 Tag 的index找點位，每次都寫入 TRUE。
                 await Task.Run(() => AdsService.WriteAction(index));
             }
@@ -241,7 +262,6 @@ namespace AFLA_001
             {
                 Loghelper.Error($"ADS 寫入失敗:{ex.ToString()}");
             }
-       
         }
     }
 }

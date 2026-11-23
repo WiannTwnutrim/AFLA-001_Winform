@@ -155,7 +155,8 @@ namespace AFLA_001
             {
                 if (string.IsNullOrWhiteSpace(password))
                 {
-                    throw new ArgumentException("請輸入密碼");
+                    Loghelper.Error("請輸入密碼");
+                    return false;
                 }
 
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
@@ -268,7 +269,7 @@ namespace AFLA_001
             catch (Exception ex)
             {
                 Loghelper.Error(ex.ToString());
-                throw;
+                return null;
             }
         }
 
@@ -289,7 +290,7 @@ namespace AFLA_001
         /// 取得配方名稱
         /// </summary>
         /// <returns></returns>
-        public List<string> GetRecipe()
+        public List<string>? GetRecipe()
         {
             try
             {
@@ -317,7 +318,7 @@ namespace AFLA_001
             catch (Exception ex)
             {
                 Loghelper.Error(ex.ToString());
-                throw;
+                return null;
             }
         }
 
@@ -603,7 +604,7 @@ namespace AFLA_001
         /// 新增事件
         /// </summary>
         /// <param name="EventName">事件名稱</param>
-        public void AddEvent(string EventName)
+        public bool AddEvent(string EventName)
         {
             DateTime now = DateTime.Now;
             string date = now.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
@@ -624,14 +625,16 @@ namespace AFLA_001
                         if (command.ExecuteNonQuery() == 0)
                         {
                             Loghelper.Error("新增事件失敗");
+                            return false;
                         }
                     }
                 }
+                return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
-
+                Loghelper.Error(ex.ToString());
+                return false;
             }
         }
 
