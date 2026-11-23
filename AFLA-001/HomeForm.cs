@@ -18,6 +18,13 @@ namespace AFLA_001
             InitializeComponent();
             // 把功能索引放入 Tag，供點擊事件取用。
             button2.Tag = ProcessActionIndex;
+
+            Color idleColor = button2.BackColor;
+            var motionTimer = new System.Windows.Forms.Timer { Interval = 100 };
+            motionTimer.Tick += (_, _) => UpdateProcessMotion(idleColor);
+            VisibleChanged += (_, _) => motionTimer.Enabled = Visible;
+            Disposed += (_, _) => motionTimer.Dispose();
+            motionTimer.Enabled = Visible;
             //BringToFront移到最上層
             levelTankControl1.BringToFront();
             // Keep the independent metal arms above their connecting pipes.
@@ -25,6 +32,18 @@ namespace AFLA_001
             arm2Control1.BringToFront();
             // 啟用雙緩衝，減少首頁重繪時的閃爍。
             DoubleBuffered = true;
+        }
+
+        private void UpdateProcessMotion(Color idleColor)
+        {
+            bool[]? states = AdsService.LatestMotionStates;
+            if (states is null || button2.Tag is not int index ||
+                index < 0 || index >= states.Length)
+            {
+                return;
+            }
+
+            button2.BackColor = states[index] ? Color.LimeGreen : idleColor;
         }
 
         /// <summary>
