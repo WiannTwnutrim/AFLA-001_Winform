@@ -206,6 +206,7 @@ namespace AFLA_001
         private void nowtime_Tick(object sender, EventArgs e)
         {
             nowtxt.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            manualForm.loadUpData();//測試上方六格用
         }
 
         private void TransferRecipe(object sender, RecipeAppliedEventArgs e)
