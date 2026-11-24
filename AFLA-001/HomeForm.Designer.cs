@@ -137,6 +137,7 @@ namespace AFLA_001
             initialbtn.TabIndex = 5;
             initialbtn.Text = "INITIAL";
             initialbtn.UseVisualStyleBackColor = true;
+            initialbtn.Click += initialbtn_Click;
             // 
             // button2
             // 
@@ -181,6 +182,7 @@ namespace AFLA_001
             stopbtn.TabIndex = 8;
             stopbtn.Text = "STOP";
             stopbtn.UseVisualStyleBackColor = true;
+            stopbtn.Click += stopbtn_Click;
             // 
             // vaccumoffbtn
             // 
@@ -996,6 +998,7 @@ namespace AFLA_001
             resetbtn.TabIndex = 125;
             resetbtn.Text = "RESET";
             resetbtn.UseVisualStyleBackColor = true;
+            resetbtn.Click += resetbtn_Click;
             // 
             // homebtnpanel
             // 

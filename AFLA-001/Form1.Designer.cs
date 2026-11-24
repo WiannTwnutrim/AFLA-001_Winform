@@ -309,8 +309,8 @@ namespace AFLA_001
             // 
             // alarmpanel
             // 
-            alarmpanel.Font = new Font("Microsoft JhengHei UI", 20F);
             alarmpanel.Dock = DockStyle.Fill;
+            alarmpanel.Font = new Font("Microsoft JhengHei UI", 20F);
             alarmpanel.Location = new Point(286, 4);
             alarmpanel.Name = "alarmpanel";
             alarmpanel.Size = new Size(509, 51);

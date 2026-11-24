@@ -213,30 +213,38 @@ namespace AFLA_001
         public void loadUpData()
         {
             var wr = AdsService.LatestWr;//ReadAction讀取整組wr的short[]
-
-            var wrIndexfortextbox = new Dictionary<TextBox, int>
+            if (wr == null || wr.Length <= 950)
             {
-                [Arm1Rotatetxt] = 880,
-                [Arm1Lifttxt] = 870,
-                [Arm2Rotatetxt] = 900,
-                [Arm2Lifttxt] = 890,
-                [Chuckrpmtxt] = 921,
-                [cuplifttxt] = 920,
-            };
-
-            foreach (var entry in wrIndexfortextbox)
-            {
-                TextBox textbox = entry.Key;
-                int index = entry.Value;
-                textbox.Text = wr != null && wr.Length > 750
-            ? wr[index].ToString(CultureInfo.CurrentCulture)
-                                 : "100";
-
+                //沒讀給100
+                Arm1Rotatetxt.Text = "100";
+                Arm1Lifttxt.Text = "100";
+                Arm2Rotatetxt.Text = "100";
+                Arm2Lifttxt.Text = "100";
+                Chuckrpmtxt.Text = "100";
+                cuplifttxt.Text = "100";
+                return;
             }
 
+            double Arm1Rotate = AdsService.WrIntToDouble(wr[900], wr[901]) / 1000;
+            double Arm2Rotate = AdsService.WrIntToDouble(wr[880], wr[881]) / 1000;
+            double Arm1Lift = AdsService.WrIntToDouble(wr[870], wr[871]) / 1000;
+            double Arm2Lift = AdsService.WrIntToDouble(wr[890], wr[891]) / 1000;
+            double Chuckrpm = AdsService.WrIntToDouble(wr[910], wr[911]) / 1000;
+            double cuplift = AdsService.WrIntToDouble(wr[920], wr[921]) / 10;
+            var valuesByTextBox = new Dictionary<TextBox, double>
+            {
+                [Arm1Rotatetxt] = Arm1Rotate,
+                [Arm2Rotatetxt] = Arm2Rotate,
+                [Arm1Lifttxt] = Arm1Lift,
+                [Arm2Lifttxt] = Arm2Lift,
+                [Chuckrpmtxt] = Chuckrpm,
+                [cuplifttxt] = cuplift,
+            };
 
-
-
+            foreach (var entry in valuesByTextBox)
+            {
+                entry.Key.Text = entry.Value.ToString(CultureInfo.CurrentCulture);
+            }
         }
 
 
