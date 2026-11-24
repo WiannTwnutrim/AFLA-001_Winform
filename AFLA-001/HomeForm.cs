@@ -1,27 +1,43 @@
-﻿using PathDrawing;
+﻿using DocumentFormat.OpenXml.Office2010.CustomUI;
+using PathDrawing;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Button = System.Windows.Forms.Button;
 
 namespace AFLA_001
 {
     public partial class HomeForm : Form
     {
-        // PROCESS 按鈕對應功能 CSV 的 Index 142。
-        internal const int ProcessActionIndex = 142;
+
+
 
         private CheckForm form = new CheckForm();
 
         public HomeForm()
         {
             InitializeComponent();
-            // 把功能索引放入 Tag，供點擊事件取用。
-            button2.Tag = ProcessActionIndex;
+            // 把功能索引放入 Tag，供點擊事件取用,buzzer.hepa.vaccum待確認
+            button2.Tag = 142;
+            initialbtn.Tag = 141;
+            resetbtn.Tag = 0;
+            buzzerbtn.Tag = 2;
+            stopbtn.Tag = 12;
+            vaccumonbtn.Tag = 144;
+            vaccumoffbtn.Tag = 145;
 
-            Color idleColor = button2.BackColor;
+
             var motionTimer = new System.Windows.Forms.Timer { Interval = 100 };
-            motionTimer.Tick += (_, _) => UpdateProcessMotion(idleColor);
+
+            motionTimer.Tick += (_, _) =>
+            {
+                foreach (Button button in homebtnpanel.Controls.OfType<Button>())
+                {
+                    if (int.TryParse(button.Tag?.ToString(), out int index))
+                        UpdateProcessMotion(index, button);
+                }
+            };
             VisibleChanged += (_, _) => motionTimer.Enabled = Visible;
             Disposed += (_, _) => motionTimer.Dispose();
             motionTimer.Enabled = Visible;
@@ -33,17 +49,26 @@ namespace AFLA_001
             // 啟用雙緩衝，減少首頁重繪時的閃爍。
             DoubleBuffered = true;
         }
-
-        private void UpdateProcessMotion(Color idleColor)
+        /// <summary>
+        /// 背景讀狀態
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="button"></param>
+        private void UpdateProcessMotion(int index, Button button)
         {
-            bool[]? states = AdsService.LatestMotionStates;
-            if (states is null || button2.Tag is not int index ||
-                index < 0 || index >= states.Length)
+            try
             {
-                return;
+                bool[] states = AdsService.LatestMotionStates;
+                if (states != null)
+                {
+                    bool status = states[index];
+                    button.BackColor = status ? Color.Green : Color.Gray;
+                }
             }
-
-            button2.BackColor = states[index] ? Color.LimeGreen : idleColor;
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+            }
         }
 
         /// <summary>
@@ -75,12 +100,13 @@ namespace AFLA_001
                 if (buzzerbtn.Text == "BUZZER OFF")
                 {
                     buzzerbtn.Text = "BUZZER ON";
-                    buzzerbtn.BackColor = Color.Red;
+                    buttonSet(sender as Button);
                 }
                 else
                 {
+                    //點下
                     buzzerbtn.Text = "BUZZER OFF";
-                    buzzerbtn.BackColor = Color.AliceBlue;
+
                 }
             }
         }
@@ -244,12 +270,16 @@ namespace AFLA_001
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void button2_Click(object? sender, EventArgs e)
+        private void button2_Click(object? sender, EventArgs e)
         {
 
             buttonSet(sender as Button);
         }
 
+        /// <summary>
+        /// click寫入true
+        /// </summary>
+        /// <param name="button"></param>
         private async void buttonSet(Button? button)
         {
             try
@@ -262,6 +292,21 @@ namespace AFLA_001
             {
                 Loghelper.Error($"ADS 寫入失敗:{ex.ToString()}");
             }
+        }
+
+        private void initialbtn_Click(object sender, EventArgs e)
+        {
+            buttonSet(sender as Button);
+        }
+
+        private void resetbtn_Click(object sender, EventArgs e)
+        {
+            buttonSet(sender as Button);
+        }
+
+        private void stopbtn_Click(object sender, EventArgs e)
+        {
+            buttonSet(sender as Button);
         }
     }
 }

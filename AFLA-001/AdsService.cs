@@ -7,11 +7,10 @@ namespace AFLA_001
     {
         // 背景 EC 輪詢與其他 ADS 讀寫共用同一把鎖，避免連線或 handle 在使用中被釋放。
         private static readonly object clientLock = new();
-        private const int DefaultPort = 851;
         private const int WrLength = 1651;
 
-        // PLC 的 GVL.EC 為 ARRAY[0..461] OF LREAL，CSV 的 Index 直接對應陣列索引。
-        internal const int EcLength = 462;
+        // PLC 的 GVL.EC 為 ARRAY[0..460] OF LREAL，CSV 的 Index 直接對應陣列索引。
+        internal const int EcLength = 461;
         // 動作命令的 Index 對應 PLC 寫入點位名稱，設定在 ADS 重連時保留。
         private static Dictionary<int, string> actionWriteLabels = new();
         private static AdsClient? ads;
@@ -41,8 +40,15 @@ namespace AFLA_001
             }
         }
 
-        // 建立 ADS 連線，讀取所需的 handle 在首次使用時建立。
-        public static bool Connection()
+
+        /// <summary>
+        /// 建立 ADS 連線，讀取所需的 handle 在首次使用時建立。
+        /// ip跟port目前以UmRT_Default使用
+        /// </summary>
+        /// <param name="netId"></param>
+        /// <param name="port"></param>
+        /// <returns></returns>
+        public static bool Connection(string netId, int port)
         {
             lock (clientLock)
             {
@@ -56,20 +62,14 @@ namespace AFLA_001
                 try
                 {
                     client = new AdsClient();
-                    string? netId = Environment.GetEnvironmentVariable("PLC_AMS_NET_ID");
-                    int port = int.TryParse(Environment.GetEnvironmentVariable("PLC_ADS_PORT"), out int configuredPort)
-                        ? configuredPort : DefaultPort;
-                    if (string.IsNullOrWhiteSpace(netId))
-                        client.Connect(port);
-                    else
-                        client.Connect(netId, port);
+                    client.Connect(netId, port);
                     ads = client;
                     return true;
                 }
                 // 初始化中途失敗時，清理已建立的 handle 和連線。
                 catch (Exception ex)
                 {
-                    Loghelper.Error($"無法連線 PLC ADS：{ex.Message}");
+                    Loghelper.Error($"無法連線 PLC ADS：{ex.ToString()}");
                     if (client != null)
                     {
                         try
@@ -78,7 +78,7 @@ namespace AFLA_001
                         }
                         catch (Exception cleanupError)
                         {
-                            Loghelper.Error($"無法釋放 ADS 資源：{cleanupError.Message}");
+                            Loghelper.Error($"無法釋放 ADS 資源：{cleanupError.ToString()}");
                         }
                     }
                     return false;
@@ -173,8 +173,18 @@ namespace AFLA_001
             LatestMotionStates = states;
             LatestWr = wr;
         }
-
-
+        /// <summary>
+        /// 兩個int組成double
+        /// </summary>
+        /// <param name="lowWord"></param>
+        /// <param name="highWord"></param>
+        /// <returns></returns>
+        public static double WrIntToDouble(short lowWord, short highWord)
+        {
+            //lowWord & 0xFFFF 避免蓋掉高位元的
+            int bits = (lowWord & 0xFFFF) | ((highWord ) << 16);
+            return BitConverter.Int32BitsToSingle(bits);
+        }
 
         /// <summary>
         /// 依 Index 找到「PC寫入」點位，每次按下都送出 TRUE。

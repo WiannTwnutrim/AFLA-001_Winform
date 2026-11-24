@@ -28,7 +28,7 @@
             Task? wrPolling = null;
             form.Shown += async (_, _) =>
             {
-                Task<bool> connection = Task.Run(AdsService.Connection);
+                Task<bool> connection = Task.Run(() => AdsService.Connection("199.4.42.250.1.1", 851));
 
                 wrPolling = Task.Run(async () =>
                 {
