@@ -31,7 +31,6 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             alarmData = new DataGridView();
-            alarmtestbtn = new Button();
             alaemResetbtn = new Button();
             button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)alarmData).BeginInit();
@@ -55,16 +54,6 @@
             alarmData.Size = new Size(1048, 407);
             alarmData.TabIndex = 0;
             // 
-            // alarmtestbtn
-            // 
-            alarmtestbtn.Location = new Point(1103, 101);
-            alarmtestbtn.Name = "alarmtestbtn";
-            alarmtestbtn.Size = new Size(90, 35);
-            alarmtestbtn.TabIndex = 1;
-            alarmtestbtn.Text = "觸發警告測試";
-            alarmtestbtn.UseVisualStyleBackColor = true;
-            alarmtestbtn.Click += alarmtestbtn_Click;
-            // 
             // alaemResetbtn
             // 
             alaemResetbtn.Location = new Point(1103, 161);
@@ -73,7 +62,6 @@
             alaemResetbtn.TabIndex = 2;
             alaemResetbtn.Text = "重置";
             alaemResetbtn.UseVisualStyleBackColor = true;
-            alaemResetbtn.Click += alaemResetbtn_Click;
             // 
             // button1
             // 
@@ -93,7 +81,6 @@
             ClientSize = new Size(1251, 413);
             Controls.Add(button1);
             Controls.Add(alaemResetbtn);
-            Controls.Add(alarmtestbtn);
             Controls.Add(alarmData);
             FormBorderStyle = FormBorderStyle.None;
             Name = "AlarmForm";
@@ -105,7 +92,6 @@
         #endregion
 
         private DataGridView alarmData;
-        private Button alarmtestbtn;
         private Button alaemResetbtn;
         private Button button1;
     }

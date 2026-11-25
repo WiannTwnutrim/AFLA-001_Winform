@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AFLA_001
 {
     public class ExcelHelper
     {
+        
+
         public bool TryLoadActionCommands(string path, out List<Motion> result, out string error)
         {
             result = new List<Motion>();
@@ -86,21 +89,6 @@ namespace AFLA_001
                     string ioname = field[1].Trim();
                     int index = Convert.ToInt32(field[3].Trim());// 取index
 
-
-                    //int start = plcpoint.IndexOf('[');
-                    //int end = plcpoint.IndexOf(']');
-                    
-                    ////Substring取值,index從0開始(起始位置,取幾個)
-                    //if (start < 0 || end <= start ||
-                    //    !int.TryParse(
-                    //        plcpoint.Substring(start + 1, end - start - 1),
-                    //        out int index))
-                    //{
-                    //    error = $"IO CSV 第 {line} 列的綁定格式錯誤：{plcpoint}";
-                    //    return false;
-
-                    //}
-
                     // 建立 IOModel 物件
                     if (ionumber.StartsWith("DI"))
                     {
@@ -142,6 +130,39 @@ namespace AFLA_001
                 result.Clear();
                 error = ex.Message;
                 return false;
+            }
+        }
+
+        public Dictionary<int, string> AlarmMessages { get; private set; }
+            = new Dictionary<int, string>();
+        public void LoadAlarm(string path)
+        {
+            try
+            {
+                using var parser = new TextFieldParser(path);
+                parser.SetDelimiters(",");//透過,分割
+                var header = parser.ReadFields();
+                if (header == null || header.Length < 2)
+                {
+                    Loghelper.Error("Alarm CSV 缺少表頭或欄位不足。");
+                    return;
+                }
+                var messages = new Dictionary<int, string>();
+
+                while (!parser.EndOfData)//只要沒有更多資料可讀取
+                {
+                    long line = parser.LineNumber;
+                    var field = parser.ReadFields();
+                    string alarmname = field[1].Trim();
+                    int index = Convert.ToInt32(field[0].Trim());// 取index
+                    messages.Add(index, alarmname);//把每輪取的加入字典
+                }
+                AlarmMessages = messages;
+
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"載入alarm表錯誤{ex.ToString()}");
             }
         }
 

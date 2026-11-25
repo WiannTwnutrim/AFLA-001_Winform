@@ -16,6 +16,7 @@ namespace AFLA_001
     public partial class AlarmForm : Form
     {
         private Sqllite _db = new Sqllite();
+        ExcelHelper hp = new ExcelHelper();
         public AlarmForm()
         {
             InitializeComponent();
@@ -44,42 +45,26 @@ namespace AFLA_001
             DataTable data = _db.LoadAlarm();
             return data;
         }
-        private void alarmtestbtn_Click(object sender, EventArgs e)
+
+
+        private void alarmResult()
         {
-            try
+            int num = 0;
+            bool[] alarm = AdsService.ReadAlarm();
+            
+            foreach(bool value in alarm)
             {
-                if (_db.TriggerAlarm())
+                //TryGetValue:bool 查看csv內是否有此index
+                if (value && hp.AlarmMessages.TryGetValue(num,out var alarmname))
                 {
-                    loadAlarm();
+                    _db.AddAlarm(alarmname);
+                    int index =num;
                 }
-                else
-                {
-                    MessageBox.Show("新增失敗");
-                }
-
+                num++;
             }
-            catch
-            {
-                MessageBox.Show("新增失敗");
-            }
-
-
+            
+            
         }
-
-        private void alaemResetbtn_Click(object sender, EventArgs e)
-        {
-            if (_db.ResetAlarm())
-            {
-                _db.AddNoError();
-                loadAlarm();
-                MessageBox.Show("Reset成功");
-            }
-            else
-            {
-                MessageBox.Show("Reset失敗");
-            }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             Export.ExportCSV(alarmData, "Alarm");

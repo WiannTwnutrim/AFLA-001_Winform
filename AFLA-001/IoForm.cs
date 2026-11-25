@@ -35,7 +35,7 @@ namespace AFLA_001
             {
                 //AppContext.BaseDirectory:E\ALFA-Winform\AFLA-001\bin\Debug\net8.0-windows內:與exe同位置
                 //@"..\..\..\ (@是逐字字串讓反斜線 \ 不會被當成跳脫字元)
-                //往上三層在E:\AFLA-001_Winform\AFLA-001
+                //若往上三層在E:\AFLA-001_Winform\AFLA-001
                 string path = Path.Combine(AppContext.BaseDirectory, "IO_test.csv");
                 ExcelHelper excel = new ExcelHelper();
                 if (!excel.TryLoadIO(path, out var loadedIo, out var error))
@@ -66,13 +66,18 @@ namespace AFLA_001
         {
             if (light.Tag is not IOModel model)
                 return;
-
-            var wrBits = AdsService.LatestWrBits;
-            if (wrBits == null || model.Index < 0 || model.Index >= wrBits.Length)
-                return;
-
-            model.PLCStatus = wrBits[model.Index][3];
-            light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
+            try
+            {
+                var wrBits = AdsService.LatestWrBits;
+                if (wrBits == null || model.Index < 0 || model.Index >= wrBits.Length)
+                    return;
+                model.PLCStatus = wrBits[model.Index][3];
+                light.LightColor = model.PLCStatus ? Color.LimeGreen : Color.DimGray;
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"更新 IO {model.IOnumber}（WR[{model.Index}].3）失敗：{ex}");
+            }
         }
         /// <summary>
         /// 設定單顆io資訊
@@ -113,34 +118,34 @@ namespace AFLA_001
         }
         private async void IOControl_Click(object? sender, EventArgs e)
         {
-        //    if (sender is not IndicatorLightControl light)
-        //        return;
+            //    if (sender is not IndicatorLightControl light)
+            //        return;
 
-        //    if (light.Tag is not IOModel model)
-        //        return;
-        //    if (string.IsNullOrEmpty(model.Variable))
-        //        return;
+            //    if (light.Tag is not IOModel model)
+            //        return;
+            //    if (string.IsNullOrEmpty(model.Variable))
+            //        return;
 
-        //    if (writing)
-        //        return;
+            //    if (writing)
+            //        return;
 
-        //    writing = true;
-        //    try
-        //    {
-        //        MessageBox.Show(this, model.Variable);
-        //        int index = model.Index;
-        //        bool value = !model.PLCStatus;
-        //        if (await Task.Run(() => AdsService.Write(index, value)) && !IsDisposed)
-        //            UpdateIO(light);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Loghelper.Error(ex.ToString());
-        //    }
-        //    finally
-        //    {
-        //        writing = false;
-        //    }
+            //    writing = true;
+            //    try
+            //    {
+            //        MessageBox.Show(this, model.Variable);
+            //        int index = model.Index;
+            //        bool value = !model.PLCStatus;
+            //        if (await Task.Run(() => AdsService.Write(index, value)) && !IsDisposed)
+            //            UpdateIO(light);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Loghelper.Error(ex.ToString());
+            //    }
+            //    finally
+            //    {
+            //        writing = false;
+            //    }
         }
 
         private async void iotimer_Tick(object sender, EventArgs e)

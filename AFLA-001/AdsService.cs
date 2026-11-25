@@ -15,7 +15,7 @@ namespace AFLA_001
         private static Dictionary<int, string> actionWriteLabels = new();
         private static AdsClient? ads;
         // 整組 GVL.EC 共用一個 handle，其有效期與目前的 ADS 連線相同。
-        private static uint  wrHandle, ecHandle;
+        private static uint  wrHandle, ecHandle,errHandle;
 
         // 保存最近一次讀回的 DI、DO 值，長度需符合 PLC 宣告。
         public static bool[] DI { get; private set; } = new bool[24];
@@ -217,7 +217,7 @@ namespace AFLA_001
         }
 
         /// <summary>
-        /// 先讀一次 WR，再等下一個 100 ms 的時間點，然後繼續讀
+        /// 先讀一次 WR, 100 ms 的時間點，然後繼續讀
         /// </summary>
         /// <returns></returns>
         public static async Task PollWrAsync()
@@ -234,7 +234,16 @@ namespace AFLA_001
                 {
                     Loghelper.Error($"WR 讀取失敗：{ex.ToString()}");
                 }
-
+                try
+                {
+                    bool[] alarmStates = ReadAlarm();
+                    // 用 Alarm 表對應 alarmStates 的索引和訊息。
+                    // 第一次讀到 true，或從 false 變成 true 時，記錄訊息與時間。
+                }
+                catch (Exception ex)
+                {
+                    Loghelper.Error($"Alarm 讀取失敗：{ex}");
+                }
                 await timer.WaitForNextTickAsync();
             }
         }
@@ -285,6 +294,24 @@ namespace AFLA_001
             }
         }
 
+        /// <summary>
+        /// 讀回alarm
+        /// </summary>
+        /// <returns></returns>
+        public static bool[] ReadAlarm()
+        {
+            lock (clientLock)
+            {
+                var client = ads;
+
+
+                if (wrHandle == 0)
+                    wrHandle = client.CreateVariableHandle("GVL.Err");
+
+                return (bool[])client.ReadAny(
+                    wrHandle, typeof(bool[]), new[] { WrLength });
+            }
+        }
 
         // 程式結束時釋放本次連線的 ADS 資源。
         public static void Shutdown()
