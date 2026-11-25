@@ -15,7 +15,7 @@ namespace AFLA_001
         private static Dictionary<int, string> actionWriteLabels = new();
         private static AdsClient? ads;
         // 整組 GVL.EC 共用一個 handle，其有效期與目前的 ADS 連線相同。
-        private static uint diHandle, doHandle, wrHandle, ecHandle;
+        private static uint  wrHandle, ecHandle;
 
         // 保存最近一次讀回的 DI、DO 值，長度需符合 PLC 宣告。
         public static bool[] DI { get; private set; } = new bool[24];
@@ -272,7 +272,7 @@ namespace AFLA_001
 
 
         // Manual 依 CSV Index 取得寫入符號。寫入目標是 PLC 參數符號，EC 畫面值來自啟動時的快照。
-        internal static void WriteManualValue(ECclass point, int value)
+        internal static void WriteManualValue(ECclass point, double value)
         {
             lock (clientLock)
             {
@@ -288,54 +288,6 @@ namespace AFLA_001
             }
         }
 
-        // 讀回 DI、DO 陣列供 I/O 畫面使用。
-        public static bool Read()
-        {
-            lock (clientLock)
-            {
-                var client = ads;
-                if (client == null)
-                    return false;
-
-                if (diHandle == 0)
-                    diHandle = client.CreateVariableHandle("GVL_IO.DI");
-                if (doHandle == 0)
-                    doHandle = client.CreateVariableHandle("GVL_IO.DOO");
-
-                DI = (bool[])client.ReadAny(diHandle, typeof(bool[]), new[] { DI.Length });
-                DO = (bool[])client.ReadAny(doHandle, typeof(bool[]), new[] { DO.Length });
-                return true;
-            }
-        }
-
-        // 先讀整組 DO，修改指定元素後再整組寫回。
-        public static bool Write(int index, bool value)
-        {
-            lock (clientLock)
-            {
-                if (index < 0 || index >= DO.Length)
-                {
-                    Loghelper.Error($"DO 索引超出範圍：{index}");
-                    return false;
-                }
-
-                var client = ads;
-                if (client == null)
-                {
-                    Loghelper.Error("無法寫入 DO：請先初始化 ADS 連線。");
-                    return false;
-                }
-
-                if (doHandle == 0)
-                    doHandle = client.CreateVariableHandle("GVL_IO.DOO");
-
-                var outputs = (bool[])client.ReadAny(doHandle, typeof(bool[]), new[] { DO.Length });
-                outputs[index] = value;
-                client.WriteAny(doHandle, outputs);
-                DO = outputs;
-                return true;
-            }
-        }
 
         // 程式結束時釋放本次連線的 ADS 資源。
         public static void Shutdown()
@@ -358,14 +310,12 @@ namespace AFLA_001
                 // 先釋放 EC 的 PLC handle，再關閉 ADS 連線。
                 if (ecHandle != 0) client.TryDeleteVariableHandle(ecHandle);
                 if (wrHandle != 0) client.TryDeleteVariableHandle(wrHandle);
-                if (doHandle != 0) client.TryDeleteVariableHandle(doHandle);
-                if (diHandle != 0) client.TryDeleteVariableHandle(diHandle);
             }
             finally
             {
                 // 下次連線須重新取得 EC handle
                 //釋放handle
-                diHandle = doHandle = wrHandle = ecHandle = 0;
+                wrHandle = ecHandle = 0;
                 client.Dispose();
             }
         }

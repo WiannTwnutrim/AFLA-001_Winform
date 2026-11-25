@@ -39,7 +39,6 @@ namespace AFLA_001
             Homebtn = new Button();
             Iobtn = new Button();
             Userbtn = new Button();
-            Logbtn = new Button();
             Eventbtn = new Button();
             Alarmbtn = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -65,38 +64,37 @@ namespace AFLA_001
             // 
             MainPage.Location = new Point(1, 125);
             MainPage.Name = "MainPage";
-            MainPage.Size = new Size(1267, 452);
+            MainPage.Size = new Size(1267, 462);
             MainPage.TabIndex = 1;
             // 
             // panel2
             // 
             panel2.Controls.Add(tableLayoutPanel1);
-            panel2.Location = new Point(3, 580);
+            panel2.Location = new Point(3, 590);
             panel2.Name = "panel2";
             panel2.Size = new Size(1262, 100);
             panel2.TabIndex = 2;
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.ColumnCount = 10;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.ColumnCount = 9;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Controls.Add(Historybtn, 4, 0);
-            tableLayoutPanel1.Controls.Add(Languagebtn, 9, 0);
+            tableLayoutPanel1.Controls.Add(Languagebtn, 8, 0);
             tableLayoutPanel1.Controls.Add(Manualbtn, 2, 0);
             tableLayoutPanel1.Controls.Add(Recipebtn, 1, 0);
             tableLayoutPanel1.Controls.Add(Homebtn, 0, 0);
-            tableLayoutPanel1.Controls.Add(Iobtn, 8, 0);
-            tableLayoutPanel1.Controls.Add(Userbtn, 7, 0);
-            tableLayoutPanel1.Controls.Add(Logbtn, 6, 0);
+            tableLayoutPanel1.Controls.Add(Iobtn, 7, 0);
+            tableLayoutPanel1.Controls.Add(Userbtn, 6, 0);
             tableLayoutPanel1.Controls.Add(Eventbtn, 5, 0);
             tableLayoutPanel1.Controls.Add(Alarmbtn, 3, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
@@ -111,9 +109,10 @@ namespace AFLA_001
             // 
             Historybtn.BackColor = SystemColors.ActiveCaption;
             Historybtn.Dock = DockStyle.Fill;
-            Historybtn.Location = new Point(507, 3);
+            Historybtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            Historybtn.Location = new Point(563, 3);
             Historybtn.Name = "Historybtn";
-            Historybtn.Size = new Size(120, 94);
+            Historybtn.Size = new Size(134, 94);
             Historybtn.TabIndex = 9;
             Historybtn.Text = "HISTORY";
             Historybtn.UseVisualStyleBackColor = false;
@@ -123,9 +122,10 @@ namespace AFLA_001
             // 
             Languagebtn.BackColor = SystemColors.ActiveCaption;
             Languagebtn.Dock = DockStyle.Fill;
-            Languagebtn.Location = new Point(1137, 3);
+            Languagebtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            Languagebtn.Location = new Point(1123, 3);
             Languagebtn.Name = "Languagebtn";
-            Languagebtn.Size = new Size(122, 94);
+            Languagebtn.Size = new Size(136, 94);
             Languagebtn.TabIndex = 8;
             Languagebtn.Text = "Language";
             Languagebtn.UseVisualStyleBackColor = false;
@@ -135,9 +135,10 @@ namespace AFLA_001
             // 
             Manualbtn.BackColor = SystemColors.ActiveCaption;
             Manualbtn.Dock = DockStyle.Fill;
-            Manualbtn.Location = new Point(255, 3);
+            Manualbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            Manualbtn.Location = new Point(283, 3);
             Manualbtn.Name = "Manualbtn";
-            Manualbtn.Size = new Size(120, 94);
+            Manualbtn.Size = new Size(134, 94);
             Manualbtn.TabIndex = 2;
             Manualbtn.Text = "MANUAL";
             Manualbtn.UseVisualStyleBackColor = false;
@@ -147,9 +148,10 @@ namespace AFLA_001
             // 
             Recipebtn.BackColor = SystemColors.ActiveCaption;
             Recipebtn.Dock = DockStyle.Fill;
-            Recipebtn.Location = new Point(129, 3);
+            Recipebtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            Recipebtn.Location = new Point(143, 3);
             Recipebtn.Name = "Recipebtn";
-            Recipebtn.Size = new Size(120, 94);
+            Recipebtn.Size = new Size(134, 94);
             Recipebtn.TabIndex = 1;
             Recipebtn.Text = "RECIPE";
             Recipebtn.UseVisualStyleBackColor = false;
@@ -159,9 +161,10 @@ namespace AFLA_001
             // 
             Homebtn.BackColor = SystemColors.ActiveCaption;
             Homebtn.Dock = DockStyle.Fill;
+            Homebtn.Font = new Font("Microsoft JhengHei UI", 16F);
             Homebtn.Location = new Point(3, 3);
             Homebtn.Name = "Homebtn";
-            Homebtn.Size = new Size(120, 94);
+            Homebtn.Size = new Size(134, 94);
             Homebtn.TabIndex = 0;
             Homebtn.Text = "HOME";
             Homebtn.UseVisualStyleBackColor = false;
@@ -171,9 +174,10 @@ namespace AFLA_001
             // 
             Iobtn.BackColor = SystemColors.ActiveCaption;
             Iobtn.Dock = DockStyle.Fill;
-            Iobtn.Location = new Point(1011, 3);
+            Iobtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            Iobtn.Location = new Point(983, 3);
             Iobtn.Name = "Iobtn";
-            Iobtn.Size = new Size(120, 94);
+            Iobtn.Size = new Size(134, 94);
             Iobtn.TabIndex = 7;
             Iobtn.Text = "IO";
             Iobtn.UseVisualStyleBackColor = false;
@@ -183,33 +187,23 @@ namespace AFLA_001
             // 
             Userbtn.BackColor = SystemColors.ActiveCaption;
             Userbtn.Dock = DockStyle.Fill;
-            Userbtn.Location = new Point(885, 3);
+            Userbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            Userbtn.Location = new Point(843, 3);
             Userbtn.Name = "Userbtn";
-            Userbtn.Size = new Size(120, 94);
+            Userbtn.Size = new Size(134, 94);
             Userbtn.TabIndex = 6;
             Userbtn.Text = "USER";
             Userbtn.UseVisualStyleBackColor = false;
             Userbtn.Click += Userbtn_Click;
             // 
-            // Logbtn
-            // 
-            Logbtn.BackColor = SystemColors.ActiveCaption;
-            Logbtn.Dock = DockStyle.Fill;
-            Logbtn.Location = new Point(759, 3);
-            Logbtn.Name = "Logbtn";
-            Logbtn.Size = new Size(120, 94);
-            Logbtn.TabIndex = 5;
-            Logbtn.Text = "LOG";
-            Logbtn.UseVisualStyleBackColor = false;
-            Logbtn.Click += Logbtn_Click;
-            // 
             // Eventbtn
             // 
             Eventbtn.BackColor = SystemColors.ActiveCaption;
             Eventbtn.Dock = DockStyle.Fill;
-            Eventbtn.Location = new Point(633, 3);
+            Eventbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            Eventbtn.Location = new Point(703, 3);
             Eventbtn.Name = "Eventbtn";
-            Eventbtn.Size = new Size(120, 94);
+            Eventbtn.Size = new Size(134, 94);
             Eventbtn.TabIndex = 4;
             Eventbtn.Text = "EVENT";
             Eventbtn.UseVisualStyleBackColor = false;
@@ -219,9 +213,10 @@ namespace AFLA_001
             // 
             Alarmbtn.BackColor = SystemColors.ActiveCaption;
             Alarmbtn.Dock = DockStyle.Fill;
-            Alarmbtn.Location = new Point(381, 3);
+            Alarmbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            Alarmbtn.Location = new Point(423, 3);
             Alarmbtn.Name = "Alarmbtn";
-            Alarmbtn.Size = new Size(120, 94);
+            Alarmbtn.Size = new Size(134, 94);
             Alarmbtn.TabIndex = 3;
             Alarmbtn.Text = "ALARM";
             Alarmbtn.UseVisualStyleBackColor = false;
@@ -393,10 +388,8 @@ namespace AFLA_001
         private Panel MainPage;
         private Panel panel2;
         private TableLayoutPanel tableLayoutPanel1;
-        private Button Languagebtn;
         private Button Iobtn;
         private Button Userbtn;
-        private Button Logbtn;
         private Button Eventbtn;
         private Button Alarmbtn;
         private Button Manualbtn;
@@ -416,5 +409,6 @@ namespace AFLA_001
         private TickerPanel alarmpanel;
         private System.Windows.Forms.Timer ticker;
         private TickerPanel eventpanel;
+        private Button Languagebtn;
     }
 }
