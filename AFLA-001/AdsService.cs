@@ -15,7 +15,7 @@ namespace AFLA_001
         private static Dictionary<int, string> actionWriteLabels = new();
         private static AdsClient? ads;
         // 整組 GVL.EC 共用一個 handle，其有效期與目前的 ADS 連線相同。
-        private static uint diHandle, doHandle, wrHandle, ecHandle;
+        private static uint  wrHandle, ecHandle,errHandle;
 
         // 保存最近一次讀回的 DI、DO 值，長度需符合 PLC 宣告。
         public static bool[] DI { get; private set; } = new bool[24];
@@ -90,13 +90,12 @@ namespace AFLA_001
         /// 整組讀取 WR。PLC INT 對應 C# short
         /// </summary>
         /// <returns></returns>
-        public static short[]? ReadAction(string label)
+        public static short[] ReadAction(string label)
         {
             lock (clientLock)
             {
                 var client = ads;
-                if (client == null)
-                    return null;
+  
 
                 if (wrHandle == 0)
                     wrHandle = client.CreateVariableHandle(label);
@@ -129,16 +128,17 @@ namespace AFLA_001
         /// <summary>
         /// 讀到後要拆成 16 個 bit 的 bool 陣列
         /// </summary>
-        /// <param name="wr"></param>
-        /// <param name="motionStates"></param>
+        /// <param name="wr">讀回的整個wr</param>
+        /// <param name="motionStates">wr[750]以前的</param>
         /// <returns></returns>
         private static bool[][] SplitWrBits(short[] wr, bool[] motionStates)
         {
+            //建立外層陣列,每個 WR 元素各占一格
             var bits = new bool[wr.Length][];
 
             for (int i = 0; i < wr.Length; i++)
             {
-                //幫這一筆 WR 建立 16 格，分別放 .0 到 .15
+                
                 bits[i] = new bool[16];
 
                 for (int bit = 0; bit < 16; bit++)
@@ -151,11 +151,8 @@ namespace AFLA_001
                         bits[i][bit] = (wr[i] & (1 << bit)) != 0;
                 }
             }
-
             return bits;
         }
-
-
 
         /// <summary>
         /// 讀一次 PLC，把最新的 WR 資料存起來
@@ -220,7 +217,7 @@ namespace AFLA_001
         }
 
         /// <summary>
-        /// 先讀一次 WR，再等下一個 100 ms 的時間點，然後繼續讀
+        /// 先讀一次 WR, 100 ms 的時間點，然後繼續讀
         /// </summary>
         /// <returns></returns>
         public static async Task PollWrAsync()
@@ -235,9 +232,18 @@ namespace AFLA_001
                 }
                 catch (Exception ex)
                 {
-                    Loghelper.Error($"WR 讀取失敗：{ex.Message}");
+                    Loghelper.Error($"WR 讀取失敗：{ex.ToString()}");
                 }
-
+                try
+                {
+                    bool[] alarmStates = ReadAlarm();
+                    // 用 Alarm 表對應 alarmStates 的索引和訊息。
+                    // 第一次讀到 true，或從 false 變成 true 時，記錄訊息與時間。
+                }
+                catch (Exception ex)
+                {
+                    Loghelper.Error($"Alarm 讀取失敗：{ex}");
+                }
                 await timer.WaitForNextTickAsync();
             }
         }
@@ -272,7 +278,7 @@ namespace AFLA_001
 
 
         // Manual 依 CSV Index 取得寫入符號。寫入目標是 PLC 參數符號，EC 畫面值來自啟動時的快照。
-        internal static void WriteManualValue(ECclass point, int value)
+        internal static void WriteManualValue(ECclass point, double value)
         {
             lock (clientLock)
             {
@@ -288,52 +294,22 @@ namespace AFLA_001
             }
         }
 
-        // 讀回 DI、DO 陣列供 I/O 畫面使用。
-        public static bool Read()
+        /// <summary>
+        /// 讀回alarm
+        /// </summary>
+        /// <returns></returns>
+        public static bool[] ReadAlarm()
         {
             lock (clientLock)
             {
                 var client = ads;
-                if (client == null)
-                    return false;
 
-                if (diHandle == 0)
-                    diHandle = client.CreateVariableHandle("GVL_IO.DI");
-                if (doHandle == 0)
-                    doHandle = client.CreateVariableHandle("GVL_IO.DOO");
 
-                DI = (bool[])client.ReadAny(diHandle, typeof(bool[]), new[] { DI.Length });
-                DO = (bool[])client.ReadAny(doHandle, typeof(bool[]), new[] { DO.Length });
-                return true;
-            }
-        }
+                if (wrHandle == 0)
+                    wrHandle = client.CreateVariableHandle("GVL.Err");
 
-        // 先讀整組 DO，修改指定元素後再整組寫回。
-        public static bool Write(int index, bool value)
-        {
-            lock (clientLock)
-            {
-                if (index < 0 || index >= DO.Length)
-                {
-                    Loghelper.Error($"DO 索引超出範圍：{index}");
-                    return false;
-                }
-
-                var client = ads;
-                if (client == null)
-                {
-                    Loghelper.Error("無法寫入 DO：請先初始化 ADS 連線。");
-                    return false;
-                }
-
-                if (doHandle == 0)
-                    doHandle = client.CreateVariableHandle("GVL_IO.DOO");
-
-                var outputs = (bool[])client.ReadAny(doHandle, typeof(bool[]), new[] { DO.Length });
-                outputs[index] = value;
-                client.WriteAny(doHandle, outputs);
-                DO = outputs;
-                return true;
+                return (bool[])client.ReadAny(
+                    wrHandle, typeof(bool[]), new[] { WrLength });
             }
         }
 
@@ -358,14 +334,12 @@ namespace AFLA_001
                 // 先釋放 EC 的 PLC handle，再關閉 ADS 連線。
                 if (ecHandle != 0) client.TryDeleteVariableHandle(ecHandle);
                 if (wrHandle != 0) client.TryDeleteVariableHandle(wrHandle);
-                if (doHandle != 0) client.TryDeleteVariableHandle(doHandle);
-                if (diHandle != 0) client.TryDeleteVariableHandle(diHandle);
             }
             finally
             {
                 // 下次連線須重新取得 EC handle
                 //釋放handle
-                diHandle = doHandle = wrHandle = ecHandle = 0;
+                wrHandle = ecHandle = 0;
                 client.Dispose();
             }
         }

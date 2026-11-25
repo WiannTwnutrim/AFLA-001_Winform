@@ -12,19 +12,25 @@ namespace AFLA_001
 {
     public partial class ManualValueForm : Form
     {
-        private int upNum,downNum;//外部上下限取值傳入
-        public int _intput { get; private set; }
-        public ManualValueForm(int uplimit,int downlimit)
+        private double upNum,downNum, arm1rotatevalue;//外部上下限取值傳入
+        public double _intput { get; private set; }
+        public ManualValueForm(double uplimit, double downlimit,double? Arm1rotatevalue)
         {
             InitializeComponent();
             upNum = uplimit;
             downNum = downlimit;
+            Manualvaluetxt.Text = Arm1rotatevalue?.ToString();
         }
 
         private void checkManulvaluebtn_Click(object sender, EventArgs e)
         {
             bool inputnull = string.IsNullOrEmpty(Manualvaluetxt.Text);
-            bool numcheck = int.TryParse(Manualvaluetxt.Text, out int value);
+            bool numcheck = double.TryParse(Manualvaluetxt.Text, out double value);
+
+            //if ()
+            //{
+
+            //}
             if (inputnull||!numcheck)
             {
                 MessageBox.Show("請輸入數字");
@@ -38,7 +44,6 @@ namespace AFLA_001
             }
             _intput = value;
             DialogResult = DialogResult.OK;
-
         }
     }
 }

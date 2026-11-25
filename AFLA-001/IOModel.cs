@@ -14,8 +14,6 @@ namespace AFLA_001
 
         public bool PLCStatus { get; set; } = false;
 
-        public string PlcPonit { get; set; }
-
         public string? Variable { get; set; }
 
         public int Index { get; set; }

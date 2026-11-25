@@ -36,7 +36,6 @@ namespace AFLA_001
             Userbtn.Tag = new LanguageManger("使用者", "User");
             Languagebtn.Tag = new LanguageManger("中文", "Language");
             Historybtn.Tag = new LanguageManger("歷史", Historybtn.Text);
-            Logbtn.Tag = new LanguageManger("紀錄", Logbtn.Text);
             Iobtn.Tag = new LanguageManger("接點", Iobtn.Text);
             Alarmbtn.Tag = new LanguageManger("警告", Alarmbtn.Text);
             Eventbtn.Tag = new LanguageManger("事件", Eventbtn.Text);
@@ -198,7 +197,6 @@ namespace AFLA_001
             SetButton(Alarmbtn);
             SetButton(Homebtn);
             SetButton(Iobtn);
-            SetButton(Logbtn);
             SetButton(Eventbtn);
             SetButton(Manualbtn);
         }

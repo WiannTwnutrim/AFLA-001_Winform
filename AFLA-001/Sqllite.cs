@@ -464,12 +464,12 @@ namespace AFLA_001
         /// 警告觸發
         /// </summary>
         /// <returns></returns>
-        public bool TriggerAlarm()
+        public bool AddAlarm(string alarmname)
         {
             DateTime now = DateTime.Now;
             string date = now.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
             string time = now.ToString("HH:mm:ss");
-            string alarmEvent = "觸發警告測試";
+            string alarmEvent = alarmname;
             try
             {
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
@@ -501,35 +501,35 @@ namespace AFLA_001
         /// 重置警告
         /// </summary>
         /// <returns></returns>
-        public bool ResetAlarm()
-        {
-            string alarmEvent = "觸發警告測試";
-            try
-            {
-                using (SqliteConnection conn = new SqliteConnection(connectionString))
-                {
-                    conn.Open();
-                    string updatesql = "Update Alarm Set IsActive=0 Where Alarm = @alarmEvent AND IsActive=1";
+        //public bool ResetAlarm()
+        //{
+        //    string alarmEvent = "觸發警告測試";
+        //    try
+        //    {
+        //        using (SqliteConnection conn = new SqliteConnection(connectionString))
+        //        {
+        //            conn.Open();
+        //            string updatesql = "Update Alarm Set IsActive=0 Where Alarm = @alarmEvent AND IsActive=1";
 
-                    using (SqliteCommand command = new SqliteCommand(updatesql, conn))
-                    {
+        //            using (SqliteCommand command = new SqliteCommand(updatesql, conn))
+        //            {
 
-                        command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
-                        if (command.ExecuteNonQuery() < 1)
-                        {
-                            Loghelper.Error("重置警告失敗");
-                            return false;
-                        }
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Loghelper.Error($"錯誤：{ex.ToString()}");
-                return false;
-            }
-        }
+        //                command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
+        //                if (command.ExecuteNonQuery() < 1)
+        //                {
+        //                    Loghelper.Error("重置警告失敗");
+        //                    return false;
+        //                }
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Loghelper.Error($"錯誤：{ex.ToString()}");
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
         /// 當警告IsActive為0時觸發NoError

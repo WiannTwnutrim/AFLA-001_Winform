@@ -9,7 +9,6 @@ namespace AFLA_001
         private static readonly string ManualDataPath =
             Path.Combine(AppContext.BaseDirectory, "manual for winform.csv");
 
-        private const string CsvValueColumn = "OriginalCsvValue";
         private double[]? ecValues;
         //標記「目前正在處理一次數值編輯」的 bool。
         //開啟輸入視窗前會設成 true，使用者輸入、確認後等待 PLC 寫入的期間，也會保持 true
@@ -71,8 +70,8 @@ namespace AFLA_001
                     }
                 }
 
-                // 另外加一個欄位保存 CSV 的初始值。之後畫面上的 Value 被 PLC 數值覆蓋時，仍可用它還原。
-                table.Columns.Add(CsvValueColumn);
+                //// 另外加一個欄位保存 CSV 的初始值。之後畫面上的 Value 被 PLC 數值覆蓋時，仍可用它還原。
+                //table.Columns.Add(CsvValueColumn);
                 // 建立整數集合，記住這次載入時已經看過哪些 EC Index，供檢查重複。
                 var indices = new HashSet<int>();
 
@@ -94,6 +93,8 @@ namespace AFLA_001
 
                     // 將每個欄位值依順序放進表格的新資料列，並用 row 代表這一列。
                     DataRow row = table.Rows.Add(fields);
+
+                    //預設讀取,沒有讀ec時使用
                     // 用欄名 Value 讀取這列的值。DataRow 取出的資料型別是 object，這裡轉成字串。
                     string csvValue = (string)row["Value"];
                     // 檢查 Value 是否為 null、空字串或只有空白字元。
@@ -105,8 +106,6 @@ namespace AFLA_001
                         row["Value"] = csvValue;
                     }
 
-                    // 保存 CSV 讀到的值，空白已轉成 0。此欄之後會隱藏。
-                    row[CsvValueColumn] = csvValue;
 
                     // 取出 Index 欄位的文字，並用 Trim 去掉前後空白。
                     string indexText = ((string)row["Index"]).Trim();
@@ -140,7 +139,12 @@ namespace AFLA_001
                 // 把資料表綁定到畫面上的 manualdata，畫面就能顯示剛讀到的欄位和資料列。
                 manualdata.DataSource = table;
                 // 隱藏備用值欄位。程式仍可從 DataTable 讀取它。
-                manualdata.Columns[CsvValueColumn].Visible = false;
+                foreach (string name in new[] { "Index", "PC 寫變數", "PC讀" })
+                {
+                    if (manualdata.Columns[name] is DataGridViewColumn column)
+                        column.Visible = false;
+                }
+                
                 // 關閉全表自動調整欄寬，讓下方的固定欄寬設定生效。
                 manualdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
                 // 依 CSV 中的欄名 Difinition 尋找畫面欄位。找到時，is 會把欄位物件存進 definition。
@@ -153,14 +157,10 @@ namespace AFLA_001
                     // 欄名是 Value 時，!= 的結果為 false，因此此欄可編輯。其他欄位都設為唯讀。
                     column.ReadOnly = column.Name != "Value";
 
-                // 更新畫面上的數值。有 PLC 快照時依 Index 取 EC 的值，沒有快照時用保存的 CSV 值。
-                // ApplyValues 也會更新畫面上對應的 Chuck 轉速與 Cup Lift 文字框。
-                ApplyValues();
+                ApplyEcValues();
             }
-            // when 是例外篩選條件。這裡處理檔案讀取、權限、CSV 格式和欄名重複等例外。
             catch (Exception ex)
             {
-                // 將例外類型、訊息與呼叫堆疊寫進錯誤紀錄，方便追查問題。
                 LogManualLoadError(ex.ToString());
             }
         }
@@ -170,40 +170,42 @@ namespace AFLA_001
             Loghelper.Error($"無法載入手動資料{message}");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="values">是整組的值</param>
         internal void RefreshEcValues(double[]? values)
         {
             ecValues = values;
-            ApplyValues();
+            ApplyEcValues();
         }
 
-        // 把目前保存的 PLC EC 快照或 CSV 初始值套用到畫面。
-        private void ApplyValues()
+        private void ApplyEcValues()
         {
-            //正在編輯或寫入 PLC 時先等候，表格尚未綁定 DataTable 時也先離開。
-            if (editingValue || manualdata.DataSource is not DataTable table)
-
+            //DataSource is not DataTable table：EC 也可能先到，這時 Manual 的 CSV 還沒綁定
+            //ecValues is not double[] values 沒讀EC則讀CSV
+            if (IsDisposed || editingValue || ecValues is not double[] values ||
+                manualdata.DataSource is not DataTable table)
                 return;
-
-            // 沒有 PLC 快照時使用載入 CSV 時保存的原始值（空白已轉成 0）。
-            foreach (DataRow row in table.Rows)
+            try
             {
-                // 嘗試把 CSV 的 Index 文字轉成整數，成功時把值放進 index。! 讓下方的程式只在轉換失敗時執行。
-                if (!int.TryParse((string)row["Index"], out int index))
-                    // 例如 Index 留空時，跳過這一列並繼續處理下一列。
-                    continue;
+                foreach (DataRow row in table.Rows)
+                {
+                    if (!int.TryParse((string)row["Index"], out int index) ||
+                        index < 0 || index >= values.Length)
+                        continue;
 
-                // 用「條件 ? 值一 : 值二」選出這一列要顯示的文字。
-                string value = ecValues == null
-                    // 沒有 PLC 快照時，從隱藏欄位取出載入 CSV 時保存的值。
-                    ? (string)row[CsvValueColumn]
-                    // 有快照時，用 Index 取出 EC 陣列中的數字，再依目前的地區格式轉成文字。
-                    : ecValues[index].ToString(CultureInfo.CurrentCulture);
-                // 用 != 檢查原本顯示的文字與新值是否不同。
-                if ((string)row["Value"] != value)
-                    // 只有值不同才寫回 Value 欄，綁定的表格會顯示新值。
-                    row["Value"] = value;
+                    string value = values[index].ToString(CultureInfo.CurrentCulture);
+
+                    //只有新值和目前顯示的值不同時，才更新表格
+                    if ((string)row["Value"] != value)
+                        row["Value"] = value;
+                }
             }
-
+            catch (Exception ex)
+            {
+                LogManualLoadError(ex.ToString());
+            }
 
         }
 
@@ -229,8 +231,8 @@ namespace AFLA_001
             double Arm2Rotate = AdsService.WrIntToDouble(wr[880], wr[881]) / 1000;
             double Arm1Lift = AdsService.WrIntToDouble(wr[870], wr[871]) / 1000;
             double Arm2Lift = AdsService.WrIntToDouble(wr[890], wr[891]) / 1000;
-            double Chuckrpm = AdsService.WrIntToDouble(wr[910], wr[911]) / 1000;
-            double cuplift = AdsService.WrIntToDouble(wr[920], wr[921]) / 10;
+            double cuplift = AdsService.WrIntToDouble(wr[910], wr[911]) / 1000;
+            double Chuckrpm = AdsService.WrIntToDouble(wr[920], wr[921]) / 10;//rpm /10
             var valuesByTextBox = new Dictionary<TextBox, double>
             {
                 [Arm1Rotatetxt] = Arm1Rotate,
@@ -270,7 +272,6 @@ namespace AFLA_001
             jogbtn.Visible = show;
             spinbtn.Visible = show;
             powerbtn.Visible = show;
-
         }
 
         private async void manualdata_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -284,12 +285,13 @@ namespace AFLA_001
             }
 
             DataRow row = rowView.Row;
+            //取寫入的變數名稱
             string symbol = ((string)row["PC 寫變數"]).Trim();
             if (string.IsNullOrWhiteSpace(symbol))
                 return;
 
-            int max = int.TryParse((string)row["Max"], out int upperLimit) ? upperLimit : int.MaxValue;
-            int min = int.TryParse((string)row["Min"], out int lowerLimit) ? lowerLimit : int.MinValue;
+            double max = Convert.ToDouble(row["Max"].ToString());
+            double min = Convert.ToDouble(row["Min"].ToString());
 
             var point = new ECclass
             {
@@ -297,34 +299,34 @@ namespace AFLA_001
                 WriteEC = symbol,
                 ReadEC = row.Table.Columns.Contains("PC讀") ? ((string)row["PC讀"]).Trim() : ""
             };
-
+            double? arm1value = null;
+            if ((row["Module"].ToString()).Contains("Arm1 Rotate") && 
+                (row["Difinition"].ToString()).Contains("Position") && double.TryParse(Arm1Rotatetxt.Text,out double value))
+            {
+                arm1value = value;
+            }
             editingValue = true;
             try
             {
                 // 等表格完成取消編輯，再開啟輸入視窗。
                 await Task.Yield();
-                if (IsDisposed)
-                    return;
 
-                using var form = new ManualValueForm(max, min);
+                using var form = new ManualValueForm(max, min, arm1value);
                 if (form.ShowDialog(this) == DialogResult.OK)
                 {
-                    int value = form._intput;
-                    await Task.Run(() => AdsService.WriteManualValue(point, value));
+                    double result = form._intput;
+                    await Task.Run(() => AdsService.WriteManualValue(point, result));
                 }
             }
             catch (Exception ex)
             {
                 Loghelper.Error($"無法寫入 Manual Index {index}（{symbol}）：{ex.Message}");
-                if (!IsDisposed)
-                    MessageBox.Show(this, $"無法寫入 PLC 變數 {symbol}。\n{ex.Message}",
-                        "寫入失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+              
             }
             finally
             {
                 editingValue = false;
-                if (!IsDisposed)
-                    ApplyValues();
+                ApplyEcValues();
             }
         }
     }

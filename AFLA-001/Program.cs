@@ -8,11 +8,14 @@
             ApplicationConfiguration.Initialize();
             //debug資料夾下
             string commandCsvPath = Path.Combine(AppContext.BaseDirectory, "ActionCommands.csv");
+            string alarmpath = Path.Combine(AppContext.BaseDirectory, "Alarm.csv");
+
+            ExcelHelper helper = new ExcelHelper();
             if (File.Exists(commandCsvPath))
             {
                 try
                 {
-                    if (new ExcelHelper().TryLoadActionCommands(commandCsvPath, out var motions, out var error))
+                    if (helper.TryLoadActionCommands(commandCsvPath, out var motions, out var error))
                         AdsService.ConfigureActionWrites(motions);
                     else
                         Loghelper.Error($"無法載入動作點位：{error}");
@@ -22,8 +25,18 @@
                     Loghelper.Error($"無法載入動作點位：{ex.ToString()}");
                 }
             }
-
-            using var form = new Form1();
+            if (File.Exists(alarmpath))
+            {
+                try
+                {
+                    helper.LoadAlarm(alarmpath);
+                }
+                catch (Exception ex)
+                {
+                    Loghelper.Error($"沒有載入警告的csv：{ex.ToString()}");
+                }
+            }
+                using var form = new Form1();
             Task<double[]?>? startupRead = null;
             Task? wrPolling = null;
             form.Shown += async (_, _) =>

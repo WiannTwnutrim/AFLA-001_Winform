@@ -110,6 +110,14 @@ namespace AFLA_001
             textBox6 = new TextBox();
             sizetxt = new TextBox();
             panel1 = new Panel();
+            nozzletxt = new TextBox();
+            armtxt = new TextBox();
+            label27 = new Label();
+            label26 = new Label();
+            textBox2 = new TextBox();
+            label25 = new Label();
+            totaltimetxt = new TextBox();
+            label24 = new Label();
             label23 = new Label();
             textBox8 = new TextBox();
             resetbtn = new Button();
@@ -130,10 +138,10 @@ namespace AFLA_001
             // 
             // initialbtn
             // 
-            initialbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            initialbtn.Location = new Point(13, 23);
+            initialbtn.Font = new Font("Microsoft JhengHei UI", 18F);
+            initialbtn.Location = new Point(13, 5);
             initialbtn.Name = "initialbtn";
-            initialbtn.Size = new Size(156, 35);
+            initialbtn.Size = new Size(156, 50);
             initialbtn.TabIndex = 5;
             initialbtn.Text = "INITIAL";
             initialbtn.UseVisualStyleBackColor = true;
@@ -142,10 +150,10 @@ namespace AFLA_001
             // button2
             // 
             button2.BackColor = Color.AliceBlue;
-            button2.Font = new Font("Microsoft JhengHei UI", 14F);
-            button2.Location = new Point(13, 79);
+            button2.Font = new Font("Microsoft JhengHei UI", 18F);
+            button2.Location = new Point(13, 60);
             button2.Name = "button2";
-            button2.Size = new Size(156, 35);
+            button2.Size = new Size(156, 50);
             button2.TabIndex = 6;
             button2.Text = "PROCESS";
             button2.UseVisualStyleBackColor = false;
@@ -154,10 +162,10 @@ namespace AFLA_001
             // buzzerbtn
             // 
             buzzerbtn.BackColor = Color.AliceBlue;
-            buzzerbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            buzzerbtn.Location = new Point(13, 135);
+            buzzerbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+            buzzerbtn.Location = new Point(13, 117);
             buzzerbtn.Name = "buzzerbtn";
-            buzzerbtn.Size = new Size(156, 35);
+            buzzerbtn.Size = new Size(156, 50);
             buzzerbtn.TabIndex = 7;
             buzzerbtn.Text = "BUZZER OFF";
             buzzerbtn.UseVisualStyleBackColor = false;
@@ -165,20 +173,20 @@ namespace AFLA_001
             // 
             // hepabtn
             // 
-            hepabtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            hepabtn.Location = new Point(13, 294);
+            hepabtn.Font = new Font("Microsoft JhengHei UI", 18F);
+            hepabtn.Location = new Point(13, 288);
             hepabtn.Name = "hepabtn";
-            hepabtn.Size = new Size(156, 35);
+            hepabtn.Size = new Size(156, 50);
             hepabtn.TabIndex = 9;
             hepabtn.Text = "HEPA";
             hepabtn.UseVisualStyleBackColor = true;
             // 
             // stopbtn
             // 
-            stopbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            stopbtn.Location = new Point(13, 242);
+            stopbtn.Font = new Font("Microsoft JhengHei UI", 18F);
+            stopbtn.Location = new Point(13, 233);
             stopbtn.Name = "stopbtn";
-            stopbtn.Size = new Size(156, 35);
+            stopbtn.Size = new Size(156, 50);
             stopbtn.TabIndex = 8;
             stopbtn.Text = "STOP";
             stopbtn.UseVisualStyleBackColor = true;
@@ -187,10 +195,10 @@ namespace AFLA_001
             // vaccumoffbtn
             // 
             vaccumoffbtn.BackColor = Color.AliceBlue;
-            vaccumoffbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            vaccumoffbtn.Location = new Point(12, 397);
+            vaccumoffbtn.Font = new Font("Microsoft JhengHei UI", 15F);
+            vaccumoffbtn.Location = new Point(12, 396);
             vaccumoffbtn.Name = "vaccumoffbtn";
-            vaccumoffbtn.Size = new Size(156, 35);
+            vaccumoffbtn.Size = new Size(156, 50);
             vaccumoffbtn.TabIndex = 11;
             vaccumoffbtn.Text = "VACCUM OFF";
             vaccumoffbtn.UseVisualStyleBackColor = false;
@@ -199,10 +207,10 @@ namespace AFLA_001
             // vaccumonbtn
             // 
             vaccumonbtn.BackColor = Color.AliceBlue;
-            vaccumonbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            vaccumonbtn.Location = new Point(13, 347);
+            vaccumonbtn.Font = new Font("Microsoft JhengHei UI", 15F);
+            vaccumonbtn.Location = new Point(13, 342);
             vaccumonbtn.Name = "vaccumonbtn";
-            vaccumonbtn.Size = new Size(156, 35);
+            vaccumonbtn.Size = new Size(156, 50);
             vaccumonbtn.TabIndex = 10;
             vaccumonbtn.Text = "VACCUM ON";
             vaccumonbtn.UseVisualStyleBackColor = false;
@@ -263,10 +271,11 @@ namespace AFLA_001
             // levelTankControl1
             // 
             levelTankControl1.Font = new Font("Copperplate Gothic Bold", 10F);
+            levelTankControl1.ForeColor = Color.White;
             levelTankControl1.LiquidColor = Color.Yellow;
-            levelTankControl1.Location = new Point(962, 218);
+            levelTankControl1.Location = new Point(958, 218);
             levelTankControl1.Name = "levelTankControl1";
-            levelTankControl1.Size = new Size(98, 107);
+            levelTankControl1.Size = new Size(106, 107);
             levelTankControl1.TabIndex = 50;
             // 
             // showair
@@ -620,10 +629,11 @@ namespace AFLA_001
             // ipatank
             // 
             ipatank.Font = new Font("Copperplate Gothic Bold", 10F);
+            ipatank.ForeColor = Color.White;
             ipatank.LiquidColor = Color.Aqua;
-            ipatank.Location = new Point(934, 21);
+            ipatank.Location = new Point(950, 21);
             ipatank.Name = "ipatank";
-            ipatank.Size = new Size(148, 107);
+            ipatank.Size = new Size(131, 107);
             ipatank.TabIndex = 103;
             // 
             // pipeipa3
@@ -818,7 +828,8 @@ namespace AFLA_001
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Microsoft JhengHei UI", 16F);
-            label16.Location = new Point(5, 411);
+            label16.ForeColor = Color.White;
+            label16.Location = new Point(5, 435);
             label16.Name = "label16";
             label16.Size = new Size(40, 28);
             label16.TabIndex = 123;
@@ -827,7 +838,7 @@ namespace AFLA_001
             // textBox1
             // 
             textBox1.Font = new Font("Microsoft JhengHei UI", 16F);
-            textBox1.Location = new Point(40, 410);
+            textBox1.Location = new Point(40, 432);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(284, 35);
             textBox1.TabIndex = 124;
@@ -836,7 +847,7 @@ namespace AFLA_001
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Microsoft JhengHei UI", 16F);
-            label17.Location = new Point(4, 73);
+            label17.Location = new Point(4, 7);
             label17.Name = "label17";
             label17.Size = new Size(62, 28);
             label17.TabIndex = 124;
@@ -846,7 +857,7 @@ namespace AFLA_001
             // 
             label18.AutoSize = true;
             label18.Font = new Font("Microsoft JhengHei UI", 16F);
-            label18.Location = new Point(4, 114);
+            label18.Location = new Point(4, 53);
             label18.Name = "label18";
             label18.Size = new Size(67, 28);
             label18.TabIndex = 125;
@@ -856,7 +867,7 @@ namespace AFLA_001
             // 
             label19.AutoSize = true;
             label19.Font = new Font("Microsoft JhengHei UI", 16F);
-            label19.Location = new Point(5, 156);
+            label19.Location = new Point(5, 102);
             label19.Name = "label19";
             label19.Size = new Size(65, 28);
             label19.TabIndex = 126;
@@ -866,7 +877,7 @@ namespace AFLA_001
             // 
             label20.AutoSize = true;
             label20.Font = new Font("Microsoft JhengHei UI", 16F);
-            label20.Location = new Point(3, 199);
+            label20.Location = new Point(3, 225);
             label20.Name = "label20";
             label20.Size = new Size(152, 28);
             label20.TabIndex = 127;
@@ -876,7 +887,7 @@ namespace AFLA_001
             // 
             label21.AutoSize = true;
             label21.Font = new Font("Microsoft JhengHei UI", 16F);
-            label21.Location = new Point(3, 239);
+            label21.Location = new Point(3, 263);
             label21.Name = "label21";
             label21.Size = new Size(152, 28);
             label21.TabIndex = 128;
@@ -886,7 +897,7 @@ namespace AFLA_001
             // 
             label22.AutoSize = true;
             label22.Font = new Font("Microsoft JhengHei UI", 16F);
-            label22.Location = new Point(4, 280);
+            label22.Location = new Point(4, 304);
             label22.Name = "label22";
             label22.Size = new Size(124, 28);
             label22.TabIndex = 129;
@@ -895,43 +906,43 @@ namespace AFLA_001
             // bsoiltxt
             // 
             bsoiltxt.Font = new Font("Microsoft JhengHei UI", 16F);
-            bsoiltxt.Location = new Point(158, 236);
+            bsoiltxt.Location = new Point(180, 260);
             bsoiltxt.Name = "bsoiltxt";
             bsoiltxt.ReadOnly = true;
-            bsoiltxt.Size = new Size(158, 35);
+            bsoiltxt.Size = new Size(136, 35);
             bsoiltxt.TabIndex = 130;
             // 
             // timetxt
             // 
             timetxt.Font = new Font("Microsoft JhengHei UI", 16F);
-            timetxt.Location = new Point(158, 277);
+            timetxt.Location = new Point(180, 301);
             timetxt.Name = "timetxt";
             timetxt.ReadOnly = true;
-            timetxt.Size = new Size(158, 35);
+            timetxt.Size = new Size(136, 35);
             timetxt.TabIndex = 131;
             // 
             // bsairtxt
             // 
             bsairtxt.Font = new Font("Microsoft JhengHei UI", 16F);
-            bsairtxt.Location = new Point(158, 195);
+            bsairtxt.Location = new Point(180, 221);
             bsairtxt.Name = "bsairtxt";
             bsairtxt.ReadOnly = true;
-            bsairtxt.Size = new Size(158, 35);
+            bsairtxt.Size = new Size(136, 35);
             bsairtxt.TabIndex = 132;
             // 
             // rpmtxt
             // 
             rpmtxt.Font = new Font("Microsoft JhengHei UI", 16F);
-            rpmtxt.Location = new Point(158, 154);
+            rpmtxt.Location = new Point(180, 95);
             rpmtxt.Name = "rpmtxt";
             rpmtxt.ReadOnly = true;
-            rpmtxt.Size = new Size(158, 35);
+            rpmtxt.Size = new Size(136, 35);
             rpmtxt.TabIndex = 133;
             // 
             // textBox6
             // 
             textBox6.Font = new Font("Microsoft JhengHei UI", 16F);
-            textBox6.Location = new Point(161, 113);
+            textBox6.Location = new Point(183, 52);
             textBox6.Name = "textBox6";
             textBox6.ReadOnly = true;
             textBox6.Size = new Size(31, 35);
@@ -941,15 +952,23 @@ namespace AFLA_001
             // sizetxt
             // 
             sizetxt.Font = new Font("Microsoft JhengHei UI", 16F);
-            sizetxt.Location = new Point(158, 70);
+            sizetxt.Location = new Point(180, 4);
             sizetxt.Name = "sizetxt";
             sizetxt.ReadOnly = true;
-            sizetxt.Size = new Size(158, 35);
+            sizetxt.Size = new Size(136, 35);
             sizetxt.TabIndex = 135;
             // 
             // panel1
             // 
             panel1.BackColor = Color.LightCyan;
+            panel1.Controls.Add(nozzletxt);
+            panel1.Controls.Add(armtxt);
+            panel1.Controls.Add(label27);
+            panel1.Controls.Add(label26);
+            panel1.Controls.Add(textBox2);
+            panel1.Controls.Add(label25);
+            panel1.Controls.Add(totaltimetxt);
+            panel1.Controls.Add(label24);
             panel1.Controls.Add(label23);
             panel1.Controls.Add(textBox8);
             panel1.Controls.Add(sizetxt);
@@ -964,16 +983,92 @@ namespace AFLA_001
             panel1.Controls.Add(label19);
             panel1.Controls.Add(label18);
             panel1.Controls.Add(label17);
-            panel1.Location = new Point(5, 12);
+            panel1.Location = new Point(5, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(319, 391);
+            panel1.Size = new Size(319, 421);
             panel1.TabIndex = 122;
+            // 
+            // nozzletxt
+            // 
+            nozzletxt.Font = new Font("Microsoft JhengHei UI", 16F);
+            nozzletxt.Location = new Point(180, 179);
+            nozzletxt.Name = "nozzletxt";
+            nozzletxt.ReadOnly = true;
+            nozzletxt.Size = new Size(136, 35);
+            nozzletxt.TabIndex = 145;
+            // 
+            // armtxt
+            // 
+            armtxt.Font = new Font("Microsoft JhengHei UI", 16F);
+            armtxt.Location = new Point(180, 137);
+            armtxt.Name = "armtxt";
+            armtxt.ReadOnly = true;
+            armtxt.Size = new Size(136, 35);
+            armtxt.TabIndex = 144;
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Font = new Font("Microsoft JhengHei UI", 16F);
+            label27.Location = new Point(4, 139);
+            label27.Name = "label27";
+            label27.Size = new Size(67, 28);
+            label27.TabIndex = 143;
+            label27.Text = "ARM:";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Font = new Font("Microsoft JhengHei UI", 16F);
+            label26.Location = new Point(3, 179);
+            label26.Name = "label26";
+            label26.Size = new Size(89, 28);
+            label26.TabIndex = 142;
+            label26.Text = "Nozzle:";
+            // 
+            // textBox2
+            // 
+            textBox2.Font = new Font("Microsoft JhengHei UI", 16F);
+            textBox2.Location = new Point(180, 384);
+            textBox2.Name = "textBox2";
+            textBox2.ReadOnly = true;
+            textBox2.Size = new Size(139, 35);
+            textBox2.TabIndex = 141;
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Font = new Font("Microsoft JhengHei UI", 16F);
+            label25.Location = new Point(3, 376);
+            label25.Name = "label25";
+            label25.Size = new Size(171, 28);
+            label25.TabIndex = 140;
+            label25.Text = "HEPA Time (hr):";
+            // 
+            // totaltimetxt
+            // 
+            totaltimetxt.Font = new Font("Microsoft JhengHei UI", 16F);
+            totaltimetxt.Location = new Point(180, 343);
+            totaltimetxt.Name = "totaltimetxt";
+            totaltimetxt.ReadOnly = true;
+            totaltimetxt.Size = new Size(139, 35);
+            totaltimetxt.TabIndex = 139;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Font = new Font("Microsoft JhengHei UI", 16F);
+            label24.Location = new Point(5, 338);
+            label24.Name = "label24";
+            label24.Size = new Size(142, 28);
+            label24.TabIndex = 138;
+            label24.Text = "TOTAL TIME:";
             // 
             // label23
             // 
             label23.AutoSize = true;
             label23.Font = new Font("Microsoft JhengHei UI", 16F);
-            label23.Location = new Point(227, 116);
+            label23.Location = new Point(234, 55);
             label23.Name = "label23";
             label23.Size = new Size(21, 28);
             label23.TabIndex = 137;
@@ -982,7 +1077,7 @@ namespace AFLA_001
             // textBox8
             // 
             textBox8.Font = new Font("Microsoft JhengHei UI", 16F);
-            textBox8.Location = new Point(285, 113);
+            textBox8.Location = new Point(285, 52);
             textBox8.Name = "textBox8";
             textBox8.ReadOnly = true;
             textBox8.Size = new Size(31, 35);
@@ -991,10 +1086,10 @@ namespace AFLA_001
             // 
             // resetbtn
             // 
-            resetbtn.Font = new Font("Microsoft JhengHei UI", 14F);
-            resetbtn.Location = new Point(13, 189);
+            resetbtn.Font = new Font("Microsoft JhengHei UI", 18F);
+            resetbtn.Location = new Point(13, 175);
             resetbtn.Name = "resetbtn";
-            resetbtn.Size = new Size(156, 35);
+            resetbtn.Size = new Size(156, 50);
             resetbtn.TabIndex = 125;
             resetbtn.Text = "RESET";
             resetbtn.UseVisualStyleBackColor = true;
@@ -1010,9 +1105,9 @@ namespace AFLA_001
             homebtnpanel.Controls.Add(hepabtn);
             homebtnpanel.Controls.Add(vaccumonbtn);
             homebtnpanel.Controls.Add(vaccumoffbtn);
-            homebtnpanel.Location = new Point(1084, 9);
+            homebtnpanel.Location = new Point(1084, 0);
             homebtnpanel.Name = "homebtnpanel";
-            homebtnpanel.Size = new Size(179, 440);
+            homebtnpanel.Size = new Size(179, 449);
             homebtnpanel.TabIndex = 126;
             // 
             // HomeForm
@@ -1020,7 +1115,7 @@ namespace AFLA_001
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkSlateGray;
-            ClientSize = new Size(1267, 452);
+            ClientSize = new Size(1267, 471);
             ControlBox = false;
             Controls.Add(homebtnpanel);
             Controls.Add(textBox1);
@@ -1191,6 +1286,14 @@ namespace AFLA_001
         private Label label23;
         private Button resetbtn;
         private Panel homebtnpanel;
+        private Label label26;
+        private TextBox textBox2;
+        private Label label25;
+        private TextBox totaltimetxt;
+        private Label label24;
+        private TextBox nozzletxt;
+        private TextBox armtxt;
+        private Label label27;
     }
 }
 
