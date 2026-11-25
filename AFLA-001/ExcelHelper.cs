@@ -63,62 +63,7 @@ namespace AFLA_001
                 return false;
             }
         }
-
-        public bool TryLoadEC(string path, out List<ECclass> result, out string error)
-        {
-            result = new List<ECclass>();
-            error = string.Empty;
-            try
-            {
-                using var parser = new TextFieldParser(path);
-                parser.SetDelimiters(",");
-
-                string[]? header = parser.ReadFields();
-                if (header == null || !header.SequenceEqual(
-                        new[] { "Index", "PC寫入", "PC讀取" }, StringComparer.OrdinalIgnoreCase))
-                {
-                    error = "功能 CSV 欄位須依序為 Index,PC寫入,PC讀取。";
-                    return false;
-                }
-
-                var ec = new List<ECclass>();
-                var indexes = new HashSet<int>();
-                while (!parser.EndOfData)
-                {
-                    long line = parser.LineNumber;
-                    string[]? fields = parser.ReadFields();
-                    if (fields == null || fields.Length != 3 ||
-                        !int.TryParse(fields[0], out int index) || index < 0 ||
-                        string.IsNullOrWhiteSpace(fields[1]))
-                    {
-                        error = $"功能 CSV 第 {line} 列的索引或命令點位無效。";
-                        return false;
-                    }
-
-                    if (!indexes.Add(index))
-                    {
-                        error = $"功能 CSV 第 {line} 列的 Index {index} 重複。";
-                        return false;
-                    }
-
-                    ec.Add(new ECclass
-                    {
-                        Index = index,
-                        WriteEC = fields[1].Trim(),
-                        ReadEC = fields[2].Trim()
-                    });
-                }
-
-                result = ec;
-                return true;
-            }
-            catch (Exception ex) when (IsCsvReadError(ex))
-            {
-                result.Clear();
-                error = ex.Message;
-                return false;
-            }
-        }
+       
 
         public bool TryLoadIO(string filePath, out List<IOModel> result, out string error)
         {
@@ -139,37 +84,36 @@ namespace AFLA_001
                     string ionumber = field[0].Trim();
                     if (string.IsNullOrEmpty(ionumber)) continue;
                     string ioname = field[1].Trim();
-                    string plcpoint = field[3].Trim();// plcpoint 例如 "DI[0]"、"DI[10]" 或 "DO[35]"
+                    int index = Convert.ToInt32(field[3].Trim());// 取index
 
 
-                    int start = plcpoint.IndexOf('[');
-                    int end = plcpoint.IndexOf(']');
+                    //int start = plcpoint.IndexOf('[');
+                    //int end = plcpoint.IndexOf(']');
+                    
+                    ////Substring取值,index從0開始(起始位置,取幾個)
+                    //if (start < 0 || end <= start ||
+                    //    !int.TryParse(
+                    //        plcpoint.Substring(start + 1, end - start - 1),
+                    //        out int index))
+                    //{
+                    //    error = $"IO CSV 第 {line} 列的綁定格式錯誤：{plcpoint}";
+                    //    return false;
 
-                    //Substring取值,index從0開始(起始位置,取幾個)
-                    if (start < 0 || end <= start ||
-                        !int.TryParse(
-                            plcpoint.Substring(start + 1, end - start - 1),
-                            out int index))
-                    {
-                        error = $"IO CSV 第 {line} 列的綁定格式錯誤：{plcpoint}";
-                        return false;
-
-                    }
+                    //}
 
                     // 建立 IOModel 物件
-                    if (plcpoint.StartsWith("DI"))
+                    if (ionumber.StartsWith("DI"))
                     {
                         IOModel DI = new IOModel
                         {
                             IOnumber = ionumber,
                             IOname = ioname,
-                            PlcPonit = plcpoint,
                             //IOname_English = worksheet.Cell(row, 3).GetString(),
                             Index = index //取出索引的值
                         };
                         ioList.Add(DI);
                     }
-                    else if (plcpoint.StartsWith("DO"))
+                    else if (ionumber.StartsWith("DO"))
                     {
                         if (field.Length < 5)
                         {
@@ -183,7 +127,6 @@ namespace AFLA_001
                         {
                             IOnumber = ionumber,
                             IOname = ioname,
-                            PlcPonit = plcpoint,
                             //IOname_English = worksheet.Cell(row, 3).GetString(),
                             Variable = dovariabe,
                             Index = index

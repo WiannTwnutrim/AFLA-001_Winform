@@ -90,13 +90,12 @@ namespace AFLA_001
         /// 整組讀取 WR。PLC INT 對應 C# short
         /// </summary>
         /// <returns></returns>
-        public static short[]? ReadAction(string label)
+        public static short[] ReadAction(string label)
         {
             lock (clientLock)
             {
                 var client = ads;
-                if (client == null)
-                    return null;
+  
 
                 if (wrHandle == 0)
                     wrHandle = client.CreateVariableHandle(label);
@@ -129,16 +128,17 @@ namespace AFLA_001
         /// <summary>
         /// 讀到後要拆成 16 個 bit 的 bool 陣列
         /// </summary>
-        /// <param name="wr"></param>
-        /// <param name="motionStates"></param>
+        /// <param name="wr">讀回的整個wr</param>
+        /// <param name="motionStates">wr[750]以前的</param>
         /// <returns></returns>
         private static bool[][] SplitWrBits(short[] wr, bool[] motionStates)
         {
+            //建立外層陣列,每個 WR 元素各占一格
             var bits = new bool[wr.Length][];
 
             for (int i = 0; i < wr.Length; i++)
             {
-                //幫這一筆 WR 建立 16 格，分別放 .0 到 .15
+                
                 bits[i] = new bool[16];
 
                 for (int bit = 0; bit < 16; bit++)
@@ -151,11 +151,8 @@ namespace AFLA_001
                         bits[i][bit] = (wr[i] & (1 << bit)) != 0;
                 }
             }
-
             return bits;
         }
-
-
 
         /// <summary>
         /// 讀一次 PLC，把最新的 WR 資料存起來
@@ -235,7 +232,7 @@ namespace AFLA_001
                 }
                 catch (Exception ex)
                 {
-                    Loghelper.Error($"WR 讀取失敗：{ex.Message}");
+                    Loghelper.Error($"WR 讀取失敗：{ex.ToString()}");
                 }
 
                 await timer.WaitForNextTickAsync();
