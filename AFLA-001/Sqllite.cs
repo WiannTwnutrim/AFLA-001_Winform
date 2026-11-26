@@ -441,7 +441,7 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "Select TriggerDate,TriggerTime,Alarm || '' AS Alarm From Alarm " +
+                    string sql = "Select TriggerDate,TriggerTime,Alarm || '' AS Alarm,RecoveryTime From Alarm " +
                         "Order By TriggerDate DESC,TriggerTime DESC LIMIT $limit ";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
@@ -461,7 +461,7 @@ namespace AFLA_001
             }
         }
         /// <summary>
-        /// 警告觸發
+        /// 新增警告
         /// </summary>
         /// <returns></returns>
         public bool AddAlarm(string alarmname)
@@ -497,13 +497,16 @@ namespace AFLA_001
         }
         public bool ResetAlarm(string alarmname)
         {
+            string time = DateTime.Now.ToString("HH:mm:ss");
             try
             {
                 using var conn = new SqliteConnection(connectionString);
                 conn.Open();
-                const string sql = "UPDATE Alarm SET IsActive = 0 WHERE Alarm = @alarmEvent AND IsActive = 1";
+                const string sql = "UPDATE Alarm SET IsActive = 0, RecoveryTime = @recoveryTime" +
+                    " WHERE Alarm = @alarmEvent AND IsActive = 1";
                 using var command = new SqliteCommand(sql, conn);
                 command.Parameters.AddWithValue("@alarmEvent", alarmname);
+                command.Parameters.AddWithValue("@recoveryTime", time);
                 command.ExecuteNonQuery();
                 return true;
             }
@@ -548,6 +551,46 @@ namespace AFLA_001
                 return;
             }
         }
+
+        /// <summary>
+        /// 警告搜尋
+        /// </summary>
+        /// <param name="startdate"></param>
+        /// <param name="enddate"></param>
+        /// <returns></returns>
+        public DataTable SearchAlarmData(string startdate, string enddate)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"Select TriggerDate,TriggerTime,Alarm || '' AS Alarm,RecoveryTime From Alarm
+                            Where TriggerDate BETWEEN @startdate AND @enddate Order BY TriggerDate DESC, TriggerTime DESC";
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+
+                    using (SqliteCommand command = new SqliteCommand(sql, conn))
+                    {
+                        command.Parameters.AddWithValue("@startdate", startdate);
+                        command.Parameters.AddWithValue("@enddate", enddate);
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            dt.Load(reader);
+                        }
+                    }
+                    return dt;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+                throw;
+            }
+        }
+
+
+
 
         /// <summary>
         /// 載入事件

@@ -1,3 +1,4 @@
+using DocumentFormat.OpenXml.Wordprocessing;
 using TwinCAT.Ads;
 
 namespace AFLA_001
@@ -23,6 +24,9 @@ namespace AFLA_001
 
         //volatile 關鍵字用於標示一個欄位（field）可能由多個同時執行的執行緒存取或修改
         public static volatile short[]? LatestWr;
+        /// <summary>
+        /// 750前.1的陣列
+        /// </summary>
         public static volatile bool[]? LatestMotionStates;
         //鋸齒狀陣列,一個陣列，裡面的每個元素又是一個陣列
         public static volatile bool[][]? LatestWrBits;
@@ -219,15 +223,16 @@ namespace AFLA_001
         /// <summary>
         /// 先讀一次 WR, 100 ms 的時間點，然後繼續讀
         /// </summary>
+        /// <param name="alarmMessages">PLC Alarm 位元索引,警報名稱的字典</param>
         /// <returns></returns>
-        internal static async Task PollWrAsync(IReadOnlyDictionary<int, string> alarmMessages)
+        internal static async Task PollWrAsync(Dictionary<int, string> alarmMessages)
         {
+            //	建立週期為 100 ms 的計時器，離開方法時會自動釋放。
             using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
 
             var db = new Sqllite();
-            var indicesByMessage = alarmMessages.ToLookup(alarm => alarm.Value, alarm => alarm.Key);
-            var savedAlarmStates = new Dictionary<string, bool>();
-
+            var savedAlarmStates = new Dictionary<string, bool>();//建立一筆快取
+            //wr輪巡後輪alarm
             while (!stopWrPolling)
             {
                 try
@@ -240,7 +245,7 @@ namespace AFLA_001
                 }
                 try
                 {
-                    if (indicesByMessage.Count > 0)
+                    if (alarmMessages.Count > 0)
                         AlarmResult(ReadAlarm());
                 }
                 catch (Exception ex)
@@ -254,13 +259,24 @@ namespace AFLA_001
             void AlarmResult(bool[] alarmStates)
             {
                 // 同名警報共用一筆啟用紀錄。
-                foreach (var indices in indicesByMessage)
+                foreach (var (index, message) in alarmMessages)
                 {
-                    string message = indices.Key;
-                    bool active = indices.Any(index => index >= 0 && index < alarmStates.Length && alarmStates[index]);
-                    if (savedAlarmStates.TryGetValue(message, out bool previous) && previous == active)
-                        continue;
+                    bool active = alarmStates[index];//這輪狀態
+                    //previous:上輪狀態,hasPrevious 表示上輪有沒有這個警報
+                    bool hasPrevious = savedAlarmStates.TryGetValue(message, out bool previous);
 
+                    //只記在快取，不執行 SQL。
+                    if (!hasPrevious && !active)
+                    {
+                        savedAlarmStates[message] = false;
+                        continue;
+                    }
+
+                    //之前有,但狀態一樣,跳過
+                    if (hasPrevious && previous == active)
+                        continue;
+                    //第一次讀到true,新增一筆
+                    //active == false 時執行 db.ResetAlarm(message)
                     bool saved = active ? db.AddAlarm(message) : db.ResetAlarm(message);
                     if (saved)
                         savedAlarmStates[message] = active;
@@ -329,6 +345,21 @@ namespace AFLA_001
 
                 return (bool[])client.ReadAny(
                     errHandle, typeof(bool[]), new[] { 601 });
+            }
+        }
+
+        public static void WriteIO(IOModel io,bool status)
+        {
+            lock (clientLock)
+            {
+                var client = ads;
+                if (client == null)
+                {
+                    Loghelper.Error($"無法寫入 io 點位 ：請先初始化 ADS 連線。");
+                    return;
+                }
+                client.WriteValue(io.Variable, status);
+
             }
         }
 

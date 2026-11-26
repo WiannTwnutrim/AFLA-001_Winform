@@ -132,7 +132,9 @@ namespace AFLA_001
                 return false;
             }
         }
-
+        /// <summary>
+        /// PLC Alarm 位元索引,警報名稱
+        /// </summary>
         public Dictionary<int, string> AlarmMessages { get; private set; }
             = new Dictionary<int, string>();
         public void LoadAlarm(string path)
