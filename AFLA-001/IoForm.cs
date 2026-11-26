@@ -16,7 +16,6 @@ namespace AFLA_001
     {
         private bool reading;
         private bool readFailed;
-        private bool writing;
         private List<IOModel> iolist = new List<IOModel>();
 
 
@@ -98,7 +97,11 @@ namespace AFLA_001
             iocontrol.ForeColor = Color.White;
             iocontrol.Tag = model;
             UpdateIO(iocontrol);
-            //iocontrol.Click += IOControl_Click;
+            if (iocontrol.IONumber.Contains("DO"))
+            {
+                iocontrol.Click += IOControl_Click;
+            }
+            
             return iocontrol;
         }
         /// <summary>
@@ -118,34 +121,24 @@ namespace AFLA_001
         }
         private async void IOControl_Click(object? sender, EventArgs e)
         {
-            //    if (sender is not IndicatorLightControl light)
-            //        return;
+            if (sender is not IndicatorLightControl light)
+                return;
 
-            //    if (light.Tag is not IOModel model)
-            //        return;
-            //    if (string.IsNullOrEmpty(model.Variable))
-            //        return;
-
-            //    if (writing)
-            //        return;
-
-            //    writing = true;
-            //    try
-            //    {
-            //        MessageBox.Show(this, model.Variable);
-            //        int index = model.Index;
-            //        bool value = !model.PLCStatus;
-            //        if (await Task.Run(() => AdsService.Write(index, value)) && !IsDisposed)
-            //            UpdateIO(light);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Loghelper.Error(ex.ToString());
-            //    }
-            //    finally
-            //    {
-            //        writing = false;
-            //    }
+            if (light.Tag is not IOModel model)
+                return;          
+            try
+            {
+                MessageBox.Show(this, model.Variable);
+                int index = model.Index;
+                bool value = !model.PLCStatus;
+                await Task.Run(() => AdsService.WriteIO(model, value));
+                    UpdateIO(light);
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+            }
+            
         }
 
         private async void iotimer_Tick(object sender, EventArgs e)

@@ -345,6 +345,21 @@ namespace AFLA_001
             }
         }
 
+        public static void WriteIO(IOModel io,bool status)
+        {
+            lock (clientLock)
+            {
+                var client = ads;
+                if (client == null)
+                {
+                    Loghelper.Error($"無法寫入 io 點位 ：請先初始化 ADS 連線。");
+                    return;
+                }
+                client.WriteValue(io.Variable, status);
+
+            }
+        }
+
         // 程式結束時釋放本次連線的 ADS 資源。
         public static void Shutdown()
         {
