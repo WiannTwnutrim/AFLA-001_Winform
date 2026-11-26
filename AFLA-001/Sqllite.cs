@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -483,10 +483,8 @@ namespace AFLA_001
                         command.Parameters.AddWithValue("@date", date);
                         command.Parameters.AddWithValue("@time", time);
                         command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
-                        if (command.ExecuteNonQuery() < 1)
-                        {
-                            return false;
-                        }
+                        // 零筆代表同名警報已啟用，資料庫狀態符合本輪讀值。
+                        command.ExecuteNonQuery();
                         return true;
                     }
                 }
@@ -497,39 +495,24 @@ namespace AFLA_001
                 return false;
             }
         }
-        /// <summary>
-        /// 重置警告
-        /// </summary>
-        /// <returns></returns>
-        //public bool ResetAlarm()
-        //{
-        //    string alarmEvent = "觸發警告測試";
-        //    try
-        //    {
-        //        using (SqliteConnection conn = new SqliteConnection(connectionString))
-        //        {
-        //            conn.Open();
-        //            string updatesql = "Update Alarm Set IsActive=0 Where Alarm = @alarmEvent AND IsActive=1";
-
-        //            using (SqliteCommand command = new SqliteCommand(updatesql, conn))
-        //            {
-
-        //                command.Parameters.AddWithValue("@alarmEvent", alarmEvent);
-        //                if (command.ExecuteNonQuery() < 1)
-        //                {
-        //                    Loghelper.Error("重置警告失敗");
-        //                    return false;
-        //                }
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Loghelper.Error($"錯誤：{ex.ToString()}");
-        //        return false;
-        //    }
-        //}
+        public bool ResetAlarm(string alarmname)
+        {
+            try
+            {
+                using var conn = new SqliteConnection(connectionString);
+                conn.Open();
+                const string sql = "UPDATE Alarm SET IsActive = 0 WHERE Alarm = @alarmEvent AND IsActive = 1";
+                using var command = new SqliteCommand(sql, conn);
+                command.Parameters.AddWithValue("@alarmEvent", alarmname);
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error($"解除警報失敗：{ex}");
+                return false;
+            }
+        }
 
         /// <summary>
         /// 當警告IsActive為0時觸發NoError

@@ -20,372 +20,372 @@ namespace AFLA_001
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+		#region Windows Form Designer generated code
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-            MainPage = new Panel();
-            panel2 = new Panel();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            Historybtn = new Button();
-            Languagebtn = new Button();
-            Manualbtn = new Button();
-            Recipebtn = new Button();
-            Homebtn = new Button();
-            Iobtn = new Button();
-            Userbtn = new Button();
-            Eventbtn = new Button();
-            Alarmbtn = new Button();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            eventpanel = new TickerPanel();
-            equipmentstatus = new TextBox();
-            nowtxt = new TextBox();
-            logintxt = new TextBox();
-            showrecipetxt = new TextBox();
-            alarmpanel = new TickerPanel();
-            nowtime = new System.Windows.Forms.Timer(components);
-            pictureBox1 = new PictureBox();
-            greenlight = new Label();
-            orangelight = new Label();
-            redlight = new Label();
-            ticker = new System.Windows.Forms.Timer(components);
-            panel2.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            SuspendLayout();
-            // 
-            // MainPage
-            // 
-            MainPage.Location = new Point(1, 125);
-            MainPage.Name = "MainPage";
-            MainPage.Size = new Size(1267, 462);
-            MainPage.TabIndex = 1;
-            // 
-            // panel2
-            // 
-            panel2.Controls.Add(tableLayoutPanel1);
-            panel2.Location = new Point(3, 590);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1262, 100);
-            panel2.TabIndex = 2;
-            // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 9;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Controls.Add(Historybtn, 4, 0);
-            tableLayoutPanel1.Controls.Add(Languagebtn, 8, 0);
-            tableLayoutPanel1.Controls.Add(Manualbtn, 2, 0);
-            tableLayoutPanel1.Controls.Add(Recipebtn, 1, 0);
-            tableLayoutPanel1.Controls.Add(Homebtn, 0, 0);
-            tableLayoutPanel1.Controls.Add(Iobtn, 7, 0);
-            tableLayoutPanel1.Controls.Add(Userbtn, 6, 0);
-            tableLayoutPanel1.Controls.Add(Eventbtn, 5, 0);
-            tableLayoutPanel1.Controls.Add(Alarmbtn, 3, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(1262, 100);
-            tableLayoutPanel1.TabIndex = 0;
-            // 
-            // Historybtn
-            // 
-            Historybtn.BackColor = SystemColors.ActiveCaption;
-            Historybtn.Dock = DockStyle.Fill;
-            Historybtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Historybtn.Location = new Point(563, 3);
-            Historybtn.Name = "Historybtn";
-            Historybtn.Size = new Size(134, 94);
-            Historybtn.TabIndex = 9;
-            Historybtn.Text = "HISTORY";
-            Historybtn.UseVisualStyleBackColor = false;
-            Historybtn.Click += Historybtn_Click;
-            // 
-            // Languagebtn
-            // 
-            Languagebtn.BackColor = SystemColors.ActiveCaption;
-            Languagebtn.Dock = DockStyle.Fill;
-            Languagebtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Languagebtn.Location = new Point(1123, 3);
-            Languagebtn.Name = "Languagebtn";
-            Languagebtn.Size = new Size(136, 94);
-            Languagebtn.TabIndex = 8;
-            Languagebtn.Text = "Language";
-            Languagebtn.UseVisualStyleBackColor = false;
-            Languagebtn.Click += Languagebtn_Click;
-            // 
-            // Manualbtn
-            // 
-            Manualbtn.BackColor = SystemColors.ActiveCaption;
-            Manualbtn.Dock = DockStyle.Fill;
-            Manualbtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Manualbtn.Location = new Point(283, 3);
-            Manualbtn.Name = "Manualbtn";
-            Manualbtn.Size = new Size(134, 94);
-            Manualbtn.TabIndex = 2;
-            Manualbtn.Text = "MANUAL";
-            Manualbtn.UseVisualStyleBackColor = false;
-            Manualbtn.Click += Manualbtn_Click;
-            // 
-            // Recipebtn
-            // 
-            Recipebtn.BackColor = SystemColors.ActiveCaption;
-            Recipebtn.Dock = DockStyle.Fill;
-            Recipebtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Recipebtn.Location = new Point(143, 3);
-            Recipebtn.Name = "Recipebtn";
-            Recipebtn.Size = new Size(134, 94);
-            Recipebtn.TabIndex = 1;
-            Recipebtn.Text = "RECIPE";
-            Recipebtn.UseVisualStyleBackColor = false;
-            Recipebtn.Click += Recipebtn_Click;
-            // 
-            // Homebtn
-            // 
-            Homebtn.BackColor = SystemColors.ActiveCaption;
-            Homebtn.Dock = DockStyle.Fill;
-            Homebtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Homebtn.Location = new Point(3, 3);
-            Homebtn.Name = "Homebtn";
-            Homebtn.Size = new Size(134, 94);
-            Homebtn.TabIndex = 0;
-            Homebtn.Text = "HOME";
-            Homebtn.UseVisualStyleBackColor = false;
-            Homebtn.Click += Homebtn_Click;
-            // 
-            // Iobtn
-            // 
-            Iobtn.BackColor = SystemColors.ActiveCaption;
-            Iobtn.Dock = DockStyle.Fill;
-            Iobtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Iobtn.Location = new Point(983, 3);
-            Iobtn.Name = "Iobtn";
-            Iobtn.Size = new Size(134, 94);
-            Iobtn.TabIndex = 7;
-            Iobtn.Text = "IO";
-            Iobtn.UseVisualStyleBackColor = false;
-            Iobtn.Click += Iobtn_Click;
-            // 
-            // Userbtn
-            // 
-            Userbtn.BackColor = SystemColors.ActiveCaption;
-            Userbtn.Dock = DockStyle.Fill;
-            Userbtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Userbtn.Location = new Point(843, 3);
-            Userbtn.Name = "Userbtn";
-            Userbtn.Size = new Size(134, 94);
-            Userbtn.TabIndex = 6;
-            Userbtn.Text = "USER";
-            Userbtn.UseVisualStyleBackColor = false;
-            Userbtn.Click += Userbtn_Click;
-            // 
-            // Eventbtn
-            // 
-            Eventbtn.BackColor = SystemColors.ActiveCaption;
-            Eventbtn.Dock = DockStyle.Fill;
-            Eventbtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Eventbtn.Location = new Point(703, 3);
-            Eventbtn.Name = "Eventbtn";
-            Eventbtn.Size = new Size(134, 94);
-            Eventbtn.TabIndex = 4;
-            Eventbtn.Text = "EVENT";
-            Eventbtn.UseVisualStyleBackColor = false;
-            Eventbtn.Click += Eventbtn_Click;
-            // 
-            // Alarmbtn
-            // 
-            Alarmbtn.BackColor = SystemColors.ActiveCaption;
-            Alarmbtn.Dock = DockStyle.Fill;
-            Alarmbtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            Alarmbtn.Location = new Point(423, 3);
-            Alarmbtn.Name = "Alarmbtn";
-            Alarmbtn.Size = new Size(134, 94);
-            Alarmbtn.TabIndex = 3;
-            Alarmbtn.Text = "ALARM";
-            Alarmbtn.UseVisualStyleBackColor = false;
-            Alarmbtn.Click += Alarmbtn_Click;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.BackColor = Color.LightCyan;
-            tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-            tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.27181F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.7281952F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 283F));
-            tableLayoutPanel2.Controls.Add(eventpanel, 1, 1);
-            tableLayoutPanel2.Controls.Add(equipmentstatus, 0, 1);
-            tableLayoutPanel2.Controls.Add(nowtxt, 0, 0);
-            tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
-            tableLayoutPanel2.Controls.Add(showrecipetxt, 2, 1);
-            tableLayoutPanel2.Controls.Add(alarmpanel, 1, 0);
-            tableLayoutPanel2.Location = new Point(104, 4);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 2;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 53F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 47F));
-            tableLayoutPanel2.Size = new Size(1084, 111);
-            tableLayoutPanel2.TabIndex = 3;
-            // 
-            // eventpanel
-            // 
-            eventpanel.Font = new Font("Microsoft JhengHei UI", 20F);
-            eventpanel.Location = new Point(286, 62);
-            eventpanel.Name = "eventpanel";
-            eventpanel.Size = new Size(508, 45);
-            eventpanel.TabIndex = 9;
-            // 
-            // equipmentstatus
-            // 
-            equipmentstatus.BackColor = Color.LightCyan;
-            equipmentstatus.BorderStyle = BorderStyle.None;
-            equipmentstatus.Dock = DockStyle.Fill;
-            equipmentstatus.Font = new Font("Microsoft JhengHei UI", 20F);
-            equipmentstatus.Location = new Point(4, 62);
-            equipmentstatus.Name = "equipmentstatus";
-            equipmentstatus.ReadOnly = true;
-            equipmentstatus.Size = new Size(275, 34);
-            equipmentstatus.TabIndex = 4;
-            equipmentstatus.Text = "Not Ready";
-            // 
-            // nowtxt
-            // 
-            nowtxt.BackColor = Color.LightCyan;
-            nowtxt.BorderStyle = BorderStyle.None;
-            nowtxt.Dock = DockStyle.Fill;
-            nowtxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            nowtxt.Location = new Point(7, 4);
-            nowtxt.Margin = new Padding(6, 3, 3, 3);
-            nowtxt.Name = "nowtxt";
-            nowtxt.ReadOnly = true;
-            nowtxt.Size = new Size(272, 34);
-            nowtxt.TabIndex = 2;
-            // 
-            // logintxt
-            // 
-            logintxt.BackColor = Color.LightCyan;
-            logintxt.BorderStyle = BorderStyle.None;
-            logintxt.Dock = DockStyle.Fill;
-            logintxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            logintxt.Location = new Point(802, 4);
-            logintxt.Name = "logintxt";
-            logintxt.ReadOnly = true;
-            logintxt.Size = new Size(278, 34);
-            logintxt.TabIndex = 0;
-            // 
-            // showrecipetxt
-            // 
-            showrecipetxt.BackColor = Color.LightCyan;
-            showrecipetxt.BorderStyle = BorderStyle.None;
-            showrecipetxt.Dock = DockStyle.Fill;
-            showrecipetxt.Font = new Font("Microsoft JhengHei UI", 20F);
-            showrecipetxt.Location = new Point(802, 62);
-            showrecipetxt.Name = "showrecipetxt";
-            showrecipetxt.ReadOnly = true;
-            showrecipetxt.Size = new Size(278, 34);
-            showrecipetxt.TabIndex = 1;
-            // 
-            // alarmpanel
-            // 
-            alarmpanel.Dock = DockStyle.Fill;
-            alarmpanel.Font = new Font("Microsoft JhengHei UI", 20F);
-            alarmpanel.Location = new Point(286, 4);
-            alarmpanel.Name = "alarmpanel";
-            alarmpanel.Size = new Size(509, 51);
-            alarmpanel.TabIndex = 0;
-            // 
-            // nowtime
-            // 
-            nowtime.Enabled = true;
-            nowtime.Interval = 1000;
-            nowtime.Tick += nowtime_Tick;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = Properties.Resources.company;
-            pictureBox1.Location = new Point(3, 4);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(96, 113);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 5;
-            pictureBox1.TabStop = false;
-            // 
-            // greenlight
-            // 
-            greenlight.BackColor = Color.Gray;
-            greenlight.Font = new Font("Microsoft JhengHei UI", 20F);
-            greenlight.Location = new Point(1194, 7);
-            greenlight.Name = "greenlight";
-            greenlight.Size = new Size(76, 30);
-            greenlight.TabIndex = 6;
-            // 
-            // orangelight
-            // 
-            orangelight.BackColor = Color.Gray;
-            orangelight.Font = new Font("Microsoft JhengHei UI", 20F);
-            orangelight.Location = new Point(1194, 46);
-            orangelight.Name = "orangelight";
-            orangelight.Size = new Size(76, 30);
-            orangelight.TabIndex = 7;
-            // 
-            // redlight
-            // 
-            redlight.BackColor = Color.Gray;
-            redlight.Font = new Font("Microsoft JhengHei UI", 20F);
-            redlight.Location = new Point(1194, 85);
-            redlight.Name = "redlight";
-            redlight.Size = new Size(76, 30);
-            redlight.TabIndex = 8;
-            // 
-            // ticker
-            // 
-            ticker.Interval = 33;
-            ticker.Tick += ticker_Tick;
-            // 
-            // Form1
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.DarkSlateGray;
-            ClientSize = new Size(1272, 691);
-            Controls.Add(tableLayoutPanel2);
-            Controls.Add(redlight);
-            Controls.Add(orangelight);
-            Controls.Add(greenlight);
-            Controls.Add(pictureBox1);
-            Controls.Add(panel2);
-            Controls.Add(MainPage);
-            Name = "Form1";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
-            Load += Form1_Load;
-            panel2.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ResumeLayout(false);
-        }
+		/// <summary>
+		///  Required method for Designer support - do not modify
+		///  the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			components = new System.ComponentModel.Container();
+			MainPage = new Panel();
+			panel2 = new Panel();
+			tableLayoutPanel1 = new TableLayoutPanel();
+			Historybtn = new Button();
+			Languagebtn = new Button();
+			Manualbtn = new Button();
+			Recipebtn = new Button();
+			Homebtn = new Button();
+			Iobtn = new Button();
+			Userbtn = new Button();
+			Eventbtn = new Button();
+			Alarmbtn = new Button();
+			tableLayoutPanel2 = new TableLayoutPanel();
+			eventpanel = new TickerPanel();
+			equipmentstatus = new TextBox();
+			nowtxt = new TextBox();
+			logintxt = new TextBox();
+			showrecipetxt = new TextBox();
+			alarmpanel = new TickerPanel();
+			nowtime = new System.Windows.Forms.Timer(components);
+			pictureBox1 = new PictureBox();
+			greenlight = new Label();
+			orangelight = new Label();
+			redlight = new Label();
+			ticker = new System.Windows.Forms.Timer(components);
+			panel2.SuspendLayout();
+			tableLayoutPanel1.SuspendLayout();
+			tableLayoutPanel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+			SuspendLayout();
+			// 
+			// MainPage
+			// 
+			MainPage.Location = new Point(1, 125);
+			MainPage.Name = "MainPage";
+			MainPage.Size = new Size(1267, 462);
+			MainPage.TabIndex = 1;
+			// 
+			// panel2
+			// 
+			panel2.Controls.Add(tableLayoutPanel1);
+			panel2.Location = new Point(3, 590);
+			panel2.Name = "panel2";
+			panel2.Size = new Size(1262, 100);
+			panel2.TabIndex = 2;
+			// 
+			// tableLayoutPanel1
+			// 
+			tableLayoutPanel1.ColumnCount = 9;
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+			tableLayoutPanel1.Controls.Add(Historybtn, 4, 0);
+			tableLayoutPanel1.Controls.Add(Languagebtn, 8, 0);
+			tableLayoutPanel1.Controls.Add(Manualbtn, 2, 0);
+			tableLayoutPanel1.Controls.Add(Recipebtn, 1, 0);
+			tableLayoutPanel1.Controls.Add(Homebtn, 0, 0);
+			tableLayoutPanel1.Controls.Add(Iobtn, 7, 0);
+			tableLayoutPanel1.Controls.Add(Userbtn, 6, 0);
+			tableLayoutPanel1.Controls.Add(Eventbtn, 5, 0);
+			tableLayoutPanel1.Controls.Add(Alarmbtn, 3, 0);
+			tableLayoutPanel1.Dock = DockStyle.Fill;
+			tableLayoutPanel1.Location = new Point(0, 0);
+			tableLayoutPanel1.Name = "tableLayoutPanel1";
+			tableLayoutPanel1.RowCount = 1;
+			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+			tableLayoutPanel1.Size = new Size(1262, 100);
+			tableLayoutPanel1.TabIndex = 0;
+			// 
+			// Historybtn
+			// 
+			Historybtn.BackColor = SystemColors.ActiveCaption;
+			Historybtn.Dock = DockStyle.Fill;
+			Historybtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Historybtn.Location = new Point(563, 3);
+			Historybtn.Name = "Historybtn";
+			Historybtn.Size = new Size(134, 94);
+			Historybtn.TabIndex = 9;
+			Historybtn.Text = "HISTORY";
+			Historybtn.UseVisualStyleBackColor = false;
+			Historybtn.Click += Historybtn_Click;
+			// 
+			// Languagebtn
+			// 
+			Languagebtn.BackColor = SystemColors.ActiveCaption;
+			Languagebtn.Dock = DockStyle.Fill;
+			Languagebtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Languagebtn.Location = new Point(1123, 3);
+			Languagebtn.Name = "Languagebtn";
+			Languagebtn.Size = new Size(136, 94);
+			Languagebtn.TabIndex = 8;
+			Languagebtn.Text = "Language";
+			Languagebtn.UseVisualStyleBackColor = false;
+			Languagebtn.Click += Languagebtn_Click;
+			// 
+			// Manualbtn
+			// 
+			Manualbtn.BackColor = SystemColors.ActiveCaption;
+			Manualbtn.Dock = DockStyle.Fill;
+			Manualbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Manualbtn.Location = new Point(283, 3);
+			Manualbtn.Name = "Manualbtn";
+			Manualbtn.Size = new Size(134, 94);
+			Manualbtn.TabIndex = 2;
+			Manualbtn.Text = "MANUAL";
+			Manualbtn.UseVisualStyleBackColor = false;
+			Manualbtn.Click += Manualbtn_Click;
+			// 
+			// Recipebtn
+			// 
+			Recipebtn.BackColor = SystemColors.ActiveCaption;
+			Recipebtn.Dock = DockStyle.Fill;
+			Recipebtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Recipebtn.Location = new Point(143, 3);
+			Recipebtn.Name = "Recipebtn";
+			Recipebtn.Size = new Size(134, 94);
+			Recipebtn.TabIndex = 1;
+			Recipebtn.Text = "RECIPE";
+			Recipebtn.UseVisualStyleBackColor = false;
+			Recipebtn.Click += Recipebtn_Click;
+			// 
+			// Homebtn
+			// 
+			Homebtn.BackColor = SystemColors.ActiveCaption;
+			Homebtn.Dock = DockStyle.Fill;
+			Homebtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Homebtn.Location = new Point(3, 3);
+			Homebtn.Name = "Homebtn";
+			Homebtn.Size = new Size(134, 94);
+			Homebtn.TabIndex = 0;
+			Homebtn.Text = "HOME";
+			Homebtn.UseVisualStyleBackColor = false;
+			Homebtn.Click += Homebtn_Click;
+			// 
+			// Iobtn
+			// 
+			Iobtn.BackColor = SystemColors.ActiveCaption;
+			Iobtn.Dock = DockStyle.Fill;
+			Iobtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Iobtn.Location = new Point(983, 3);
+			Iobtn.Name = "Iobtn";
+			Iobtn.Size = new Size(134, 94);
+			Iobtn.TabIndex = 7;
+			Iobtn.Text = "IO";
+			Iobtn.UseVisualStyleBackColor = false;
+			Iobtn.Click += Iobtn_Click;
+			// 
+			// Userbtn
+			// 
+			Userbtn.BackColor = SystemColors.ActiveCaption;
+			Userbtn.Dock = DockStyle.Fill;
+			Userbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Userbtn.Location = new Point(843, 3);
+			Userbtn.Name = "Userbtn";
+			Userbtn.Size = new Size(134, 94);
+			Userbtn.TabIndex = 6;
+			Userbtn.Text = "USER";
+			Userbtn.UseVisualStyleBackColor = false;
+			Userbtn.Click += Userbtn_Click;
+			// 
+			// Eventbtn
+			// 
+			Eventbtn.BackColor = SystemColors.ActiveCaption;
+			Eventbtn.Dock = DockStyle.Fill;
+			Eventbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Eventbtn.Location = new Point(703, 3);
+			Eventbtn.Name = "Eventbtn";
+			Eventbtn.Size = new Size(134, 94);
+			Eventbtn.TabIndex = 4;
+			Eventbtn.Text = "EVENT";
+			Eventbtn.UseVisualStyleBackColor = false;
+			Eventbtn.Click += Eventbtn_Click;
+			// 
+			// Alarmbtn
+			// 
+			Alarmbtn.BackColor = SystemColors.ActiveCaption;
+			Alarmbtn.Dock = DockStyle.Fill;
+			Alarmbtn.Font = new Font("Microsoft JhengHei UI", 16F);
+			Alarmbtn.Location = new Point(423, 3);
+			Alarmbtn.Name = "Alarmbtn";
+			Alarmbtn.Size = new Size(134, 94);
+			Alarmbtn.TabIndex = 3;
+			Alarmbtn.Text = "ALARM";
+			Alarmbtn.UseVisualStyleBackColor = false;
+			Alarmbtn.Click += Alarmbtn_Click;
+			// 
+			// tableLayoutPanel2
+			// 
+			tableLayoutPanel2.BackColor = Color.LightCyan;
+			tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+			tableLayoutPanel2.ColumnCount = 3;
+			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.27181F));
+			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.7281952F));
+			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 283F));
+			tableLayoutPanel2.Controls.Add(eventpanel, 1, 1);
+			tableLayoutPanel2.Controls.Add(equipmentstatus, 0, 1);
+			tableLayoutPanel2.Controls.Add(nowtxt, 0, 0);
+			tableLayoutPanel2.Controls.Add(logintxt, 2, 0);
+			tableLayoutPanel2.Controls.Add(showrecipetxt, 2, 1);
+			tableLayoutPanel2.Controls.Add(alarmpanel, 1, 0);
+			tableLayoutPanel2.Location = new Point(104, 4);
+			tableLayoutPanel2.Name = "tableLayoutPanel2";
+			tableLayoutPanel2.RowCount = 2;
+			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 53F));
+			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 47F));
+			tableLayoutPanel2.Size = new Size(1084, 111);
+			tableLayoutPanel2.TabIndex = 3;
+			// 
+			// eventpanel
+			// 
+			eventpanel.Font = new Font("Microsoft JhengHei UI", 20F);
+			eventpanel.Location = new Point(286, 62);
+			eventpanel.Name = "eventpanel";
+			eventpanel.Size = new Size(508, 45);
+			eventpanel.TabIndex = 9;
+			// 
+			// equipmentstatus
+			// 
+			equipmentstatus.BackColor = Color.LightCyan;
+			equipmentstatus.BorderStyle = BorderStyle.None;
+			equipmentstatus.Dock = DockStyle.Fill;
+			equipmentstatus.Font = new Font("Microsoft JhengHei UI", 20F);
+			equipmentstatus.Location = new Point(4, 62);
+			equipmentstatus.Name = "equipmentstatus";
+			equipmentstatus.ReadOnly = true;
+			equipmentstatus.Size = new Size(275, 34);
+			equipmentstatus.TabIndex = 4;
+			equipmentstatus.Text = "Not Ready";
+			// 
+			// nowtxt
+			// 
+			nowtxt.BackColor = Color.LightCyan;
+			nowtxt.BorderStyle = BorderStyle.None;
+			nowtxt.Dock = DockStyle.Fill;
+			nowtxt.Font = new Font("Microsoft JhengHei UI", 20F);
+			nowtxt.Location = new Point(7, 4);
+			nowtxt.Margin = new Padding(6, 3, 3, 3);
+			nowtxt.Name = "nowtxt";
+			nowtxt.ReadOnly = true;
+			nowtxt.Size = new Size(272, 34);
+			nowtxt.TabIndex = 2;
+			// 
+			// logintxt
+			// 
+			logintxt.BackColor = Color.LightCyan;
+			logintxt.BorderStyle = BorderStyle.None;
+			logintxt.Dock = DockStyle.Fill;
+			logintxt.Font = new Font("Microsoft JhengHei UI", 20F);
+			logintxt.Location = new Point(802, 4);
+			logintxt.Name = "logintxt";
+			logintxt.ReadOnly = true;
+			logintxt.Size = new Size(278, 34);
+			logintxt.TabIndex = 0;
+			// 
+			// showrecipetxt
+			// 
+			showrecipetxt.BackColor = Color.LightCyan;
+			showrecipetxt.BorderStyle = BorderStyle.None;
+			showrecipetxt.Dock = DockStyle.Fill;
+			showrecipetxt.Font = new Font("Microsoft JhengHei UI", 20F);
+			showrecipetxt.Location = new Point(802, 62);
+			showrecipetxt.Name = "showrecipetxt";
+			showrecipetxt.ReadOnly = true;
+			showrecipetxt.Size = new Size(278, 34);
+			showrecipetxt.TabIndex = 1;
+			// 
+			// alarmpanel
+			// 
+			alarmpanel.Dock = DockStyle.Fill;
+			alarmpanel.Font = new Font("Microsoft JhengHei UI", 20F);
+			alarmpanel.Location = new Point(286, 4);
+			alarmpanel.Name = "alarmpanel";
+			alarmpanel.Size = new Size(509, 51);
+			alarmpanel.TabIndex = 0;
+			// 
+			// nowtime
+			// 
+			nowtime.Enabled = true;
+			nowtime.Interval = 1000;
+			nowtime.Tick += nowtime_Tick;
+			// 
+			// pictureBox1
+			// 
+			pictureBox1.Image = Properties.Resources.company;
+			pictureBox1.Location = new Point(3, 4);
+			pictureBox1.Name = "pictureBox1";
+			pictureBox1.Size = new Size(96, 113);
+			pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+			pictureBox1.TabIndex = 5;
+			pictureBox1.TabStop = false;
+			// 
+			// greenlight
+			// 
+			greenlight.BackColor = Color.Gray;
+			greenlight.Font = new Font("Microsoft JhengHei UI", 20F);
+			greenlight.Location = new Point(1194, 7);
+			greenlight.Name = "greenlight";
+			greenlight.Size = new Size(76, 30);
+			greenlight.TabIndex = 6;
+			// 
+			// orangelight
+			// 
+			orangelight.BackColor = Color.Gray;
+			orangelight.Font = new Font("Microsoft JhengHei UI", 20F);
+			orangelight.Location = new Point(1194, 46);
+			orangelight.Name = "orangelight";
+			orangelight.Size = new Size(76, 30);
+			orangelight.TabIndex = 7;
+			// 
+			// redlight
+			// 
+			redlight.BackColor = Color.Gray;
+			redlight.Font = new Font("Microsoft JhengHei UI", 20F);
+			redlight.Location = new Point(1194, 85);
+			redlight.Name = "redlight";
+			redlight.Size = new Size(76, 30);
+			redlight.TabIndex = 8;
+			// 
+			// ticker
+			// 
+			ticker.Interval = 33;
+			ticker.Tick += ticker_Tick;
+			// 
+			// Form1
+			// 
+			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleMode = AutoScaleMode.Font;
+			BackColor = Color.DarkSlateGray;
+			ClientSize = new Size(1272, 691);
+			Controls.Add(tableLayoutPanel2);
+			Controls.Add(redlight);
+			Controls.Add(orangelight);
+			Controls.Add(greenlight);
+			Controls.Add(pictureBox1);
+			Controls.Add(panel2);
+			Controls.Add(MainPage);
+			Name = "Form1";
+			StartPosition = FormStartPosition.CenterScreen;
+			Text = "Form1";
+			Load += Form1_Load;
+			panel2.ResumeLayout(false);
+			tableLayoutPanel1.ResumeLayout(false);
+			tableLayoutPanel2.ResumeLayout(false);
+			tableLayoutPanel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+			ResumeLayout(false);
+		}
 
-        #endregion
-        private Panel MainPage;
+		#endregion
+		private Panel MainPage;
         private Panel panel2;
         private TableLayoutPanel tableLayoutPanel1;
         private Button Iobtn;

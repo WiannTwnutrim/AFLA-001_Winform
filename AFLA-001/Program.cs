@@ -1,4 +1,4 @@
-﻿namespace AFLA_001
+namespace AFLA_001
 {
     internal static class Program
     {
@@ -46,7 +46,7 @@
                 wrPolling = Task.Run(async () =>
                 {
                     if (await connection)
-                        await AdsService.PollWrAsync();
+                        await AdsService.PollWrAsync(helper.AlarmMessages);
                 });
 
                 startupRead = Task.Run<double[]?>(async () =>

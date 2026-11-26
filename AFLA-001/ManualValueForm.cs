@@ -14,23 +14,19 @@ namespace AFLA_001
     {
         private double upNum,downNum, arm1rotatevalue;//外部上下限取值傳入
         public double _intput { get; private set; }
-        public ManualValueForm(double uplimit, double downlimit,double? Arm1rotatevalue)
-        {
-            InitializeComponent();
+        public ManualValueForm(double uplimit, double downlimit,double? defaultvaule)
+        { 
+			InitializeComponent();
             upNum = uplimit;
             downNum = downlimit;
-            Manualvaluetxt.Text = Arm1rotatevalue?.ToString();
-        }
+            Manualvaluetxt.Text = defaultvaule?.ToString();
+		}
 
         private void checkManulvaluebtn_Click(object sender, EventArgs e)
         {
             bool inputnull = string.IsNullOrEmpty(Manualvaluetxt.Text);
             bool numcheck = double.TryParse(Manualvaluetxt.Text, out double value);
 
-            //if ()
-            //{
-
-            //}
             if (inputnull||!numcheck)
             {
                 MessageBox.Show("請輸入數字");

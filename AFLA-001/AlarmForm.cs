@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +16,6 @@ namespace AFLA_001
     public partial class AlarmForm : Form
     {
         private Sqllite _db = new Sqllite();
-        ExcelHelper hp = new ExcelHelper();
         public AlarmForm()
         {
             InitializeComponent();
@@ -47,24 +46,7 @@ namespace AFLA_001
         }
 
 
-        private void alarmResult()
-        {
-            int num = 0;
-            bool[] alarm = AdsService.ReadAlarm();
-            
-            foreach(bool value in alarm)
-            {
-                //TryGetValue:bool 查看csv內是否有此index
-                if (value && hp.AlarmMessages.TryGetValue(num,out var alarmname))
-                {
-                    _db.AddAlarm(alarmname);
-                    int index =num;
-                }
-                num++;
-            }
-            
-            
-        }
+        
         private void button1_Click(object sender, EventArgs e)
         {
             Export.ExportCSV(alarmData, "Alarm");

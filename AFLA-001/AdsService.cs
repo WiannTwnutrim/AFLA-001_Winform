@@ -1,4 +1,4 @@
-﻿using TwinCAT.Ads;
+using TwinCAT.Ads;
 
 namespace AFLA_001
 {
@@ -15,7 +15,7 @@ namespace AFLA_001
         private static Dictionary<int, string> actionWriteLabels = new();
         private static AdsClient? ads;
         // 整組 GVL.EC 共用一個 handle，其有效期與目前的 ADS 連線相同。
-        private static uint  wrHandle, ecHandle,errHandle;
+        private static uint wrHandle, ecHandle, errHandle;
 
         // 保存最近一次讀回的 DI、DO 值，長度需符合 PLC 宣告。
         public static bool[] DI { get; private set; } = new bool[24];
@@ -220,9 +220,13 @@ namespace AFLA_001
         /// 先讀一次 WR, 100 ms 的時間點，然後繼續讀
         /// </summary>
         /// <returns></returns>
-        public static async Task PollWrAsync()
+        internal static async Task PollWrAsync(IReadOnlyDictionary<int, string> alarmMessages)
         {
             using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
+
+            var db = new Sqllite();
+            var indicesByMessage = alarmMessages.ToLookup(alarm => alarm.Value, alarm => alarm.Key);
+            var savedAlarmStates = new Dictionary<string, bool>();
 
             while (!stopWrPolling)
             {
@@ -236,15 +240,31 @@ namespace AFLA_001
                 }
                 try
                 {
-                    bool[] alarmStates = ReadAlarm();
-                    // 用 Alarm 表對應 alarmStates 的索引和訊息。
-                    // 第一次讀到 true，或從 false 變成 true 時，記錄訊息與時間。
+                    if (indicesByMessage.Count > 0)
+                        AlarmResult(ReadAlarm());
                 }
                 catch (Exception ex)
                 {
                     Loghelper.Error($"Alarm 讀取失敗：{ex}");
                 }
                 await timer.WaitForNextTickAsync();
+            }
+
+
+            void AlarmResult(bool[] alarmStates)
+            {
+                // 同名警報共用一筆啟用紀錄。
+                foreach (var indices in indicesByMessage)
+                {
+                    string message = indices.Key;
+                    bool active = indices.Any(index => index >= 0 && index < alarmStates.Length && alarmStates[index]);
+                    if (savedAlarmStates.TryGetValue(message, out bool previous) && previous == active)
+                        continue;
+
+                    bool saved = active ? db.AddAlarm(message) : db.ResetAlarm(message);
+                    if (saved)
+                        savedAlarmStates[message] = active;
+                }
             }
         }
 
@@ -302,14 +322,13 @@ namespace AFLA_001
         {
             lock (clientLock)
             {
-                var client = ads;
+                var client = ads ?? throw new InvalidOperationException("ADS 尚未連線。");
 
-
-                if (wrHandle == 0)
-                    wrHandle = client.CreateVariableHandle("GVL.Err");
+                if (errHandle == 0)
+                    errHandle = client.CreateVariableHandle("GVL.Err");
 
                 return (bool[])client.ReadAny(
-                    wrHandle, typeof(bool[]), new[] { WrLength });
+                    errHandle, typeof(bool[]), new[] { 601 });
             }
         }
 
@@ -334,12 +353,13 @@ namespace AFLA_001
                 // 先釋放 EC 的 PLC handle，再關閉 ADS 連線。
                 if (ecHandle != 0) client.TryDeleteVariableHandle(ecHandle);
                 if (wrHandle != 0) client.TryDeleteVariableHandle(wrHandle);
+                if (errHandle != 0) client.TryDeleteVariableHandle(errHandle);
             }
             finally
             {
                 // 下次連線須重新取得 EC handle
                 //釋放handle
-                wrHandle = ecHandle = 0;
+                wrHandle = ecHandle = errHandle = 0;
                 client.Dispose();
             }
         }
