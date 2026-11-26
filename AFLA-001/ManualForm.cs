@@ -346,7 +346,7 @@ namespace AFLA_001
 			{
 				positionText = Arm2Lifttxt.Text;
 			}
-			else if (Judgebool(row, "Cuplift Lift", "Position"))
+			else if (Judgebool(row, "CUP Lift", "Position"))
 			{
 				positionText = cuplifttxt.Text;
 			}
@@ -371,7 +371,8 @@ namespace AFLA_001
 				{
 					double result = form._intput;
 					await Task.Run(() => AdsService.WriteManualValue(point, result));
-				}
+                    row["Value"] = result.ToString(System.Globalization.CultureInfo.CurrentCulture);//寫入時把值填到表格上
+                }
 			}
 			catch (Exception ex)
 			{
@@ -381,7 +382,7 @@ namespace AFLA_001
 			finally
 			{
 				editingValue = false;
-				ApplyEcValues();
+				//ApplyEcValues();
 			}
 		}
 	}
