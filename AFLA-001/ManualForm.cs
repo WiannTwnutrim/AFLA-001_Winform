@@ -153,13 +153,13 @@ namespace AFLA_001
 				// 關閉全表自動調整欄寬，讓下方的固定欄寬設定生效。
 				manualdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 				// 依 CSV 中的欄名 Difinition 尋找畫面欄位。找到時，is 會把欄位物件存進 definition。
-				manualdata.Columns["ID"].Width = 30;
-				manualdata.Columns["Module"].Width = 100;
-				manualdata.Columns["Difinition"].Width = 645;
-				manualdata.Columns["UNIT"].Width = 50;
-				manualdata.Columns["Min"].Width = 50;
-				manualdata.Columns["Max"].Width = 80;
-				manualdata.Columns["Value"].Width = 83;
+				manualdata.Columns["ID"].Width = 50;
+				manualdata.Columns["Module"].Width = 150;
+				manualdata.Columns["Difinition"].Width = 480;
+				manualdata.Columns["UNIT"].Width = 100;
+				manualdata.Columns["Min"].Width = 80;
+				manualdata.Columns["Max"].Width = 100;
+				manualdata.Columns["Value"].Width = 80;
 
 				// 逐一處理畫面上的欄位，設定哪些欄位可以編輯。
 				foreach (DataGridViewColumn column in manualdata.Columns)

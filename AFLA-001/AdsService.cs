@@ -24,6 +24,9 @@ namespace AFLA_001
 
         //volatile 關鍵字用於標示一個欄位（field）可能由多個同時執行的執行緒存取或修改
         public static volatile short[]? LatestWr;
+        /// <summary>
+        /// 750前.1的陣列
+        /// </summary>
         public static volatile bool[]? LatestMotionStates;
         //鋸齒狀陣列,一個陣列，裡面的每個元素又是一個陣列
         public static volatile bool[][]? LatestWrBits;

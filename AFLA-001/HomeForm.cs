@@ -10,9 +10,6 @@ namespace AFLA_001
 {
     public partial class HomeForm : Form
     {
-
-
-
         private CheckForm form = new CheckForm();
 
         public HomeForm()
@@ -36,6 +33,11 @@ namespace AFLA_001
                 {
                     if (int.TryParse(button.Tag?.ToString(), out int index))
                         UpdateProcessMotion(index, button);
+                }
+                foreach (ValveControl val in homepanel2.Controls.OfType<ValveControl>())
+                {
+                    if (int.TryParse(val.Tag?.ToString(), out int index))
+                        UpdateProcessMotion(index, val);
                 }
             };
             VisibleChanged += (_, _) => motionTimer.Enabled = Visible;
@@ -70,7 +72,22 @@ namespace AFLA_001
                 Loghelper.Error(ex.ToString());
             }
         }
-
+        private void UpdateProcessMotion(int index, ValveControl val)
+        {
+            try
+            {
+                bool[] states = AdsService.LatestMotionStates;
+                if (states != null)
+                {
+                    bool status = states[index];
+                    val.ForeColor = status ? Color.Green : Color.Gray;
+                }
+            }
+            catch (Exception ex)
+            {
+                Loghelper.Error(ex.ToString());
+            }
+        }
         /// <summary>
         /// 閥變色,他屬性沒有Invalidate();//重繪
         /// </summary>
@@ -97,41 +114,20 @@ namespace AFLA_001
         {
             if (form.ShowDialog(this) == DialogResult.Yes)
             {
-                if (buzzerbtn.Text == "BUZZER OFF")
-                {
-                    buzzerbtn.Text = "BUZZER ON";
-                    buttonSet(sender as Button);
-                }
-                else
-                {
-                    //點下
-                    buzzerbtn.Text = "BUZZER OFF";
-
-                }
+               
+                buttonSet(sender as Button);
             }
         }
-        private void vaccumCheck_Click(object sender, EventArgs e)
-        {
-            //不是訂閱事件的button或對話框yes會不做下面
-            if (sender is not Button clickedButton || form.ShowDialog(this) != DialogResult.Yes)
-                return;
 
-            //設定一開始狀態,不管他是false還是true都先把兩顆設為原色
-            bool wasHighlighted = clickedButton.BackColor == Color.Pink;
-            vaccumonbtn.BackColor = Color.AliceBlue;
-            vaccumoffbtn.BackColor = Color.AliceBlue;
-
-            //假設點到的是true則什麼都不做,點到是fasle則變色
-            if (!wasHighlighted)
-                clickedButton.BackColor = Color.Pink;
-        }
 
         // 確認後只切換被點擊的閥門，並更新glue圖片。
         private void glueval_Click(object sender, EventArgs e)
         {
             ToggleValve(glueval);
+            buttonSet(sender as Button);
             if (glueval.ForeColor == Color.LimeGreen)
             {
+                
                 gluepic.Image = Properties.Resources.glueout1;
                 pipeglue2.FlowColor = Color.Orange;
             }
@@ -145,6 +141,7 @@ namespace AFLA_001
         private void vaccumval_Click(object sender, EventArgs e)
         {
             ToggleValve(vaccumval);
+            buttonSet(sender as Button);
             if (vaccumval.ForeColor == Color.LimeGreen)
             {
                 vaccumpic.Image = Properties.Resources.vaccum;
@@ -160,6 +157,7 @@ namespace AFLA_001
         private void ipavalve_Click(object sender, EventArgs e)
         {
             ToggleValve(ipavalve);
+            buttonSet(sender as Button);
             if (ipavalve.ForeColor == Color.LimeGreen)
             {
                 pipeipa4.FlowColor = Color.SkyBlue;
@@ -186,8 +184,10 @@ namespace AFLA_001
         private void airval_Click(object sender, EventArgs e)
         {
             ToggleValve(airval);
+            buttonSet(sender as Button);
             if (airval.ForeColor == Color.LimeGreen)
             {
+                
                 airpicture.Image = Properties.Resources.air2;
                 airpipe3.FlowColor = Color.SkyBlue;
             }
@@ -202,10 +202,11 @@ namespace AFLA_001
         private void oil1val2_Click(object sender, EventArgs e)
         {
             ToggleValve(oil1val2);
-
+            buttonSet(sender as Button);
             if (oil1val2.ForeColor == Color.LimeGreen)
             {
-                pipeoil2.FlowColor = Color.Orange;
+               
+                pipeoil2.FlowColor = Color.Yellow;
             }
             else
             {
@@ -215,12 +216,13 @@ namespace AFLA_001
 
         private void oilval1_Click(object sender, EventArgs e)
         {
-            if (!ToggleValve(oilval1))
-                return;
+            ToggleValve(oilval1);
 
+            buttonSet(sender as Button);
             oilpupic.Visible = oilval1.ForeColor == Color.LimeGreen;
             if (oilval1.ForeColor == Color.LimeGreen)
             {
+                
                 pipeoil13.FlowColor = pipeoil17.FlowColor = Color.Yellow;
             }
             else
@@ -305,6 +307,16 @@ namespace AFLA_001
         }
 
         private void stopbtn_Click(object sender, EventArgs e)
+        {
+            buttonSet(sender as Button);
+        }
+
+        private void vaccumonbtn_Click(object sender, EventArgs e)
+        {
+            buttonSet(sender as Button);
+        }
+
+        private void vaccumoffbtn_Click(object sender, EventArgs e)
         {
             buttonSet(sender as Button);
         }
