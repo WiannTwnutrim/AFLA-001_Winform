@@ -61,6 +61,7 @@ namespace AFLA_001
         /// </summary>
         internal static IReadOnlyList<string> LatestAlarmTickerMessages => latestAlarmTickerMessages;
 
+        internal static string Noerrormessage = string.Empty;
 
         // 載入 ActionCommands.csv 的動作寫入對應，供 WriteAction 使用。
         internal static void ConfigureActionWrites(IReadOnlyList<Motion> motions)
@@ -311,7 +312,7 @@ namespace AFLA_001
                         savedAlarmStates[message] = false;
                         continue;
                     }
-
+                 
                     //之前有,但狀態一樣,跳過
                     if (hasPrevious && previous == active)
                         continue;
@@ -363,7 +364,24 @@ namespace AFLA_001
         {
             stopWrPolling = true;
         }
+        /// <summary>
+        /// 檢查err,true表示整筆都是false
+        /// </summary>
+        /// <returns></returns>
+        public static bool CheckNoerror(bool[] alarmstatus)
+        {
+            bool noError = true;
 
+            foreach (bool active in alarmstatus)
+            {
+                if (active)
+                {
+                    noError = false;
+                    break;
+                }
+            }
+            return noError;
+        }
         /// <summary>
         /// 透過 ecHandle 一次讀取整組 GVL.EC。PLC 的 LREAL 對應 C# double。
         /// </summary>
@@ -387,7 +405,7 @@ namespace AFLA_001
             }
         }
 
-
+        //string notrueMessage = $"{DateTime.Now:HH:mm:ss} NoError";
         // Manual 依 CSV Index 取得寫入符號。寫入目標是 PLC 參數符號，EC 畫面值來自啟動時的快照。
         internal static void WriteManualValue(ECclass point, double value)
         {
