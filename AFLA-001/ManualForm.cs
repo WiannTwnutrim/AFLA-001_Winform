@@ -159,7 +159,7 @@ namespace AFLA_001
 				manualdata.Columns["UNIT"].Width = 100;
 				manualdata.Columns["Min"].Width = 80;
 				manualdata.Columns["Max"].Width = 100;
-				manualdata.Columns["Value"].Width = 80;
+				manualdata.Columns["Value"].Width = 78;
 
 				// 逐一處理畫面上的欄位，設定哪些欄位可以編輯。
 				foreach (DataGridViewColumn column in manualdata.Columns)

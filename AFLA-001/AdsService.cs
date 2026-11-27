@@ -1,5 +1,6 @@
 using DocumentFormat.OpenXml.Wordprocessing;
 using TwinCAT.Ads;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace AFLA_001
 {
@@ -34,6 +35,34 @@ namespace AFLA_001
         //程式開啟時它是 false，關閉時把它改成 true，背景讀取就會停下來
         private static volatile bool stopWrPolling = false;
 
+        /// <summary>
+        /// 實際存資料EVENT欄位,AdsService在這裡放最新的訊息陣列
+        /// </summary>
+        private static volatile string[] latestEventTickerMessages = Array.Empty<string>();
+
+        /// <summary>
+        /// get屬性,讀EVENT資料:Form1 讀它時，它就回傳小寫欄位裡目前的陣列
+        /// </summary>
+        internal static IReadOnlyList<string> LatestEventTickerMessages =>latestEventTickerMessages;
+
+        /// <summary>
+        /// 存取從ac動作接收的值(index對eventname)
+        /// </summary>
+        private static Dictionary<int, string> actionEventNames = new();
+
+
+        /// <summary>
+        /// 實際存資料ALARM欄位,AdsService在這裡放最新的訊息陣列
+        /// </summary>
+        private static volatile string[] latestAlarmTickerMessages = Array.Empty<string>();
+
+        /// <summary>
+        /// get屬性,讀ALARM資料:Form1 讀它時，它就回傳小寫欄位裡目前的陣列
+        /// </summary>
+        internal static IReadOnlyList<string> LatestAlarmTickerMessages => latestAlarmTickerMessages;
+
+        internal static string Noerrormessage = string.Empty;
+
         // 載入 ActionCommands.csv 的動作寫入對應，供 WriteAction 使用。
         internal static void ConfigureActionWrites(IReadOnlyList<Motion> motions)
         {
@@ -41,6 +70,11 @@ namespace AFLA_001
             lock (clientLock)
             {
                 actionWriteLabels = labels;
+
+                //取得csv內index及event名稱
+                actionEventNames = motions
+                .Where(motion => !string.IsNullOrWhiteSpace(motion.EventName))
+                .ToDictionary(motion => motion.Index, motion => motion.EventName);
             }
         }
 
@@ -232,12 +266,19 @@ namespace AFLA_001
 
             var db = new Sqllite();
             var savedAlarmStates = new Dictionary<string, bool>();//建立一筆快取
+            var previousActionStates = new Dictionary<int, bool>();
+
+            var previousTickerAlarmStates = new Dictionary<int, bool>();
             //wr輪巡後輪alarm
             while (!stopWrPolling)
             {
                 try
                 {
                     RefreshWr(); // 讀取並儲存這一輪的 WR
+                    if(LatestMotionStates is bool[] state)//確認 LatestMotionStates 有值。如果是 null，就跳過呼叫
+                    {
+                        EventResult(state);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -271,10 +312,20 @@ namespace AFLA_001
                         savedAlarmStates[message] = false;
                         continue;
                     }
-
+                 
                     //之前有,但狀態一樣,跳過
                     if (hasPrevious && previous == active)
                         continue;
+                    //一開程式沒讀過的點位是true也會顯示
+                    if (!hasPrevious && active && !previous)
+                    {
+                        string tickerMessage = $"{DateTime.Now:HH:mm:ss} {message}";
+
+                        latestAlarmTickerMessages = latestAlarmTickerMessages
+                            .Prepend(tickerMessage)
+                            .Take(3)
+                            .ToArray();
+                    }
                     //第一次讀到true,新增一筆
                     //active == false 時執行 db.ResetAlarm(message)
                     bool saved = active ? db.AddAlarm(message) : db.ResetAlarm(message);
@@ -282,13 +333,55 @@ namespace AFLA_001
                         savedAlarmStates[message] = active;
                 }
             }
+            
+
+            void EventResult(bool[] eventstate)
+            {
+                foreach (var (index, message) in actionEventNames)
+                {
+                    bool active = eventstate[index];//這輪狀態
+                    // previous:上輪狀態,hasPrevious 表示上輪有沒有這個事件
+                    bool hasPrevious = previousActionStates.TryGetValue(index, out bool previous);
+
+                    if (hasPrevious &&!previous && active)
+                     //false->true才新增一筆   
+                    {
+                        string tickerMessage = $"{DateTime.Now:HH:mm:ss} {message}";
+
+                        //把新事件放到最前面，只保留最新 3 筆
+                        latestEventTickerMessages = latestEventTickerMessages
+                        .Prepend(tickerMessage).Take(3).ToArray();
+
+                        db.AddEvent(message);
+                    }
+                    previousActionStates[index] = active;//把值存入這輪的字典內
+                }
+                    
+            }
         }
 
         public static void StopWrPolling()
         {
             stopWrPolling = true;
         }
+        /// <summary>
+        /// 檢查err,true表示整筆都是false
+        /// </summary>
+        /// <returns></returns>
+        public static bool CheckNoerror(bool[] alarmstatus)
+        {
+            bool noError = true;
 
+            foreach (bool active in alarmstatus)
+            {
+                if (active)
+                {
+                    noError = false;
+                    break;
+                }
+            }
+            return noError;
+        }
         /// <summary>
         /// 透過 ecHandle 一次讀取整組 GVL.EC。PLC 的 LREAL 對應 C# double。
         /// </summary>
@@ -312,7 +405,7 @@ namespace AFLA_001
             }
         }
 
-
+        //string notrueMessage = $"{DateTime.Now:HH:mm:ss} NoError";
         // Manual 依 CSV Index 取得寫入符號。寫入目標是 PLC 參數符號，EC 畫面值來自啟動時的快照。
         internal static void WriteManualValue(ECclass point, double value)
         {

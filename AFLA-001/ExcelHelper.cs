@@ -22,9 +22,9 @@ namespace AFLA_001
 
                 string[]? header = parser.ReadFields();
                 if (header == null || !header.SequenceEqual(
-                        new[] { "Index", "PC寫入", "PC讀" }, StringComparer.OrdinalIgnoreCase))
+                        new[] { "Index", "PC寫入", "PC讀", "Event名稱" }, StringComparer.OrdinalIgnoreCase))
                 {
-                    error = "功能 CSV 欄位須依序為 Index,PC寫入,PC讀。";
+                    error = "功能 CSV 欄位須依序為 Index,PC寫入,PC讀,Event名稱。";
                     return false;
                 }
 
@@ -34,7 +34,7 @@ namespace AFLA_001
                 {
                     long line = parser.LineNumber;
                     string[]? fields = parser.ReadFields();
-                    if (fields == null || fields.Length != 3 ||
+                    if (fields == null || fields.Length != 4 ||
                         !int.TryParse(fields[0], out int index) || index < 0 ||
                         string.IsNullOrWhiteSpace(fields[1]))
                     {
@@ -52,7 +52,7 @@ namespace AFLA_001
                     {
                         Index = index,
                         Writelabel = fields[1].Trim(),
-                        Readlabel = fields[2].Trim()
+                        EventName = fields[3].Trim()
                     });
                 }
 

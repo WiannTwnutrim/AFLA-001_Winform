@@ -166,7 +166,7 @@
             dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             manualdata.DefaultCellStyle = dataGridViewCellStyle3;
-            manualdata.Location = new Point(3, 90);
+            manualdata.Location = new Point(3, 84);
             manualdata.Name = "manualdata";
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = SystemColors.Window;
@@ -180,7 +180,7 @@
             dataGridViewCellStyle5.BackColor = Color.Bisque;
             manualdata.RowsDefaultCellStyle = dataGridViewCellStyle5;
             manualdata.RowTemplate.Height = 35;
-            manualdata.Size = new Size(1059, 370);
+            manualdata.Size = new Size(1059, 384);
             manualdata.TabIndex = 1;
             manualdata.CellBeginEdit += manualdata_CellBeginEdit;
             // 
@@ -337,7 +337,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 18F);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(736, 56);
+            label1.Location = new Point(736, 53);
             label1.Name = "label1";
             label1.Size = new Size(106, 30);
             label1.TabIndex = 8;
@@ -346,7 +346,7 @@
             // cuplifttxt
             // 
             cuplifttxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            cuplifttxt.Location = new Point(888, 53);
+            cuplifttxt.Location = new Point(888, 50);
             cuplifttxt.Name = "cuplifttxt";
             cuplifttxt.ReadOnly = true;
             cuplifttxt.Size = new Size(143, 33);
@@ -355,7 +355,7 @@
             // Chuckrpmtxt
             // 
             Chuckrpmtxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            Chuckrpmtxt.Location = new Point(888, 3);
+            Chuckrpmtxt.Location = new Point(888, 0);
             Chuckrpmtxt.Name = "Chuckrpmtxt";
             Chuckrpmtxt.ReadOnly = true;
             Chuckrpmtxt.Size = new Size(143, 33);
@@ -366,7 +366,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 18F);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(736, 6);
+            label2.Location = new Point(736, 3);
             label2.Name = "label2";
             label2.Size = new Size(148, 30);
             label2.TabIndex = 10;
@@ -375,7 +375,7 @@
             // Arm1Lifttxt
             // 
             Arm1Lifttxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            Arm1Lifttxt.Location = new Point(566, 3);
+            Arm1Lifttxt.Location = new Point(566, 0);
             Arm1Lifttxt.Name = "Arm1Lifttxt";
             Arm1Lifttxt.ReadOnly = true;
             Arm1Lifttxt.Size = new Size(143, 33);
@@ -386,7 +386,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft JhengHei UI", 18F);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(437, 7);
+            label3.Location = new Point(437, 4);
             label3.Name = "label3";
             label3.Size = new Size(122, 30);
             label3.TabIndex = 14;
@@ -395,7 +395,7 @@
             // Arm2Lifttxt
             // 
             Arm2Lifttxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            Arm2Lifttxt.Location = new Point(566, 53);
+            Arm2Lifttxt.Location = new Point(566, 50);
             Arm2Lifttxt.Name = "Arm2Lifttxt";
             Arm2Lifttxt.ReadOnly = true;
             Arm2Lifttxt.Size = new Size(143, 33);
@@ -406,7 +406,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft JhengHei UI", 18F);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(437, 56);
+            label4.Location = new Point(437, 53);
             label4.Name = "label4";
             label4.Size = new Size(122, 30);
             label4.TabIndex = 12;
@@ -415,7 +415,7 @@
             // Arm1Rotatetxt
             // 
             Arm1Rotatetxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            Arm1Rotatetxt.Location = new Point(220, 4);
+            Arm1Rotatetxt.Location = new Point(220, 1);
             Arm1Rotatetxt.Name = "Arm1Rotatetxt";
             Arm1Rotatetxt.ReadOnly = true;
             Arm1Rotatetxt.Size = new Size(143, 33);
@@ -426,7 +426,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft JhengHei UI", 18F);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(54, 8);
+            label5.Location = new Point(54, 5);
             label5.Name = "label5";
             label5.Size = new Size(162, 30);
             label5.TabIndex = 18;
@@ -435,7 +435,7 @@
             // Arm2Rotatetxt
             // 
             Arm2Rotatetxt.Font = new Font("Microsoft JhengHei UI", 15F);
-            Arm2Rotatetxt.Location = new Point(220, 54);
+            Arm2Rotatetxt.Location = new Point(220, 51);
             Arm2Rotatetxt.Name = "Arm2Rotatetxt";
             Arm2Rotatetxt.ReadOnly = true;
             Arm2Rotatetxt.Size = new Size(143, 33);
@@ -446,7 +446,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft JhengHei UI", 18F);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(52, 57);
+            label6.Location = new Point(52, 54);
             label6.Name = "label6";
             label6.Size = new Size(162, 30);
             label6.TabIndex = 16;
@@ -457,7 +457,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkSlateGray;
-            ClientSize = new Size(1267, 462);
+            ClientSize = new Size(1267, 466);
             Controls.Add(Arm1Rotatetxt);
             Controls.Add(label5);
             Controls.Add(Arm2Rotatetxt);

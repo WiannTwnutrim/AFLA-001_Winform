@@ -42,6 +42,7 @@ namespace AFLA_001
             return Path.Combine(AppContext.BaseDirectory, "ALFA001.db");
         }
 
+        #region USER SQL
         /// <summary>
         /// 取得Sqllite Users表內Account資料
         /// </summary>
@@ -285,7 +286,9 @@ namespace AFLA_001
                 return true;
             }
         }
+        #endregion
 
+        #region Recipe SQL
         /// <summary>
         /// 取得配方名稱
         /// </summary>
@@ -428,9 +431,11 @@ namespace AFLA_001
                 Loghelper.Error(ex.ToString());
             }
         }
+        #endregion
 
+        #region ALARM SQL
         /// <summary>
-        /// 載入alarm表
+        /// 載入alarm表(參數是限制顯示幾筆)
         /// </summary>
         /// <returns></returns>
         public DataTable LoadAlarm(int limit = -1)
@@ -441,7 +446,7 @@ namespace AFLA_001
                 using (SqliteConnection conn = new SqliteConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "Select TriggerDate,TriggerTime,Alarm || '' AS Alarm,RecoveryTime From Alarm " +
+                    string sql = "Select TriggerDate,TriggerTime,Alarm,RecoveryTime From Alarm " +
                         "Order By TriggerDate DESC,TriggerTime DESC LIMIT $limit ";
                     using (SqliteCommand command = new SqliteCommand(sql, conn))
                     {
@@ -551,7 +556,7 @@ namespace AFLA_001
                 return;
             }
         }
-
+        
         /// <summary>
         /// 警告搜尋
         /// </summary>
@@ -588,9 +593,9 @@ namespace AFLA_001
                 throw;
             }
         }
+        #endregion
 
-
-
+        #region Event SQL
 
         /// <summary>
         /// 載入事件
@@ -664,6 +669,9 @@ namespace AFLA_001
             }
         }
 
+        #endregion
+
+        #region History SQL
         /// <summary>
         /// 載入歷史資料
         /// </summary>
@@ -696,9 +704,7 @@ namespace AFLA_001
                 return new DataTable();
             }
         }
-
-
-
+        
         /// <summary>
         /// 新增站點只有第一個新增才有日期
         /// </summary>
@@ -798,5 +804,7 @@ namespace AFLA_001
                 return new DataTable();
             }
         }
+
+        #endregion
     }
 }

@@ -12,5 +12,7 @@ namespace AFLA_001
 		public string Readlabel { get; set; } = string.Empty;
 		public int Index { get; set; }
 
-	}
+		public string EventName { get; set; } = string.Empty;
+
+    }
 }
