@@ -1,5 +1,6 @@
 using DocumentFormat.OpenXml.Wordprocessing;
 using TwinCAT.Ads;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace AFLA_001
 {
@@ -34,6 +35,33 @@ namespace AFLA_001
         //程式開啟時它是 false，關閉時把它改成 true，背景讀取就會停下來
         private static volatile bool stopWrPolling = false;
 
+        /// <summary>
+        /// 實際存資料EVENT欄位,AdsService在這裡放最新的訊息陣列
+        /// </summary>
+        private static volatile string[] latestEventTickerMessages = Array.Empty<string>();
+
+        /// <summary>
+        /// get屬性,讀EVENT資料:Form1 讀它時，它就回傳小寫欄位裡目前的陣列
+        /// </summary>
+        internal static IReadOnlyList<string> LatestEventTickerMessages =>latestEventTickerMessages;
+
+        /// <summary>
+        /// 存取從ac動作接收的值(index對eventname)
+        /// </summary>
+        private static Dictionary<int, string> actionEventNames = new();
+
+
+        /// <summary>
+        /// 實際存資料ALARM欄位,AdsService在這裡放最新的訊息陣列
+        /// </summary>
+        private static volatile string[] latestAlarmTickerMessages = Array.Empty<string>();
+
+        /// <summary>
+        /// get屬性,讀ALARM資料:Form1 讀它時，它就回傳小寫欄位裡目前的陣列
+        /// </summary>
+        internal static IReadOnlyList<string> LatestAlarmTickerMessages => latestAlarmTickerMessages;
+
+
         // 載入 ActionCommands.csv 的動作寫入對應，供 WriteAction 使用。
         internal static void ConfigureActionWrites(IReadOnlyList<Motion> motions)
         {
@@ -41,6 +69,11 @@ namespace AFLA_001
             lock (clientLock)
             {
                 actionWriteLabels = labels;
+
+                //取得csv內index及event名稱
+                actionEventNames = motions
+                .Where(motion => !string.IsNullOrWhiteSpace(motion.EventName))
+                .ToDictionary(motion => motion.Index, motion => motion.EventName);
             }
         }
 
@@ -232,12 +265,19 @@ namespace AFLA_001
 
             var db = new Sqllite();
             var savedAlarmStates = new Dictionary<string, bool>();//建立一筆快取
+            var previousActionStates = new Dictionary<int, bool>();
+
+            var previousTickerAlarmStates = new Dictionary<int, bool>();
             //wr輪巡後輪alarm
             while (!stopWrPolling)
             {
                 try
                 {
                     RefreshWr(); // 讀取並儲存這一輪的 WR
+                    if(LatestMotionStates is bool[] state)//確認 LatestMotionStates 有值。如果是 null，就跳過呼叫
+                    {
+                        EventResult(state);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -275,12 +315,47 @@ namespace AFLA_001
                     //之前有,但狀態一樣,跳過
                     if (hasPrevious && previous == active)
                         continue;
+                    //一開程式沒讀過的點位是true也會顯示
+                    if (!hasPrevious && active && !previous)
+                    {
+                        string tickerMessage = $"{DateTime.Now:HH:mm:ss} {message}";
+
+                        latestAlarmTickerMessages = latestAlarmTickerMessages
+                            .Prepend(tickerMessage)
+                            .Take(3)
+                            .ToArray();
+                    }
                     //第一次讀到true,新增一筆
                     //active == false 時執行 db.ResetAlarm(message)
                     bool saved = active ? db.AddAlarm(message) : db.ResetAlarm(message);
                     if (saved)
                         savedAlarmStates[message] = active;
                 }
+            }
+            
+
+            void EventResult(bool[] eventstate)
+            {
+                foreach (var (index, message) in actionEventNames)
+                {
+                    bool active = eventstate[index];//這輪狀態
+                    // previous:上輪狀態,hasPrevious 表示上輪有沒有這個事件
+                    bool hasPrevious = previousActionStates.TryGetValue(index, out bool previous);
+
+                    if (hasPrevious &&!previous && active)
+                     //false->true才新增一筆   
+                    {
+                        string tickerMessage = $"{DateTime.Now:HH:mm:ss} {message}";
+
+                        //把新事件放到最前面，只保留最新 3 筆
+                        latestEventTickerMessages = latestEventTickerMessages
+                        .Prepend(tickerMessage).Take(3).ToArray();
+
+                        db.AddEvent(message);
+                    }
+                    previousActionStates[index] = active;//把值存入這輪的字典內
+                }
+                    
             }
         }
 

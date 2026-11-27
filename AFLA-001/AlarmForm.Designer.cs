@@ -31,6 +31,8 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             alarmData = new DataGridView();
             button1 = new Button();
             loadalarmtimer = new System.Windows.Forms.Timer(components);
@@ -50,13 +52,30 @@
             alarmData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             alarmData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             alarmData.BackgroundColor = Color.DarkSlateGray;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Microsoft JhengHei UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            alarmData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             alarmData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Window;
+            dataGridViewCellStyle3.Font = new Font("Microsoft JhengHei UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            alarmData.DefaultCellStyle = dataGridViewCellStyle3;
             alarmData.Location = new Point(3, 3);
             alarmData.Name = "alarmData";
             alarmData.ReadOnly = true;
             alarmData.RowHeadersVisible = false;
-            dataGridViewCellStyle2.BackColor = Color.Bisque;
-            alarmData.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.BackColor = Color.Bisque;
+            alarmData.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            alarmData.RowTemplate.Height = 35;
             alarmData.Size = new Size(1048, 455);
             alarmData.TabIndex = 0;
             // 
@@ -65,7 +84,7 @@
             button1.Font = new Font("Microsoft JhengHei UI", 18F);
             button1.Location = new Point(1081, 288);
             button1.Name = "button1";
-            button1.Size = new Size(141, 41);
+            button1.Size = new Size(171, 41);
             button1.TabIndex = 3;
             button1.Text = "輸出";
             button1.UseVisualStyleBackColor = true;
@@ -81,7 +100,7 @@
             searchbtn.Font = new Font("Microsoft JhengHei UI", 18F);
             searchbtn.Location = new Point(1081, 176);
             searchbtn.Name = "searchbtn";
-            searchbtn.Size = new Size(141, 41);
+            searchbtn.Size = new Size(171, 41);
             searchbtn.TabIndex = 13;
             searchbtn.Text = "搜尋";
             searchbtn.UseVisualStyleBackColor = true;
@@ -92,7 +111,7 @@
             livebtn.Font = new Font("Microsoft JhengHei UI", 18F);
             livebtn.Location = new Point(1081, 232);
             livebtn.Name = "livebtn";
-            livebtn.Size = new Size(141, 41);
+            livebtn.Size = new Size(171, 41);
             livebtn.TabIndex = 14;
             livebtn.Text = "恢復即時";
             livebtn.UseVisualStyleBackColor = true;
@@ -116,7 +135,7 @@
             dateTimePickerdown.Format = DateTimePickerFormat.Custom;
             dateTimePickerdown.Location = new Point(1081, 98);
             dateTimePickerdown.Name = "dateTimePickerdown";
-            dateTimePickerdown.Size = new Size(141, 35);
+            dateTimePickerdown.Size = new Size(171, 35);
             dateTimePickerdown.TabIndex = 11;
             // 
             // dateTimePickerup
@@ -126,7 +145,7 @@
             dateTimePickerup.Format = DateTimePickerFormat.Custom;
             dateTimePickerup.Location = new Point(1081, 10);
             dateTimePickerup.Name = "dateTimePickerup";
-            dateTimePickerup.Size = new Size(141, 35);
+            dateTimePickerup.Size = new Size(171, 35);
             dateTimePickerup.TabIndex = 10;
             // 
             // AlarmForm

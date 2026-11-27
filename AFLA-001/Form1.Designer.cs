@@ -62,9 +62,9 @@ namespace AFLA_001
             // 
             // MainPage
             // 
-            MainPage.Location = new Point(1, 125);
+            MainPage.Location = new Point(1, 121);
             MainPage.Name = "MainPage";
-            MainPage.Size = new Size(1267, 462);
+            MainPage.Size = new Size(1267, 466);
             MainPage.TabIndex = 1;
             // 
             // panel2

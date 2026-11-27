@@ -36,10 +36,10 @@
             // yesbtn
             // 
             yesbtn.DialogResult = DialogResult.Yes;
-            yesbtn.Font = new Font("Microsoft JhengHei UI", 15F);
+            yesbtn.Font = new Font("Microsoft JhengHei UI", 18F);
             yesbtn.Location = new Point(60, 133);
             yesbtn.Name = "yesbtn";
-            yesbtn.Size = new Size(90, 35);
+            yesbtn.Size = new Size(141, 41);
             yesbtn.TabIndex = 6;
             yesbtn.Text = "Yes";
             yesbtn.UseVisualStyleBackColor = true;
@@ -56,10 +56,10 @@
             // 
             // Nobtn
             // 
-            Nobtn.Font = new Font("Microsoft JhengHei UI", 15F);
-            Nobtn.Location = new Point(224, 133);
+            Nobtn.Font = new Font("Microsoft JhengHei UI", 18F);
+            Nobtn.Location = new Point(219, 133);
             Nobtn.Name = "Nobtn";
-            Nobtn.Size = new Size(90, 35);
+            Nobtn.Size = new Size(141, 41);
             Nobtn.TabIndex = 9;
             Nobtn.Text = "No";
             Nobtn.UseVisualStyleBackColor = true;

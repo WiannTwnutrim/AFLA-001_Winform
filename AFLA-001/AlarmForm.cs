@@ -43,7 +43,7 @@ namespace AFLA_001
         }
         public DataTable ReadAlarm()
         {
-            DataTable data = _db.LoadAlarm();
+            DataTable data = _db.LoadAlarm(10);
             return data;
         }
 

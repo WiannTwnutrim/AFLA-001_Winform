@@ -47,20 +47,9 @@ namespace AFLA_001
 
 		public DataTable ReadEvent()
 		{
-            DataTable dt = _db.LoadEvent();
+            DataTable dt = _db.LoadEvent(10);
 			return dt;
         }
-		private void addeventbtn_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				if (_db.AddEvent("Arm1Rotate:Axis StandBy motion"))
-					LoadEvent();
-			}
-			catch (Exception ex) 
-			{
-				Loghelper.Error(ex.ToString());
-			}
-		}
+		
 	}
 }

@@ -17,8 +17,10 @@ namespace AFLA_001
         private Sqllite _db = new Sqllite();
         bool isEnglish = true;//琌いゅ
 
-        private bool loadingTicker;
-        private long nextTickerRefresh;
+
+        private IReadOnlyList<string>? OldEventTickerMessages;//癘Ωユ倒ㄆン禲皑縊睲虫
+
+        private IReadOnlyList<string>? OldAlarmTickerMessages;//癘Ωユ倒牡禲皑縊睲虫
 
         internal void RefreshManualValues(double[]? values) => manualForm.RefreshEcValues(values);
 
@@ -57,6 +59,7 @@ namespace AFLA_001
         {
             showrecipetxt.Text = UserSession.WritedRecipe;
         }
+        #region Button耞
         private void Homebtn_Click(object sender, EventArgs e)
         {
             PageSwitchManger.ShowPage(MainPage, homeform ??= new HomeForm());
@@ -137,11 +140,6 @@ namespace AFLA_001
             }
 
         }
-        private void Logbtn_Click(object sender, EventArgs e)
-        {
-            //PageSwitchManger.ShowPage(MainPage, logPage);
-            //PageSwitchManger.ActiveButton(Logbtn);
-        }
         private void Userbtn_Click(object sender, EventArgs e)
         {
             PageSwitchManger.ShowPage(MainPage, userform);
@@ -162,13 +160,14 @@ namespace AFLA_001
                 Loghelper.Userlog(UserSession.LoginUser, "ち传ΘIo");
             }
         }
+        
         private void Languagebtn_Click(object sender, EventArgs e)
         {
             isEnglish = !isEnglish;//がち传
 
             changeLanguage();
         }
-
+        #endregion
         public void SetButton(Button button)
         {
 
@@ -212,44 +211,34 @@ namespace AFLA_001
             (homeform ??= new HomeForm()).RecipeForm_RecipeApplied(sender, e);
         }
 
-        private static string[] ReadTickerMessages(DataTable rows, string messageColumn)
-        {
-            using (rows)
-            {
-                return rows.Rows.Cast<DataRow>()
-                    .Select(row => $"{row["TriggerTime"]} {row[messageColumn]}")
-                    .ToArray();
-            }
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
         }
 
-        private async void ticker_Tick(object sender, EventArgs e)
+        private  void ticker_Tick(object sender, EventArgs e)
         {
-            alarmpanel.Advance();
+            
             eventpanel.Advance();
-            if (loadingTicker || Environment.TickCount64 < nextTickerRefresh)
-                return;
 
-            loadingTicker = true;
-            try
+            //钡Μads程穝event
+            var latestEvents = AdsService.LatestEventTickerMessages;
+            //ReferenceEquals:耞ㄢ把计琌ン(把计礚抖拜肈)
+            if (!ReferenceEquals(OldEventTickerMessages, latestEvents))
             {
-                var (alarms, events) = await Task.Run(() =>
-                    (ReadTickerMessages(_db.LoadAlarm(3), "Alarm"),
-                     ReadTickerMessages(_db.LoadEvent(3), "Event")));
-                if (!IsDisposed)
-                {
-                    alarmpanel.SetMessages(alarms);
-                    eventpanel.SetMessages(events);
-                }
+                eventpanel.SetMessages(latestEvents.ToArray());
+                OldEventTickerMessages = latestEvents;
             }
-            finally
+            
+            var latestAlarms = AdsService.LatestAlarmTickerMessages;
+            //ReferenceEquals:耞ㄢ把计琌ン(把计礚抖拜肈)
+            if (!ReferenceEquals(OldAlarmTickerMessages, latestAlarms))
             {
-                nextTickerRefresh = Environment.TickCount64 + 3000;
-                loadingTicker = false;
+                alarmpanel.SetMessages(latestAlarms.ToArray());
+                OldAlarmTickerMessages = latestAlarms;
             }
+            alarmpanel.Advance();
+
         }
     }
 }

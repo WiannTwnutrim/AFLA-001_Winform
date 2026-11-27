@@ -140,9 +140,9 @@ namespace AFLA_001
             // initialbtn
             // 
             initialbtn.Font = new Font("Microsoft JhengHei UI", 18F);
-            initialbtn.Location = new Point(13, 5);
+            initialbtn.Location = new Point(3, 5);
             initialbtn.Name = "initialbtn";
-            initialbtn.Size = new Size(156, 50);
+            initialbtn.Size = new Size(171, 45);
             initialbtn.TabIndex = 5;
             initialbtn.Text = "INITIAL";
             initialbtn.UseVisualStyleBackColor = true;
@@ -152,9 +152,9 @@ namespace AFLA_001
             // 
             button2.BackColor = Color.AliceBlue;
             button2.Font = new Font("Microsoft JhengHei UI", 18F);
-            button2.Location = new Point(13, 60);
+            button2.Location = new Point(3, 60);
             button2.Name = "button2";
-            button2.Size = new Size(156, 50);
+            button2.Size = new Size(171, 45);
             button2.TabIndex = 6;
             button2.Text = "PROCESS";
             button2.UseVisualStyleBackColor = false;
@@ -163,10 +163,10 @@ namespace AFLA_001
             // buzzerbtn
             // 
             buzzerbtn.BackColor = Color.AliceBlue;
-            buzzerbtn.Font = new Font("Microsoft JhengHei UI", 16F);
-            buzzerbtn.Location = new Point(13, 117);
+            buzzerbtn.Font = new Font("Microsoft JhengHei UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 136);
+            buzzerbtn.Location = new Point(3, 117);
             buzzerbtn.Name = "buzzerbtn";
-            buzzerbtn.Size = new Size(156, 50);
+            buzzerbtn.Size = new Size(171, 45);
             buzzerbtn.TabIndex = 7;
             buzzerbtn.Text = "BUZZER OFF";
             buzzerbtn.UseVisualStyleBackColor = false;
@@ -175,9 +175,9 @@ namespace AFLA_001
             // hepabtn
             // 
             hepabtn.Font = new Font("Microsoft JhengHei UI", 18F);
-            hepabtn.Location = new Point(13, 288);
+            hepabtn.Location = new Point(3, 288);
             hepabtn.Name = "hepabtn";
-            hepabtn.Size = new Size(156, 50);
+            hepabtn.Size = new Size(171, 45);
             hepabtn.TabIndex = 9;
             hepabtn.Text = "HEPA";
             hepabtn.UseVisualStyleBackColor = true;
@@ -185,9 +185,9 @@ namespace AFLA_001
             // stopbtn
             // 
             stopbtn.Font = new Font("Microsoft JhengHei UI", 18F);
-            stopbtn.Location = new Point(13, 233);
+            stopbtn.Location = new Point(3, 231);
             stopbtn.Name = "stopbtn";
-            stopbtn.Size = new Size(156, 50);
+            stopbtn.Size = new Size(171, 45);
             stopbtn.TabIndex = 8;
             stopbtn.Text = "STOP";
             stopbtn.UseVisualStyleBackColor = true;
@@ -196,10 +196,10 @@ namespace AFLA_001
             // vaccumoffbtn
             // 
             vaccumoffbtn.BackColor = Color.AliceBlue;
-            vaccumoffbtn.Font = new Font("Microsoft JhengHei UI", 15F);
-            vaccumoffbtn.Location = new Point(12, 396);
+            vaccumoffbtn.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 136);
+            vaccumoffbtn.Location = new Point(3, 396);
             vaccumoffbtn.Name = "vaccumoffbtn";
-            vaccumoffbtn.Size = new Size(156, 50);
+            vaccumoffbtn.Size = new Size(171, 45);
             vaccumoffbtn.TabIndex = 11;
             vaccumoffbtn.Tag = "145";
             vaccumoffbtn.Text = "VACCUM OFF";
@@ -209,10 +209,10 @@ namespace AFLA_001
             // vaccumonbtn
             // 
             vaccumonbtn.BackColor = Color.AliceBlue;
-            vaccumonbtn.Font = new Font("Microsoft JhengHei UI", 15F);
-            vaccumonbtn.Location = new Point(13, 342);
+            vaccumonbtn.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 136);
+            vaccumonbtn.Location = new Point(3, 342);
             vaccumonbtn.Name = "vaccumonbtn";
-            vaccumonbtn.Size = new Size(156, 50);
+            vaccumonbtn.Size = new Size(171, 45);
             vaccumonbtn.TabIndex = 10;
             vaccumonbtn.Tag = "144";
             vaccumonbtn.Text = "VACCUM ON";
@@ -1099,9 +1099,9 @@ namespace AFLA_001
             // resetbtn
             // 
             resetbtn.Font = new Font("Microsoft JhengHei UI", 18F);
-            resetbtn.Location = new Point(13, 175);
+            resetbtn.Location = new Point(3, 173);
             resetbtn.Name = "resetbtn";
-            resetbtn.Size = new Size(156, 50);
+            resetbtn.Size = new Size(171, 45);
             resetbtn.TabIndex = 125;
             resetbtn.Text = "RESET";
             resetbtn.UseVisualStyleBackColor = true;
@@ -1117,7 +1117,7 @@ namespace AFLA_001
             homebtnpanel.Controls.Add(hepabtn);
             homebtnpanel.Controls.Add(vaccumonbtn);
             homebtnpanel.Controls.Add(vaccumoffbtn);
-            homebtnpanel.Location = new Point(1087, 0);
+            homebtnpanel.Location = new Point(1089, 0);
             homebtnpanel.Name = "homebtnpanel";
             homebtnpanel.Size = new Size(176, 449);
             homebtnpanel.TabIndex = 126;

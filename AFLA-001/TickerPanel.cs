@@ -17,6 +17,10 @@ namespace AFLA_001
             ResizeRedraw = true;
         }
 
+        /// <summary>
+        /// 設定要播什麼
+        /// </summary>
+        /// <param name="latest"></param>
         public void SetMessages(string[] latest)
         {
             if (messages.SequenceEqual(latest))
